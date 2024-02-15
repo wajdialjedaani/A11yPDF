@@ -334,7 +334,7 @@
 			width: 100%;
 			align-items: center;
 			justify-content: space-between;
-
+            height: 25%;
 		}
 
 		.card-title {
@@ -799,6 +799,7 @@
     border-radius: 12px;
     text-align: center;
     cursor: pointer;
+    border: 1px solid red;
 }
 .btn-cancel{
     padding: 15px;
