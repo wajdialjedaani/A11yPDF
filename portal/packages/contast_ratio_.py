@@ -99,25 +99,28 @@ def check_page_number(pdf_file_path):
 
         # Iterate through each block of text on the page
         for block in page_text["blocks"]:
-            for line in block["lines"]:
-                for span in line["spans"]:
-                    # Check if the text is within specified areas where page numbers might be located
-                    if (span['bbox'][1] > 740 and span['bbox'][0] > 500) or \
-                            (span['bbox'][1] > 730 and span['bbox'][0] > 74) or \
-                            (span['bbox'][1] > 579 or (span['bbox'][0] > 740 and span['bbox'][1] > 530)):
+            try:
+                for line in block["lines"]:
+                    for span in line["spans"]:
+                        # Check if the text is within specified areas where page numbers might be located
+                        if (span['bbox'][1] > 740 and span['bbox'][0] > 500) or \
+                                (span['bbox'][1] > 730 and span['bbox'][0] > 74) or \
+                                (span['bbox'][1] > 579 or (span['bbox'][0] > 740 and span['bbox'][1] > 530)):
 
-                        # Use regex to identify if the text matches the pattern of a page number
-                        page_number_pattern = r"\b\d{1,3}\b"
-                        match = re.search(page_number_pattern, span['text'].replace('\t', ''))
+                            # Use regex to identify if the text matches the pattern of a page number
+                            page_number_pattern = r"\b\d{1,3}\b"
+                            match = re.search(page_number_pattern, span['text'].replace('\t', ''))
 
-                        # If a match is found, set text_found flag to True
-                        if match:
-                            text_found = True
-                            break
+                            # If a match is found, set text_found flag to True
+                            if match:
+                                text_found = True
+                                break
+                    if text_found:
+                        break
                 if text_found:
                     break
-            if text_found:
-                break
+            except:
+                pass
         # Based on whether page number text is found, append page number to respective list
         if text_found:
             pages_with_page_number.append(page_number)
