@@ -1,3 +1,5 @@
+
+
 		* {
 			margin: 0%;
 			scroll-behavior: smooth;
@@ -200,27 +202,7 @@
     grid-auto-columns: 100%;
   }
 }
-.homeDiv{
-    /* Rectangle 3 */
-    width: 193px;
-    height: 56px;
-    background: #FFFFFF;
-    border-radius: 10px;
-}
-.homeSpan{
-    position: absolute;
-    width: 164px;
-    height: 52px;
-    left: 18px;
-    top: 3px;
-    font-family: 'Poppins';
-    font-style: normal;
-    font-weight: 500;
-    font-size: 18px;
-    line-height: 27px;
-    text-align: center;
-    color: #E33147;
-}
+
 
 		.indivudual-charts {
 			width: 95%;
@@ -257,7 +239,7 @@
 			align-items: center;
 		}
 		.btn {
-			width: 40%;
+			/*width: 40%;*/
 			padding: 10px;
 			cursor: pointer;
 			background: #E33147;
@@ -355,7 +337,7 @@
 			display: flex;
 			align-items: center;
 			justify-content: center;
-			width: 40%;
+			/*width: 40%;*/
 			border: 2px solid #E33147;
 			cursor: pointer;
 			border-radius: 10px;
@@ -406,20 +388,17 @@
 			background-size: cover;
 		}
 
-		.page {
-			background-image: url(./page.png);
+			.page{
+			background-image: url(/PDFAnalyzerX/static/img_latest_ui/page.png);
 		}
-
-		.images {
-			background-image: url(./images.png);
+		.images{
+			background-image: url(/PDFAnalyzerX/static/img_latest_ui/images.png);
 		}
-
-		.tables {
-			background-image: url(./tables.png);
+		.tables{
+			background-image: url(/PDFAnalyzerX/static/img_latest_ui/tables.png);
 		}
-
-		.links {
-			background-image: url(./links.png);
+		.links{
+			background-image: url(/PDFAnalyzerX/static/img_latest_ui/links.png);
 		}
 
 		.count {
@@ -660,6 +639,7 @@
     height: 56px;
     background: #FFFFFF;
     border-radius: 10px;
+    cursor: pointer;
 }
 .homeSpan{
     position: absolute;
@@ -799,7 +779,7 @@
     border-radius: 12px;
     text-align: center;
     cursor: pointer;
-    border: 1px solid red;
+    border: 1px solid #e33147;
 }
 .btn-cancel{
     padding: 15px;

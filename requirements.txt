@@ -20,3 +20,4 @@ torch
 torchvision
 sumy
 charset_normalizer
+colorspacious
