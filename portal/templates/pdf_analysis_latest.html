@@ -1774,6 +1774,66 @@ if (percentage > 60) {
 		});
 		</script>
 	<script>
+		const ctx8 = document.getElementById('color_blindness').getContext('2d');
+
+		const labels_data_for_myChartBarSection7 = ['Category A', 'Category B', 'Category C', 'Category D', 'Category E'];
+		const datasets_for_myChartBarSection7 = [300, 200, 400, 150, 250];
+
+		new Chart(ctx8, {
+			type: 'bar',
+			data: {
+				labels: labels_data_for_myChartBarSection7,
+				datasets: [{
+					label: 'of Votes',
+					backgroundColor:'#8f57eb',
+					data: datasets_for_myChartBarSection7,
+					borderWidth: 1
+				},
+				{
+					label: 'of Votes',
+					backgroundColor: '#ecadd9',
+					data: datasets_for_myChartBarSection7,
+					borderWidth: 1
+				},
+				{
+					label: 'of Votes',
+					backgroundColor: '#fa997d',
+					data: datasets_for_myChartBarSection7,
+					borderWidth: 1
+				}]
+			},
+			options: {
+				plugins: {
+					legend: {
+						position: 'top',
+						align: 'center',
+						labels: {
+							usePointStyle: true,
+						}
+					},
+					datalabels: {
+						formatter: (value, ctx) => {
+							let sum = 0;
+							let dataArr = ctx.chart.data.datasets[0].data;
+							dataArr.map(data => {
+								sum += data;
+							});
+							let percentage = (value * 100 / sum).toFixed(2) + "%";
+							return percentage;
+						},
+						color: '#fff',
+					}
+				},
+				maintainAspectRatio: false,
+				animation: {
+					duration: 2000,
+					easing: 'easeInOutQuart',
+				},
+			},
+
+		});
+		</script>
+	<script>
 		const wrapper = document.querySelector(".wrapper");
 		const carousel = document.querySelector(".carousel");
 		const firstCardWidth = carousel.querySelector(".card").offsetWidth;
