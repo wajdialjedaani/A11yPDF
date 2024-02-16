@@ -296,7 +296,8 @@
 						</div>
 						<div>
 							<span>Accessibility</span>
-							<canvas id="doughnut3" class="doughnut-chart"></canvas>						</div>
+							<canvas id="doughnut3" class="doughnut-chart"></canvas>
+						</div>
 					</div>
 					<div class="col-md-12" style="height: 55%;">
 						<canvas id="image_cap"></canvas>
@@ -467,40 +468,12 @@
 							<h4 class="card-title">Color Blindness</h4>
 						</div>
 						<div>
-							<span>Accessibility</span>
-							<canvas id="doughnut8" class="doughnut-chart"></canvas>
+<!--							<span>Accessibility</span>-->
+<!--							<canvas id="doughnut8" class="doughnut-chart"></canvas>-->
 						</div>
 					</div>
 					<div class="col-md-12" style="height: 55%;">
 						<canvas id="color_blindness"></canvas>
-					</div>
-					<div class="button-con" style="margin: 3% auto;">
-						<div class="moreinfo-con"><a class="button arrow" href="#open-modal">More Info </a></div>
-						<div class="btn">
-							<div class="generate-report-button">
-								<p>Generate Report</p>
-								<svg width="28" height="30" viewBox="0 0 28 30" fill="none"
-									xmlns="http://www.w3.org/2000/svg">
-									<path
-										d="M27.958 25.3125L23.2998 29.9561L21.9814 28.6377L24.3691 26.25H15.375V24.375H24.3691L21.9814 21.9873L23.2998 20.6689L27.958 25.3125ZM18.1582 28.125L20.0332 30H0.375V0H16.708L24.75 8.04199V18.7939L22.875 16.9189V9.375H15.375V1.875H2.25V28.125H18.1582ZM17.25 7.5H21.542L17.25 3.20801V7.5Z"
-										fill="#F2F2F2" />
-								</svg>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="box" style="width:100%">
-					<div class="row  mt-xl-0 mt-4">
-						<div style="width: 75%;">
-							<h4 class="card-title">Overall Color Blindness</h4>
-						</div>
-						<div>
-							<span>Accessibility</span>
-							<canvas id="doughnut9" class="doughnut-chart"></canvas>
-						</div>
-					</div>
-					<div class="col-md-12" style="height: 55%;">
-						<canvas id="overall_color_blindness"></canvas>
 					</div>
 					<div class="button-con" style="margin: 3% auto;">
 						<div class="moreinfo-con"><a class="button arrow" href="#open-modal">More Info </a></div>
@@ -641,6 +614,26 @@
 
 		</div>
 	</div>
+	 <!--*******************
+        Preloader start
+    ********************-->
+    <div id="preloader">
+        <div class="waviy">
+		   <span style="--i:1">L</span>
+		   <span style="--i:2">o</span>
+		   <span style="--i:3">a</span>
+		   <span style="--i:4">d</span>
+		   <span style="--i:5">i</span>
+		   <span style="--i:6">n</span>
+		   <span style="--i:7">g</span>
+		   <span style="--i:8">.</span>
+		   <span style="--i:9">.</span>
+		   <span style="--i:10">.</span>
+		</div>
+    </div>
+    <!--*******************
+        Preloader end
+    ********************-->
 	<script>
 		// Determine background color based on percentage
 
@@ -654,7 +647,7 @@
 		 content = 'Average';
 	} else {
 		backgroundColor = '#E33147'; // Green background
-		 content = 'bad';
+		 content = 'Poor';
 	}
 
 	// Set the background color and content for the h5 element
@@ -717,6 +710,13 @@
 		} else {
 			backgroundColor = '#E33147'; // Green background
 		}
+
+		var percentage_less_than_16 = {{percentage_less_than_16}};
+		//check if both the values are zero
+		if({{percentage_greater_than_16}} == 0 && {{percentage_less_than_16}} == 0){
+			percentage_less_than_16 = 100;
+		}
+
 		const ChartDataLabels1 = {
 			id: 'ChartDataLabels1',
 			afterDatasetsDraw(chart, args, options) {
@@ -737,7 +737,7 @@
 			data: {
 				labels: [''], // No labels needed for a single segment
 				datasets: [{
-					data: [{{percentage_greater_than_16}}, {{percentage_less_than_16}}], // 84% filled, 16% empty
+					data: [{{percentage_greater_than_16}}, percentage_less_than_16], // 84% filled, 16% empty
 					weight: 10,
 					backgroundColor: [backgroundColor, '#d7d9db'],
 					borderColor: 'white',
@@ -769,6 +769,12 @@
 		} else {
 			backgroundColor = '#E33147'; // Green background
 		}
+		var Number_Of_Not_Urls_Accessible = {{no_of_work['Number Of Not Urls Accessible']}};
+		//check if both the values are zero
+		if({{no_of_work['Number Of Urls Accessible']}} == 0 && {{no_of_work['Number Of Not Urls Accessible']}} == 0){
+			Number_Of_Not_Urls_Accessible = 100;
+		}
+
 		const ChartDataLabels2 = {
 			id: 'ChartDataLabels2',
 			afterDatasetsDraw(chart, args, options) {
@@ -789,7 +795,7 @@
 			data: {
 				labels: [''], // No labels needed for a single segment
 				datasets: [{
-					data: [{{no_of_work['Number Of Urls Accessible']}},{{no_of_work['Number Of Urls Accessible']}}], // 84% filled, 16% empty
+					data: [{{no_of_work['Number Of Urls Accessible']}},Number_Of_Not_Urls_Accessible], // 84% filled, 16% empty
 					weight: 10,
 					backgroundColor: [backgroundColor, '#d7d9db'],
 					borderColor: 'white',
@@ -821,6 +827,13 @@
 		} else {
 			backgroundColor = '#E33147'; // Green background
 		}
+
+		var percentage_without_captions = {{percentage_without_captions}};
+		//check if both the values are zero
+		if({{percentage_with_captions}} == 0 && {{percentage_without_captions}} == 0){
+			percentage_without_captions = 100;
+		}
+
 		const ChartDataLabels3 = {
 			id: 'ChartDataLabels',
 			afterDatasetsDraw(chart, args, options) {
@@ -841,7 +854,7 @@
 			data: {
 				labels: [''], // No labels needed for a single segment
 				datasets: [{
-					data: [{{percentage_with_captions}}, {{percentage_without_captions}}], // 84% filled, 16% empty
+					data: [{{percentage_with_captions}}, percentage_without_captions], // 84% filled, 16% empty
 					weight: 10,
 					backgroundColor: [backgroundColor, '#d7d9db'],
 					borderColor: 'white',
@@ -873,6 +886,13 @@
 		} else {
 			backgroundColor = '#E33147'; // Green background
 		}
+
+		var fina_no_header_count = {{fina_header_count_[1][0]}};
+		//check if both the values are zero
+		if({{fina_header_count_[0][0]}} == 0 && {{fina_header_count_[1][0]}} == 0){
+			fina_no_header_count = 100;
+		}
+
 		const ChartDataLabels4 = {
 			id: 'ChartDataLabels',
 			afterDatasetsDraw(chart, args, options) {
@@ -893,7 +913,7 @@
 			data: {
 				labels: [''], // No labels needed for a single segment
 				datasets: [{
-					data: [{{ fina_header_count_[0][0] }}, {{ fina_header_count_[1][0] }}], // 84% filled, 16% empty
+					data: [{{ fina_header_count_[0][0] }}, fina_no_header_count], // 84% filled, 16% empty
 					weight: 10,
 					backgroundColor: [backgroundColor, '#d7d9db'],
 					borderColor: 'white',
@@ -925,6 +945,14 @@
 		} else {
 			backgroundColor = '#E33147'; // Green background
 		}
+
+		var fina_no_footer_count = {{count_of_footers_[1][0]}};
+		//check if both the values are zero
+		if({{count_of_footers_[0][0]}} == 0 && {{count_of_footers_[1][0]}} == 0){
+			fina_no_footer_count = 100;
+		}
+
+
 		const ChartDataLabels5 = {
 			id: 'ChartDataLabels',
 			afterDatasetsDraw(chart, args, options) {
@@ -945,7 +973,7 @@
 			data: {
 				labels: [''], // No labels needed for a single segment
 				datasets: [{
-					data: [{{count_of_footers_[0][0]}}, {{count_of_footers_[1][0]}}], // 84% filled, 16% empty
+					data: [{{count_of_footers_[0][0]}}, fina_no_footer_count], // 84% filled, 16% empty
 					weight: 10,
 					backgroundColor: [backgroundColor, '#d7d9db'],
 					borderColor: 'white',
@@ -977,6 +1005,13 @@
 		} else {
 			backgroundColor = '#E33147'; // Green background
 		}
+
+		var percentage_without_page_number = {{percentage_without_page_number}};
+		//check if both the values are zero
+		if({{percentage_with_page_number}} == 0 && {{percentage_without_page_number}} == 0){
+			percentage_without_page_number = 100;
+		}
+
 		const ChartDataLabels7 = {
 			id: 'ChartDataLabels',
 			afterDatasetsDraw(chart, args, options) {
@@ -997,7 +1032,7 @@
 			data: {
 				labels: [''], // No labels needed for a single segment
 				datasets: [{
-					data: [{{percentage_with_page_number}},{{percentage_without_page_number}}], // 84% filled, 16% empty
+					data: [{{percentage_with_page_number}},percentage_without_page_number], // 84% filled, 16% empty
 					weight: 10,
 					backgroundColor: [backgroundColor, '#d7d9db'],
 					borderColor: 'white',
@@ -1029,6 +1064,7 @@
 		} else {
 			backgroundColor = '#E33147'; // Green background
 		}
+
 		const ChartDataLabels8 = {
 			id: 'ChartDataLabels',
 			afterDatasetsDraw(chart, args, options) {
@@ -1082,6 +1118,13 @@
 		} else {
 			backgroundColor = '#E33147'; // Green background
 		}
+
+		var does_not_meet_wcag_percentage = {{does_not_meet_wcag_percentage}};
+		//check if both the values are zero
+		if({{meets_wcag_percentage}} == 0 && {{does_not_meet_wcag_percentage}} == 0){
+			does_not_meet_wcag_percentage = 100;
+		}
+
 	const ChartDataLabels6 = {
 		id: 'ChartDataLabels',
 		afterDatasetsDraw(chart, args, options) {
@@ -1102,7 +1145,7 @@
 		data: {
 			labels: [''], // No labels needed for a single segment
 			datasets: [{
-				data: [{{meets_wcag_percentage}},{{does_not_meet_wcag_percentage}}], // 84% filled, 16% empty
+				data: [{{meets_wcag_percentage}},does_not_meet_wcag_percentage], // 84% filled, 16% empty
 				weight: 10,
 				backgroundColor: [backgroundColor, '#d7d9db'],
 				borderColor: 'white',
@@ -1137,7 +1180,7 @@
 		 content = 'Average';
 	} else {
 		backgroundColor1 = '#E33147'; // Green background
-		 content = 'bad';
+		 content = 'Poor';
 	}
 
 	// Set the background color and content for the h5 element
@@ -1145,6 +1188,11 @@
 	h5Element.style.color = backgroundColor1;
 	h5Element.textContent = content;
 
+	var percentage_less_than_16 = {{percentage_less_than_16}};
+	//check if both the values are zero
+	if({{percentage_greater_than_16}} == 0 && {{percentage_less_than_16}} == 0){
+		percentage_less_than_16 = 100;
+	}
 
 		const CardDataLabels1 = {
 			id: 'CardDataLabels1',
@@ -1166,7 +1214,7 @@
 			data: {
 				labels: [''], // No labels needed for a single segment
 				datasets: [{
-					data: [{{percentage_greater_than_16}}, {{percentage_less_than_16}}], // 84% filled, 16% empty
+					data: [{{percentage_greater_than_16}}, percentage_less_than_16], // 84% filled, 16% empty
 					weight: 10,
 					backgroundColor: [backgroundColor1, '#d7d9db'],
 					borderColor: 'white',
@@ -1199,7 +1247,7 @@
 		 content = 'Average';
 	} else {
 		backgroundColor2 = '#E33147'; // Green background
-		 content = 'bad';
+		 content = 'Poor';
 	}
 
 	// Set the background color and content for the h5 element
@@ -1207,6 +1255,12 @@
 	h5Element.style.color = backgroundColor2;
 	h5Element.textContent = content;
 
+
+	var percentage_without_captions = {{percentage_without_captions}};
+	//check if both the values are zero
+	if({{percentage_with_captions}} == 0 && {{percentage_without_captions}} == 0){
+		percentage_without_captions = 100;
+	}
 
 		const CardDataLabels2 = {
 			id: 'CardDataLabels2',
@@ -1230,7 +1284,7 @@
 			data: {
 				labels: [''], // No labels needed for a single segment
 				datasets: [{
-					data: [{{percentage_with_captions}}, {{percentage_without_captions}}], // 84% filled, 16% empty
+					data: [{{percentage_with_captions}}, percentage_without_captions], // 84% filled, 16% empty
 					weight: 10,
 					backgroundColor: [backgroundColor2, '#d7d9db'],
 					borderColor: 'white',
@@ -1264,13 +1318,20 @@
 		 content = 'Average';
 	} else {
 		backgroundColor3 = '#E33147'; // Green background
-		 content = 'bad';
+		 content = 'Poor';
 	}
 
 	// Set the background color and content for the h5 element
 	var h5Element = document.getElementById('header_score'); // Replace 'your_h5_element_id' with the actual ID of your h5 element
 	h5Element.style.color = backgroundColor3;
 	h5Element.textContent = content;
+
+	var fina_header_count = {{ fina_header_count_[1][0] }};
+	//check if both the values are zero
+	if({{fina_header_count_[0][0]}} == 0 && {{fina_header_count_[1][0]}} == 0){
+		fina_header_count = 100;
+	}
+
 		const CardDataLabels3 = {
 			id: 'CardDataLabels3',
 			afterDatasetsDraw(chart, args, options) {
@@ -1291,7 +1352,7 @@
 			data: {
 				labels: [''], // No labels needed for a single segment
 				datasets: [{
-					data: [{{ fina_header_count_[0][0] }}, {{ fina_header_count_[1][0] }}], // 84% filled, 16% empty
+					data: [{{ fina_header_count_[0][0] }}, fina_header_count], // 84% filled, 16% empty
 					weight: 10,
 					backgroundColor: [backgroundColor3, '#d7d9db'],
 					borderColor: 'white',
@@ -1324,13 +1385,21 @@
 		 content = 'Average';
 	} else {
 		backgroundColor4 = '#E33147'; // Green background
-		 content = 'bad';
+		 content = 'Poor';
 	}
 
 	// Set the background color and content for the h5 element
 	var h5Element = document.getElementById('footer_score'); // Replace 'your_h5_element_id' with the actual ID of your h5 element
 	h5Element.style.color = backgroundColor4;
 	h5Element.textContent = content;
+
+	var count_of_footers = {{ count_of_footers_[1][0] }};
+	//check if both the values are zero
+	if({{count_of_footers_[0][0]}} == 0 && {{count_of_footers_[1][0]}} == 0){
+		count_of_footers = 100;
+	}
+
+
 		const CardDataLabels4 = {
 			id: 'CardDataLabels4',
 			afterDatasetsDraw(chart, args, options) {
@@ -1351,7 +1420,7 @@
 			data: {
 				labels: [''], // No labels needed for a single segment
 				datasets: [{
-					data: [{{count_of_footers_[0][0]}}, {{count_of_footers_[1][0]}}], // 84% filled, 16% empty
+					data: [{{count_of_footers_[0][0]}}, count_of_footers], // 84% filled, 16% empty
 					weight: 10,
 					backgroundColor: [backgroundColor4, '#d7d9db'],
 					borderColor: 'white',
@@ -1384,13 +1453,20 @@
 		 content = 'Average';
 	} else {
 		backgroundColor5 = '#E33147'; // Green background
-		 content = 'bad';
+		 content = 'Poor';
 	}
 
 	// Set the background color and content for the h5 element
 	var h5Element = document.getElementById('contrast_score'); // Replace 'your_h5_element_id' with the actual ID of your h5 element
 	h5Element.style.color = backgroundColor5;
 	h5Element.textContent = content;
+
+	var does_not_meet_wcag_percentage = {{ does_not_meet_wcag_percentage }};
+	//check if both the values are zero
+	if({{meets_wcag_percentage}} == 0 && {{does_not_meet_wcag_percentage}} == 0){
+		does_not_meet_wcag_percentage = 100;
+	}
+
 		const CardDataLabels5 = {
 			id: 'CardDataLabels5',
 			afterDatasetsDraw(chart, args, options) {
@@ -1411,7 +1487,7 @@
 			data: {
 				labels: [''], // No labels needed for a single segment
 				datasets: [{
-					data: [{{meets_wcag_percentage}},{{does_not_meet_wcag_percentage}}], // 84% filled, 16% empty
+					data: [{{meets_wcag_percentage}},does_not_meet_wcag_percentage], // 84% filled, 16% empty
 					weight: 10,
 					backgroundColor: [backgroundColor5, '#d7d9db'],
 					borderColor: 'white',
@@ -1444,7 +1520,7 @@
 		 content = 'Average';
 	} else {
 		backgroundColor6 = '#E33147'; // Green background
-		 content = 'bad';
+		 content = 'Poor';
 	}
 
 	// Set the background color and content for the h5 element
@@ -1452,6 +1528,11 @@
 	h5Element.style.color = backgroundColor6;
 	h5Element.textContent = content;
 
+var percentage_without_page_number = {{ percentage_without_page_number }};
+	//check if both the values are zero
+	if({{percentage_with_page_number}} == 0 && {{percentage_without_page_number}} == 0){
+		percentage_without_page_number = 100;
+	}
 
 		const CardDataLabels6 = {
 			id: 'CardDataLabels6',
@@ -1473,7 +1554,7 @@
 			data: {
 				labels: [''], // No labels needed for a single segment
 				datasets: [{
-					data: [{{percentage_with_page_number}},{{percentage_without_page_number}}], // 84% filled, 16% empty
+					data: [{{percentage_with_page_number}},percentage_without_page_number], // 84% filled, 16% empty
 					weight: 10,
 					backgroundColor: [backgroundColor6, '#d7d9db'],
 					borderColor: 'white',
