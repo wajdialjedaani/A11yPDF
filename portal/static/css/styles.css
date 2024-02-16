@@ -364,7 +364,7 @@
 
 		.arrow:hover {
 			color: hsl(353, 96%, 44%);
-			background-color: #f2f2f2;
+			/*background-color: #f2f2f2;*/
 		}
 
 		.arrow:hover::after {
