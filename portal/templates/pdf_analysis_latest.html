@@ -88,7 +88,7 @@
 				<h4 class="acc-score-title">Accessibility score</h4>
 
 				<canvas id="access_chart" class="acc_chart"></canvas>
-				<h5 class="acc-grade">Good</h5>
+				<h5 id="acc_score" class="acc-grade">Good</h5>
 			</div>
 
 		</div>
@@ -142,42 +142,42 @@
 				<li class="card">
 					<h4 class="acc-score-title">Font Size</h4>
 					<canvas id="card_chart1" class="acc_chart1"></canvas>
-					<h5 class="acc-grade">Good</h5>
+					<h5 id="font_score" class="acc-grade">Good</h5>
 				  <!-- <h2>Blanche Pearson</h2>
 				  <span>Sales Manager</span> -->
 				</li>
 				<li class="card">
 					<h4 class="acc-score-title">Image Caption</h4>
 					<canvas id="card_chart2" class="acc_chart1"></canvas>
-					<h5 class="acc-grade">Good</h5>
+					<h5 id="image_score" class="acc-grade">Good</h5>
 				  <!-- <h2>Joenas Brauers</h2>
 				  <span>Web Developer</span> -->
 				</li>
 				<li class="card">
 					<h4 class="acc-score-title">Header</h4>
 					<canvas id="card_chart3" class="acc_chart1"></canvas>
-					<h5 class="acc-grade">Good</h5>
+					<h5 id="header_score" class="acc-grade">Good</h5>
 				  <!-- <h2>Lariach French</h2>
 				  <span>Online Teacher</span> -->
 				</li>
 				<li class="card">
 					<h4 class="acc-score-title">Footer</h4>
 					<canvas id="card_chart4" class="acc_chart1"></canvas>
-					<h5 class="acc-grade">Good</h5>
+					<h5 id="footer_score" class="acc-grade">Good</h5>
 				  <!-- <h2>James Khosravi</h2>
 				  <span>Freelancer</span> -->
 				</li>
 				<li class="card">
 					<h4 class="acc-score-title">Contrast</h4>
 					<canvas id="card_chart5" class="acc_chart1"></canvas>
-					<h5 class="acc-grade">Good</h5>
+					<h5 id="contrast_score" class="acc-grade">Good</h5>
 				  <!-- <h2>Kristina Zasiadko</h2>
 				  <span>Bank Manager</span> -->
 				</li>
 				<li class="card">
 					<h4 class="acc-score-title">Page Numbers</h4>
 					<canvas id="card_chart6" class="acc_chart1"></canvas>
-					<h5 class="acc-grade">Good</h5>
+					<h5 id="page_score" class="acc-grade">Good</h5>
 				  <!-- <h2>Donald Horton</h2>
 				  <span>App Designer</span> -->
 				</li>
@@ -460,7 +460,7 @@
 						</div>
 					</div>
 				</div>
-			<div class="box" style="width:100%">
+				<div class="box" style="width:100%">
 					<div class="row  mt-xl-0 mt-4">
 						<div style="width: 75%;">
 							<h4 class="card-title">Color Blindness</h4>
@@ -472,6 +472,34 @@
 					</div>
 					<div class="col-md-12" style="height: 55%;">
 						<canvas id="color_blindness"></canvas>
+					</div>
+					<div class="button-con" style="margin: 3% auto;">
+						<div class="moreinfo-con"><a class="button arrow" href="#open-modal">More Info </a></div>
+						<div class="btn">
+							<div class="generate-report-button">
+								<p>Generate Report</p>
+								<svg width="28" height="30" viewBox="0 0 28 30" fill="none"
+									xmlns="http://www.w3.org/2000/svg">
+									<path
+										d="M27.958 25.3125L23.2998 29.9561L21.9814 28.6377L24.3691 26.25H15.375V24.375H24.3691L21.9814 21.9873L23.2998 20.6689L27.958 25.3125ZM18.1582 28.125L20.0332 30H0.375V0H16.708L24.75 8.04199V18.7939L22.875 16.9189V9.375H15.375V1.875H2.25V28.125H18.1582ZM17.25 7.5H21.542L17.25 3.20801V7.5Z"
+										fill="#F2F2F2" />
+								</svg>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="box" style="width:100%">
+					<div class="row  mt-xl-0 mt-4">
+						<div style="width: 75%;">
+							<h4 class="card-title">Overall Color Blindness</h4>
+						</div>
+						<div>
+							<span>Accessibility</span>
+							<canvas id="doughnut9" class="doughnut-chart"></canvas>
+						</div>
+					</div>
+					<div class="col-md-12" style="height: 55%;">
+						<canvas id="overall_color_blindness"></canvas>
 					</div>
 					<div class="button-con" style="margin: 3% auto;">
 						<div class="moreinfo-con"><a class="button arrow" href="#open-modal">More Info </a></div>
@@ -617,13 +645,24 @@
 
 		percentage = {{overall_percentage}};
 		var backgroundColor = '';
-		if (percentage > 60) {
-			backgroundColor = 'green'; // Red background
-		} else if (percentage >= 40 && percentage <= 60) {
-			backgroundColor = 'orange'; // Orange background
-		} else {
-			backgroundColor = '#E33147'; // Green background
-		}
+			if (percentage > 60) {
+		backgroundColor = 'green'; // Red background
+		 content = 'Good';
+	} else if (percentage >= 40 && percentage <= 60) {
+		backgroundColor = 'orange'; // Orange background
+		 content = 'Average';
+	} else {
+		backgroundColor = '#E33147'; // Green background
+		 content = 'bad';
+	}
+
+	// Set the background color and content for the h5 element
+	var h5Element = document.getElementById('acc_score'); // Replace 'your_h5_element_id' with the actual ID of your h5 element
+	h5Element.style.color = backgroundColor;
+	h5Element.textContent = content;
+
+
+
 		const ChartDataLabels_acc = {
 			id: 'ChartDataLabels',
 			afterDatasetsDraw(chart, args, options) {
@@ -1085,17 +1124,25 @@
 
 
 	<script>
-// Determine background color based on percentage
+	// Determine background color based on percentage
 
-percentage = {{percentage_greater_than_16}};
-var backgroundColor = '';
-if (percentage > 60) {
-    backgroundColor = 'green'; // Red background
-} else if (percentage >= 40 && percentage <= 60) {
-    backgroundColor = 'orange'; // Orange background
-} else {
-    backgroundColor = '#E33147'; // Green background
-}
+	percentage = {{percentage_greater_than_16}};
+	var backgroundColor = '';
+	if (percentage > 60) {
+		backgroundColor = 'green'; // Red background
+		 content = 'Good';
+	} else if (percentage >= 40 && percentage <= 60) {
+		backgroundColor = 'orange'; // Orange background
+		 content = 'Average';
+	} else {
+		backgroundColor = '#E33147'; // Green background
+		 content = 'bad';
+	}
+
+	// Set the background color and content for the h5 element
+	var h5Element = document.getElementById('font_score'); // Replace 'your_h5_element_id' with the actual ID of your h5 element
+	h5Element.style.color = backgroundColor;
+	h5Element.textContent = content;
 
 
 		const CardDataLabels1 = {
@@ -1145,13 +1192,20 @@ if (percentage > 60) {
 		percentage = {{percentage_with_captions}};
 		var backgroundColor = '';
 		if (percentage > 60) {
-			backgroundColor = 'green'; // Red background
-		} else if (percentage >= 40 && percentage <= 60) {
-			backgroundColor = 'orange'; // Orange background
-		} else {
-			backgroundColor = '#E33147'; // Green background
-		}
+		backgroundColor = 'green'; // Red background
+		 content = 'Good';
+	} else if (percentage >= 40 && percentage <= 60) {
+		backgroundColor = 'orange'; // Orange background
+		 content = 'Average';
+	} else {
+		backgroundColor = '#E33147'; // Green background
+		 content = 'bad';
+	}
 
+	// Set the background color and content for the h5 element
+	var h5Element = document.getElementById('image_score'); // Replace 'your_h5_element_id' with the actual ID of your h5 element
+	h5Element.style.color = backgroundColor;
+	h5Element.textContent = content;
 
 		const CardDataLabels2 = {
 			id: 'CardDataLabels2',
@@ -1200,12 +1254,20 @@ if (percentage > 60) {
 		percentage = {{ fina_header_count_[0][0] }};
 		var backgroundColor = '';
 		if (percentage > 60) {
-			backgroundColor = 'green'; // Red background
-		} else if (percentage >= 40 && percentage <= 60) {
-			backgroundColor = 'orange'; // Orange background
-		} else {
-			backgroundColor = '#E33147'; // Green background
-		}
+		backgroundColor = 'green'; // Red background
+		 content = 'Good';
+	} else if (percentage >= 40 && percentage <= 60) {
+		backgroundColor = 'orange'; // Orange background
+		 content = 'Average';
+	} else {
+		backgroundColor = '#E33147'; // Green background
+		 content = 'bad';
+	}
+
+	// Set the background color and content for the h5 element
+	var h5Element = document.getElementById('header_score'); // Replace 'your_h5_element_id' with the actual ID of your h5 element
+	h5Element.style.color = backgroundColor;
+	h5Element.textContent = content;
 		const CardDataLabels3 = {
 			id: 'CardDataLabels3',
 			afterDatasetsDraw(chart, args, options) {
@@ -1252,12 +1314,20 @@ if (percentage > 60) {
 		percentage = {{count_of_footers_[0][0]}};
 		var backgroundColor = '';
 		if (percentage > 60) {
-			backgroundColor = 'green'; // Red background
-		} else if (percentage >= 40 && percentage <= 60) {
-			backgroundColor = 'orange'; // Orange background
-		} else {
-			backgroundColor = '#E33147'; // Green background
-		}
+		backgroundColor = 'green'; // Red background
+		 content = 'Good';
+	} else if (percentage >= 40 && percentage <= 60) {
+		backgroundColor = 'orange'; // Orange background
+		 content = 'Average';
+	} else {
+		backgroundColor = '#E33147'; // Green background
+		 content = 'bad';
+	}
+
+	// Set the background color and content for the h5 element
+	var h5Element = document.getElementById('footer_score'); // Replace 'your_h5_element_id' with the actual ID of your h5 element
+	h5Element.style.color = backgroundColor;
+	h5Element.textContent = content;
 		const CardDataLabels4 = {
 			id: 'CardDataLabels4',
 			afterDatasetsDraw(chart, args, options) {
@@ -1304,12 +1374,20 @@ if (percentage > 60) {
 		percentage = {{meets_wcag_percentage}};
 		var backgroundColor = '';
 		if (percentage > 60) {
-			backgroundColor = 'green'; // Red background
-		} else if (percentage >= 40 && percentage <= 60) {
-			backgroundColor = 'orange'; // Orange background
-		} else {
-			backgroundColor = '#E33147'; // Green background
-		}
+		backgroundColor = 'green'; // Red background
+		 content = 'Good';
+	} else if (percentage >= 40 && percentage <= 60) {
+		backgroundColor = 'orange'; // Orange background
+		 content = 'Average';
+	} else {
+		backgroundColor = '#E33147'; // Green background
+		 content = 'bad';
+	}
+
+	// Set the background color and content for the h5 element
+	var h5Element = document.getElementById('contrast_score'); // Replace 'your_h5_element_id' with the actual ID of your h5 element
+	h5Element.style.color = backgroundColor;
+	h5Element.textContent = content;
 		const CardDataLabels5 = {
 			id: 'CardDataLabels5',
 			afterDatasetsDraw(chart, args, options) {
@@ -1356,12 +1434,22 @@ if (percentage > 60) {
 		percentage = {{percentage_with_page_number}};
 		var backgroundColor = '';
 		if (percentage > 60) {
-			backgroundColor = 'green'; // Red background
-		} else if (percentage >= 40 && percentage <= 60) {
-			backgroundColor = 'orange'; // Orange background
-		} else {
-			backgroundColor = '#E33147'; // Green background
-		}
+		backgroundColor = 'green'; // Red background
+		 content = 'Good';
+	} else if (percentage >= 40 && percentage <= 60) {
+		backgroundColor = 'orange'; // Orange background
+		 content = 'Average';
+	} else {
+		backgroundColor = '#E33147'; // Green background
+		 content = 'bad';
+	}
+
+	// Set the background color and content for the h5 element
+	var h5Element = document.getElementById('page_score'); // Replace 'your_h5_element_id' with the actual ID of your h5 element
+	h5Element.style.color = backgroundColor;
+	h5Element.textContent = content;
+
+
 		const CardDataLabels6 = {
 			id: 'CardDataLabels6',
 			afterDatasetsDraw(chart, args, options) {
@@ -1799,6 +1887,66 @@ if (percentage > 60) {
 					label: 'of Votes',
 					backgroundColor: '#fa997d',
 					data: datasets_for_myChartBarSection7,
+					borderWidth: 1
+				}]
+			},
+			options: {
+				plugins: {
+					legend: {
+						position: 'top',
+						align: 'center',
+						labels: {
+							usePointStyle: true,
+						}
+					},
+					datalabels: {
+						formatter: (value, ctx) => {
+							let sum = 0;
+							let dataArr = ctx.chart.data.datasets[0].data;
+							dataArr.map(data => {
+								sum += data;
+							});
+							let percentage = (value * 100 / sum).toFixed(2) + "%";
+							return percentage;
+						},
+						color: '#fff',
+					}
+				},
+				maintainAspectRatio: false,
+				animation: {
+					duration: 2000,
+					easing: 'easeInOutQuart',
+				},
+			},
+
+		});
+		</script>
+	<script>
+		const ctx9 = document.getElementById('overall_color_blindness').getContext('2d');
+
+		const labels_data_for_myChartBarSection9 = ['Category A', 'Category B', 'Category C', 'Category D', 'Category E'];
+		const datasets_for_myChartBarSection9 = [300, 200, 400, 150, 250];
+
+		new Chart(ctx9, {
+			type: 'bar',
+			data: {
+				labels: labels_data_for_myChartBarSection9,
+				datasets: [{
+					label: 'of Votes',
+					backgroundColor:'#8f57eb',
+					data: datasets_for_myChartBarSection9,
+					borderWidth: 1
+				},
+				{
+					label: 'of Votes',
+					backgroundColor: '#ecadd9',
+					data: datasets_for_myChartBarSection9,
+					borderWidth: 1
+				},
+				{
+					label: 'of Votes',
+					backgroundColor: '#fa997d',
+					data: datasets_for_myChartBarSection9,
 					borderWidth: 1
 				}]
 			},

@@ -641,6 +641,10 @@
     border-radius: 10px;
     cursor: pointer;
 }
+.homeDiv:hover{
+background: #d7d9db;
+}
+
 .homeSpan{
     position: absolute;
     width: 164px;
