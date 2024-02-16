@@ -147,19 +147,13 @@
 				  <span>Sales Manager</span> -->
 				</li>
 				  <li class="card">
-					<h4 class="acc-score-title">Font Size</h4>
+					<h4 class="acc-score-title">Image Caption</h4>
 					<canvas id="card_chart2" class="acc_chart1"></canvas>
 					<h5 id="image_score" class="acc-grade">Good</h5>
 				  <!-- <h2>Blanche Pearson</h2>
 				  <span>Sales Manager</span> -->
 				</li>
-<!--				<li class="card">-->
-<!--					<h4 class="acc-score-title">Image Caption</h4>-->
-<!--					<canvas id="card_chart2" class="acc_chart1"></canvas>-->
-<!--					<h5 id="image_score" class="acc-grade">Good</h5>-->
-<!--				  &lt;!&ndash; <h2>Joenas Brauers</h2>-->
-<!--				  <span>Web Developer</span> &ndash;&gt;-->
-<!--				</li>-->
+
 				<li class="card">
 					<h4 class="acc-score-title">Header</h4>
 					<canvas id="card_chart3" class="acc_chart1"></canvas>
@@ -1134,21 +1128,21 @@
 	// Determine background color based on percentage
 
 	percentage = {{percentage_greater_than_16}};
-	var backgroundColor = '';
+	var backgroundColor1 = '';
 	if (percentage > 60) {
-		backgroundColor = 'green'; // Red background
+		backgroundColor1 = 'green'; // Red background
 		 content = 'Good';
 	} else if (percentage >= 40 && percentage <= 60) {
-		backgroundColor = 'orange'; // Orange background
+		backgroundColor1 = 'orange'; // Orange background
 		 content = 'Average';
 	} else {
-		backgroundColor = '#E33147'; // Green background
+		backgroundColor1 = '#E33147'; // Green background
 		 content = 'bad';
 	}
 
 	// Set the background color and content for the h5 element
 	var h5Element = document.getElementById('font_score'); // Replace 'your_h5_element_id' with the actual ID of your h5 element
-	h5Element.style.color = backgroundColor;
+	h5Element.style.color = backgroundColor1;
 	h5Element.textContent = content;
 
 
@@ -1160,7 +1154,7 @@
 <!--				console.log(top);-->
 
 				ctx.font = 'bolder 45px Arial';
-				ctx.fillStyle = backgroundColor;
+				ctx.fillStyle = backgroundColor1;
 				ctx.textAlign = 'center';
 				ctx.fillText('{{percentage_greater_than_16}}%', 100, 115);
 			}
@@ -1174,7 +1168,7 @@
 				datasets: [{
 					data: [{{percentage_greater_than_16}}, {{percentage_less_than_16}}], // 84% filled, 16% empty
 					weight: 10,
-					backgroundColor: [backgroundColor, '#d7d9db'],
+					backgroundColor: [backgroundColor1, '#d7d9db'],
 					borderColor: 'white',
 					borderWidth: 0
 				}]
@@ -1192,27 +1186,27 @@
 			plugins: [CardDataLabels1],
 		});
 	</script>
-
 	<script>
-		// Determine background color based on percentage
+	// Determine background color based on percentage
 
-		percentage = {{percentage_with_captions}};
-		var backgroundColor = '';
-		if (percentage > 60) {
-		backgroundColor = 'green'; // Red background
+	percentage = {{percentage_with_captions}};
+	var backgroundColor2 = '';
+	if (percentage > 60) {
+		backgroundColor2 = 'green'; // Red background
 		 content = 'Good';
 	} else if (percentage >= 40 && percentage <= 60) {
-		backgroundColor = 'orange'; // Orange background
+		backgroundColor2 = 'orange'; // Orange background
 		 content = 'Average';
 	} else {
-		backgroundColor = '#E33147'; // Green background
+		backgroundColor2 = '#E33147'; // Green background
 		 content = 'bad';
 	}
 
 	// Set the background color and content for the h5 element
 	var h5Element = document.getElementById('image_score'); // Replace 'your_h5_element_id' with the actual ID of your h5 element
-	h5Element.style.color = backgroundColor;
+	h5Element.style.color = backgroundColor2;
 	h5Element.textContent = content;
+
 
 		const CardDataLabels2 = {
 			id: 'CardDataLabels2',
@@ -1222,13 +1216,15 @@
 <!--				console.log(top);-->
 
 				ctx.font = 'bolder 45px Arial';
-				ctx.fillStyle = backgroundColor;
+				ctx.fillStyle = backgroundColor2;
 				ctx.textAlign = 'center';
 				ctx.fillText('{{percentage_with_captions}}%', 100, 115);
 			}
 		};
 
 		var ctxDough = document.getElementById('card_chart2').getContext('2d');
+		console.log({{percentage_with_captions}}, {{percentage_without_captions}});
+		console.log({{percentage_greater_than_16}}, {{percentage_less_than_16}});
 		var myChart = new Chart(ctxDough, {
 			type: 'doughnut',
 			data: {
@@ -1236,7 +1232,7 @@
 				datasets: [{
 					data: [{{percentage_with_captions}}, {{percentage_without_captions}}], // 84% filled, 16% empty
 					weight: 10,
-					backgroundColor: [backgroundColor, '#d7d9db'],
+					backgroundColor: [backgroundColor2, '#d7d9db'],
 					borderColor: 'white',
 					borderWidth: 0
 				}]
@@ -1259,21 +1255,21 @@
 			// Determine background color based on percentage
 
 		percentage = {{ fina_header_count_[0][0] }};
-		var backgroundColor = '';
+		var backgroundColor3 = '';
 		if (percentage > 60) {
-		backgroundColor = 'green'; // Red background
+		backgroundColor3 = 'green'; // Red background
 		 content = 'Good';
 	} else if (percentage >= 40 && percentage <= 60) {
-		backgroundColor = 'orange'; // Orange background
+		backgroundColor3 = 'orange'; // Orange background
 		 content = 'Average';
 	} else {
-		backgroundColor = '#E33147'; // Green background
+		backgroundColor3 = '#E33147'; // Green background
 		 content = 'bad';
 	}
 
 	// Set the background color and content for the h5 element
 	var h5Element = document.getElementById('header_score'); // Replace 'your_h5_element_id' with the actual ID of your h5 element
-	h5Element.style.color = backgroundColor;
+	h5Element.style.color = backgroundColor3;
 	h5Element.textContent = content;
 		const CardDataLabels3 = {
 			id: 'CardDataLabels3',
@@ -1283,7 +1279,7 @@
 <!--				console.log(top);-->
 
 				ctx.font = 'bolder 45px Arial';
-				ctx.fillStyle = backgroundColor;
+				ctx.fillStyle = backgroundColor3;
 				ctx.textAlign = 'center';
 				ctx.fillText('{{ fina_header_count_[0][0] }}%', 100, 115);
 			}
@@ -1297,7 +1293,7 @@
 				datasets: [{
 					data: [{{ fina_header_count_[0][0] }}, {{ fina_header_count_[1][0] }}], // 84% filled, 16% empty
 					weight: 10,
-					backgroundColor: [backgroundColor, '#d7d9db'],
+					backgroundColor: [backgroundColor3, '#d7d9db'],
 					borderColor: 'white',
 					borderWidth: 0
 				}]
@@ -1319,21 +1315,21 @@
 		// Determine background color based on percentage
 
 		percentage = {{count_of_footers_[0][0]}};
-		var backgroundColor = '';
+		var backgroundColor4 = '';
 		if (percentage > 60) {
-		backgroundColor = 'green'; // Red background
+		backgroundColor4 = 'green'; // Red background
 		 content = 'Good';
 	} else if (percentage >= 40 && percentage <= 60) {
-		backgroundColor = 'orange'; // Orange background
+		backgroundColor4 = 'orange'; // Orange background
 		 content = 'Average';
 	} else {
-		backgroundColor = '#E33147'; // Green background
+		backgroundColor4 = '#E33147'; // Green background
 		 content = 'bad';
 	}
 
 	// Set the background color and content for the h5 element
 	var h5Element = document.getElementById('footer_score'); // Replace 'your_h5_element_id' with the actual ID of your h5 element
-	h5Element.style.color = backgroundColor;
+	h5Element.style.color = backgroundColor4;
 	h5Element.textContent = content;
 		const CardDataLabels4 = {
 			id: 'CardDataLabels4',
@@ -1343,7 +1339,7 @@
 <!--				console.log(top);-->
 
 				ctx.font = 'bolder 45px Arial';
-				ctx.fillStyle = backgroundColor;
+				ctx.fillStyle = backgroundColor4;
 				ctx.textAlign = 'center';
 				ctx.fillText('{{count_of_footers_[0][0]}}%', 100, 115);
 			}
@@ -1357,7 +1353,7 @@
 				datasets: [{
 					data: [{{count_of_footers_[0][0]}}, {{count_of_footers_[1][0]}}], // 84% filled, 16% empty
 					weight: 10,
-					backgroundColor: [backgroundColor, '#d7d9db'],
+					backgroundColor: [backgroundColor4, '#d7d9db'],
 					borderColor: 'white',
 					borderWidth: 0
 				}]
@@ -1379,21 +1375,21 @@
 		// Determine background color based on percentage
 
 		percentage = {{meets_wcag_percentage}};
-		var backgroundColor = '';
+		var backgroundColor5 = '';
 		if (percentage > 60) {
-		backgroundColor = 'green'; // Red background
+		backgroundColor5 = 'green'; // Red background
 		 content = 'Good';
 	} else if (percentage >= 40 && percentage <= 60) {
-		backgroundColor = 'orange'; // Orange background
+		backgroundColor5 = 'orange'; // Orange background
 		 content = 'Average';
 	} else {
-		backgroundColor = '#E33147'; // Green background
+		backgroundColor5 = '#E33147'; // Green background
 		 content = 'bad';
 	}
 
 	// Set the background color and content for the h5 element
 	var h5Element = document.getElementById('contrast_score'); // Replace 'your_h5_element_id' with the actual ID of your h5 element
-	h5Element.style.color = backgroundColor;
+	h5Element.style.color = backgroundColor5;
 	h5Element.textContent = content;
 		const CardDataLabels5 = {
 			id: 'CardDataLabels5',
@@ -1403,7 +1399,7 @@
 <!--				console.log(top);-->
 
 				ctx.font = 'bolder 45px Arial';
-				ctx.fillStyle = backgroundColor;
+				ctx.fillStyle = backgroundColor5;
 				ctx.textAlign = 'center';
 				ctx.fillText('{{meets_wcag_percentage}}%', 100, 115);
 			}
@@ -1417,7 +1413,7 @@
 				datasets: [{
 					data: [{{meets_wcag_percentage}},{{does_not_meet_wcag_percentage}}], // 84% filled, 16% empty
 					weight: 10,
-					backgroundColor: [backgroundColor, '#d7d9db'],
+					backgroundColor: [backgroundColor5, '#d7d9db'],
 					borderColor: 'white',
 					borderWidth: 0
 				}]
@@ -1439,21 +1435,21 @@
 		// Determine background color based on percentage
 
 		percentage = {{percentage_with_page_number}};
-		var backgroundColor = '';
+		var backgroundColor6 = '';
 		if (percentage > 60) {
-		backgroundColor = 'green'; // Red background
+		backgroundColor6 = 'green'; // Red background
 		 content = 'Good';
 	} else if (percentage >= 40 && percentage <= 60) {
-		backgroundColor = 'orange'; // Orange background
+		backgroundColor6 = 'orange'; // Orange background
 		 content = 'Average';
 	} else {
-		backgroundColor = '#E33147'; // Green background
+		backgroundColor6 = '#E33147'; // Green background
 		 content = 'bad';
 	}
 
 	// Set the background color and content for the h5 element
 	var h5Element = document.getElementById('page_score'); // Replace 'your_h5_element_id' with the actual ID of your h5 element
-	h5Element.style.color = backgroundColor;
+	h5Element.style.color = backgroundColor6;
 	h5Element.textContent = content;
 
 
@@ -1465,7 +1461,7 @@
 <!--				console.log(top);-->
 
 				ctx.font = 'bolder 45px Arial';
-				ctx.fillStyle = backgroundColor;
+				ctx.fillStyle = backgroundColor6;
 				ctx.textAlign = 'center';
 				ctx.fillText('{{percentage_with_page_number}}%', 100, 115);
 			}
@@ -1479,7 +1475,7 @@
 				datasets: [{
 					data: [{{percentage_with_page_number}},{{percentage_without_page_number}}], // 84% filled, 16% empty
 					weight: 10,
-					backgroundColor: [backgroundColor, '#d7d9db'],
+					backgroundColor: [backgroundColor6, '#d7d9db'],
 					borderColor: 'white',
 					borderWidth: 0
 				}]
