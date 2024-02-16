@@ -1,7 +1,7 @@
 import io
 import json
 import os
-
+from concurrent.futures import ThreadPoolExecutor
 from fitz import fitz
 from flask import Blueprint, render_template, request, redirect, url_for, session, flash, send_file, make_response, \
     Response, jsonify
@@ -13,6 +13,7 @@ from .packages import get_final_result, extract_headers, extract_foter, get_tabl
 import pandas as pd
 from .packages.contast_ratio_ import analyze_pdf, check_page_number
 from .packages.extract_and_summarize import *
+from .packages.colorblind import *
 import time
 import random
 import string
@@ -665,6 +666,19 @@ def generate_report(process_id):
         return resp
 
 
+def calculate_overall_percentage(data):
+    results = {}
+    for key, values in data.items():
+        # Summing all the values for the current key
+        sum_values = sum(values)
+        # Calculating the actual percentage and rounding it
+        actual_percentage = round((sum_values / len(values)) * 100)
+        # Calculating the remaining percentage and rounding it
+        remaining_percentage = 100 - actual_percentage
+        # Storing the result in the dictionary
+        results[key] = {"Actual": actual_percentage, "Remaining": remaining_percentage}
+    return results
+
 @bp.route('/generate_report/<string:type_>/<string:process_id>', methods=["GET", "POST"])
 def generate_report_pdf(type_, process_id):
     pdf_docs_json = APP.config["PDF_RESULT_JSON"]
@@ -905,191 +919,205 @@ def final_result(process_id):
                 return resp
             if os.path.exists(os.path.join(pdf_docs, process_id)):
                 file.save(os.path.join(pdf_docs, process_id, filename))
-                count_urls_, count_images_, dict_final_, pdf_document_page_count = get_final_result(
-                    os.path.join(pdf_docs, process_id, filename), process_id)
+                start_time = time.time()
+                with ThreadPoolExecutor() as executor:
+                    future = executor.submit(analyze_pdf_colorblind, os.path.join(pdf_docs, process_id, filename))
+                    count_urls_, count_images_, dict_final_, pdf_document_page_count = get_final_result(
+                        os.path.join(pdf_docs, process_id, filename), process_id)
 
-                titles, No_headers_Pages, yes_headers_pages, percentage_with_headers, percentage_without_headers = extract_headers(
-                    os.path.join(pdf_docs, process_id, filename))
+                    titles, No_headers_Pages, yes_headers_pages, percentage_with_headers, percentage_without_headers = extract_headers(
+                        os.path.join(pdf_docs, process_id, filename))
 
-                titles_for_footers_, count_of_footers_ = extract_foter(os.path.join(pdf_docs, process_id, filename))
-                table_count_ = get_tables_count(os.path.join(pdf_docs, process_id, filename))
+                    titles_for_footers_, count_of_footers_ = extract_foter(os.path.join(pdf_docs, process_id, filename))
+                    table_count_ = get_tables_count(os.path.join(pdf_docs, process_id, filename))
 
-                image_info_dict, final_list_of_rsa = get_image_resolution_aspect_ratio(
-                    os.path.join(images_path_of_pdf, process_id))
+                    image_info_dict, final_list_of_rsa = get_image_resolution_aspect_ratio(
+                        os.path.join(images_path_of_pdf, process_id))
 
-                overall_sharpness, overall_contrast, overall_visibility = assess_pdf_quality(
-                    os.path.join(pdf_docs, process_id, filename))
-                # overall_sharpness, overall_contrast, overall_visibility=0,0,0
-                final_dic_for_access_ = [
-                    [round(overall_sharpness, 2), round(overall_visibility, 2), round(overall_contrast)]]
+                    overall_sharpness, overall_contrast, overall_visibility = assess_pdf_quality(
+                        os.path.join(pdf_docs, process_id, filename))
+                    # overall_sharpness, overall_contrast, overall_visibility=0,0,0
+                    final_dic_for_access_ = [
+                        [round(overall_sharpness, 2), round(overall_visibility, 2), round(overall_contrast)]]
 
-                # top_colors_list = get_top_colors(os.path.join(images_path_of_pdf, process_id))
-                top_colors_list = []
-                font_size_dict_ = {}
-                font_type_dict_ = {}
-                count_ = 0
+                    # top_colors_list = get_top_colors(os.path.join(images_path_of_pdf, process_id))
+                    top_colors_list = []
+                    font_size_dict_ = {}
+                    font_type_dict_ = {}
+                    count_ = 0
 
-                count_urls_final_ = count_urls_['count_urls_']
-                no_of_work = {'Number Of Urls Accessible': count_urls_['yes_count_'],
-                              "Number Of Not Urls Accessible": count_urls_['no_count_']}
+                    count_urls_final_ = count_urls_['count_urls_']
+                    no_of_work = {'Number Of Urls Accessible': count_urls_['yes_count_'],
+                                  "Number Of Not Urls Accessible": count_urls_['no_count_']}
 
-                percentage_with_captions, percentage_without_captions, captions_with_images = analyze_figure_captions(
-                    os.path.join(pdf_docs, process_id, filename))
-                meets_wcag_count, does_not_meet_wcag_count, meets_wcag_percentage, does_not_meet_wcag_percentage = analyze_pdf(
-                    os.path.join(pdf_docs, process_id, filename))
-                meets_wcag_count, does_not_meet_wcag_count, meets_wcag_percentage, does_not_meet_wcag_percentage = meets_wcag_count, does_not_meet_wcag_count, round(
-                    meets_wcag_percentage, 2), round(does_not_meet_wcag_percentage, 2)
-                pages_with_page_number, pages_without_page_number, percentage_with_page_number, percentage_without_page_number = check_page_number(
-                    os.path.join(pdf_docs, process_id, filename))
+                    percentage_with_captions, percentage_without_captions, captions_with_images = analyze_figure_captions(
+                        os.path.join(pdf_docs, process_id, filename))
+                    meets_wcag_count, does_not_meet_wcag_count, meets_wcag_percentage, does_not_meet_wcag_percentage = analyze_pdf(
+                        os.path.join(pdf_docs, process_id, filename))
+                    meets_wcag_count, does_not_meet_wcag_count, meets_wcag_percentage, does_not_meet_wcag_percentage = meets_wcag_count, does_not_meet_wcag_count, round(
+                        meets_wcag_percentage, 2), round(does_not_meet_wcag_percentage, 2)
+                    pages_with_page_number, pages_without_page_number, percentage_with_page_number, percentage_without_page_number = check_page_number(
+                        os.path.join(pdf_docs, process_id, filename))
 
-                full_text, summarized_text = extract_and_summarize_text(os.path.join(pdf_docs, process_id, filename))
+                    full_text, summarized_text = extract_and_summarize_text(os.path.join(pdf_docs, process_id, filename))
 
-                final_json_ = {"summarized_text": summarized_text, "pages_with_page_number": pages_with_page_number,
-                               "pages_without_page_number": pages_without_page_number,
-                               "percentage_without_page_number": percentage_without_page_number,
-                               "percentage_with_page_number": percentage_with_page_number,
-                               "count_urls_": count_urls_final_, "dict_final_": dict_final_,
-                               "count_images_": count_images_,
-                               "pdf_document_page_count": pdf_document_page_count, "no_of_work": no_of_work,
-                               "titles": titles, "No_headers_Pages": No_headers_Pages,
-                               "yes_headers_pages": yes_headers_pages,
-                               "percentage_with_headers": percentage_with_headers,
-                               "percentage_without_headers": percentage_without_headers,
-                               "titles_for_footers_": titles_for_footers_, "count_of_footers_": count_of_footers_,
-                               "table_count_": table_count_,
-                               "final_list_of_rsa": final_list_of_rsa,
-                               "image_info_dict": image_info_dict, "final_dic_for_access_": final_dic_for_access_,
-                               "percentage_with_captions": percentage_with_captions,
-                               "percentage_without_captions": percentage_without_captions,
-                               "captions_with_images": captions_with_images, "meets_wcag_count": meets_wcag_count,
-                               "does_not_meet_wcag_count": does_not_meet_wcag_count,
-                               "meets_wcag_percentage": meets_wcag_percentage,
-                               "does_not_meet_wcag_percentage": does_not_meet_wcag_percentage,
-                               "filename": filename}
+                    final_json_ = {"summarized_text": summarized_text, "pages_with_page_number": pages_with_page_number,
+                                   "pages_without_page_number": pages_without_page_number,
+                                   "percentage_without_page_number": percentage_without_page_number,
+                                   "percentage_with_page_number": percentage_with_page_number,
+                                   "count_urls_": count_urls_final_, "dict_final_": dict_final_,
+                                   "count_images_": count_images_,
+                                   "pdf_document_page_count": pdf_document_page_count, "no_of_work": no_of_work,
+                                   "titles": titles, "No_headers_Pages": No_headers_Pages,
+                                   "yes_headers_pages": yes_headers_pages,
+                                   "percentage_with_headers": percentage_with_headers,
+                                   "percentage_without_headers": percentage_without_headers,
+                                   "titles_for_footers_": titles_for_footers_, "count_of_footers_": count_of_footers_,
+                                   "table_count_": table_count_,
+                                   "final_list_of_rsa": final_list_of_rsa,
+                                   "image_info_dict": image_info_dict, "final_dic_for_access_": final_dic_for_access_,
+                                   "percentage_with_captions": percentage_with_captions,
+                                   "percentage_without_captions": percentage_without_captions,
+                                   "captions_with_images": captions_with_images, "meets_wcag_count": meets_wcag_count,
+                                   "does_not_meet_wcag_count": does_not_meet_wcag_count,
+                                   "meets_wcag_percentage": meets_wcag_percentage,
+                                   "does_not_meet_wcag_percentage": does_not_meet_wcag_percentage,
+                                   "filename": filename}
 
-                fina_header_count_ = [[percentage_with_headers, yes_headers_pages],
-                                      [percentage_without_headers, No_headers_Pages]]
+                    fina_header_count_ = [[percentage_with_headers, yes_headers_pages],
+                                          [percentage_without_headers, No_headers_Pages]]
 
-                if not os.path.exists(os.path.join(pdf_docs_json, process_id)):
-                    os.mkdir(os.path.join(pdf_docs_json, process_id))
-                with open(os.path.join(pdf_docs_json, process_id, "result.json"), "w") as file:
-                    json.dump(final_json_, file)
-                    file.close()
-                with open(os.path.join(pdf_docs_json, process_id, "result_imagescolor.json"), "w") as file:
-                    json.dump(top_colors_list, file)
-                    file.close()
-                for i in dict_final_:
-                    for j in dict_final_[i]:
-                        for k in dict_final_[i][j]:
-                            # print(dict_final_[i][j][k]['font_line'])
-                            if str(dict_final_[i][j][k]['font_line']).strip() == '' or dict_final_[i][j][k][
-                                'font_line'] == '':
-                                pass
-                            else:
-                                count_ = count_ + 1
-                                for fnt in dict_final_[i][j][k]['font_font_type']:
-                                    font_ = fnt
-                                    font_type_dict_[font_] = font_type_dict_.get(font_, 0) + 1
+                    if not os.path.exists(os.path.join(pdf_docs_json, process_id)):
+                        os.mkdir(os.path.join(pdf_docs_json, process_id))
+                    with open(os.path.join(pdf_docs_json, process_id, "result_imagescolor.json"), "w") as file:
+                        json.dump(top_colors_list, file)
+                        file.close()
+                    for i in dict_final_:
+                        for j in dict_final_[i]:
+                            for k in dict_final_[i][j]:
+                                # print(dict_final_[i][j][k]['font_line'])
+                                if str(dict_final_[i][j][k]['font_line']).strip() == '' or dict_final_[i][j][k][
+                                    'font_line'] == '':
+                                    pass
+                                else:
+                                    count_ = count_ + 1
+                                    for fnt in dict_final_[i][j][k]['font_font_type']:
+                                        font_ = fnt
+                                        font_type_dict_[font_] = font_type_dict_.get(font_, 0) + 1
 
-                                for fntsz in dict_final_[i][j][k]['font_sizes']:
-                                    font_size = fntsz
-                                    font_size_dict_[font_size] = font_size_dict_.get(font_size, 0) + 1
+                                    for fntsz in dict_final_[i][j][k]['font_sizes']:
+                                        font_size = fntsz
+                                        font_size_dict_[font_size] = font_size_dict_.get(font_size, 0) + 1
 
-                top_4_fonts_types = dict(sorted(font_type_dict_.items(), key=lambda x: x[1], reverse=True)[:5])
-                total_counts_types = sum(font_type_dict_.values())
-                # print('total_counts_types', total_counts_types)
-                # print('count',top_4_fonts_types)
-                # exit()
-                percentage_dict_types = {font: round((count / total_counts_types) * 100, 2) for font, count in
-                                         top_4_fonts_types.items()}
-                length_of_percentage_dict_types = len(percentage_dict_types)
-                # for font, percentage in percentage_dict_types.items():
-                #     print("Percentage of {} compared to all fonts: {:.2f}%".format(font, percentage))
+                    top_4_fonts_types = dict(sorted(font_type_dict_.items(), key=lambda x: x[1], reverse=True)[:5])
+                    total_counts_types = sum(font_type_dict_.values())
+                    # print('total_counts_types', total_counts_types)
+                    # print('count',top_4_fonts_types)
+                    # exit()
+                    percentage_dict_types = {font: round((count / total_counts_types) * 100, 2) for font, count in
+                                             top_4_fonts_types.items()}
+                    length_of_percentage_dict_types = len(percentage_dict_types)
+                    # for font, percentage in percentage_dict_types.items():
+                    #     print("Percentage of {} compared to all fonts: {:.2f}%".format(font, percentage))
 
-                top_4_font_size_ = dict(sorted(font_size_dict_.items(), key=lambda x: x[1], reverse=True)[:5])
-                total_counts_size = sum(font_size_dict_.values())
+                    top_4_font_size_ = dict(sorted(font_size_dict_.items(), key=lambda x: x[1], reverse=True)[:5])
+                    total_counts_size = sum(font_size_dict_.values())
 
-                sum_greater_than_16 = sum(value for key, value in font_size_dict_.items() if float(key) >= 14)
-                percentage_greater_than_16 = round((sum_greater_than_16 / total_counts_size) * 100, 2)
+                    sum_greater_than_16 = sum(value for key, value in font_size_dict_.items() if float(key) >= 14)
+                    percentage_greater_than_16 = round((sum_greater_than_16 / total_counts_size) * 100, 2)
 
-                sum_less_than_16 = sum(value for key, value in font_size_dict_.items() if float(key) < 14)
-                percentage_less_than_16 = round((sum_less_than_16 / total_counts_size) * 100, 2)
+                    sum_less_than_16 = sum(value for key, value in font_size_dict_.items() if float(key) < 14)
+                    percentage_less_than_16 = round((sum_less_than_16 / total_counts_size) * 100, 2)
 
-                print('percentage_greater_than_16', percentage_greater_than_16)
-                print('percentage_less_than_16', percentage_less_than_16)
+                    print('percentage_greater_than_16', percentage_greater_than_16)
+                    print('percentage_less_than_16', percentage_less_than_16)
 
-                percentage_dict_size = {font: round((count / total_counts_size) * 100, 2) for font, count in
-                                        top_4_font_size_.items()}
-                length_of_percentage_dict_size = len(percentage_dict_size)
+                    percentage_dict_size = {font: round((count / total_counts_size) * 100, 2) for font, count in
+                                            top_4_font_size_.items()}
+                    length_of_percentage_dict_size = len(percentage_dict_size)
 
-                # for size, percentage in percentage_dict_size.items():
-                #     print("Percentage of {} compared to all sizes: {:.2f}%".format(size, percentage))
+                    # for size, percentage in percentage_dict_size.items():
+                    #     print("Percentage of {} compared to all sizes: {:.2f}%".format(size, percentage))
 
-                # resp = {"success": True,
-                #         "data": {"pdf name": str(filename),
-                #                  "no of images in pdf": str(count_images_),
-                #                  "no of urls": str(count_urls_),
-                #                  "no of pages in pdf": str(pdf_document_page_count),
-                #                  "font": dict_final_},
-                #         "errors": "None"}
-                # return resp
-                print('top_4_font_size_', top_4_font_size_)
-                print('percentage_dict_size', percentage_dict_size)
-                print('fina_header_count_', fina_header_count_)
-                print('fina_header_count_', fina_header_count_, "count_of_footers_", count_of_footers_)
+                    # resp = {"success": True,
+                    #         "data": {"pdf name": str(filename),
+                    #                  "no of images in pdf": str(count_images_),
+                    #                  "no of urls": str(count_urls_),
+                    #                  "no of pages in pdf": str(pdf_document_page_count),
+                    #                  "font": dict_final_},
+                    #         "errors": "None"}
+                    # return resp
+                    print('top_4_font_size_', top_4_font_size_)
+                    print('percentage_dict_size', percentage_dict_size)
+                    print('fina_header_count_', fina_header_count_)
+                    print('fina_header_count_', fina_header_count_, "count_of_footers_", count_of_footers_)
 
-                print('final_dic_for_access_', final_dic_for_access_)
+                    print('final_dic_for_access_', final_dic_for_access_)
 
-                pass_percentages = [fina_header_count_[0][0], count_of_footers_[0][0]]
-                fail_percentages = [fina_header_count_[1][0], count_of_footers_[1][0]]
+                    pass_percentages = [fina_header_count_[0][0], count_of_footers_[0][0]]
+                    fail_percentages = [fina_header_count_[1][0], count_of_footers_[1][0]]
 
-                overall_pass_average = round(sum(pass_percentages) / len(pass_percentages), 2)
-                overall_fail_average = round(sum(fail_percentages) / len(fail_percentages), 2)
+                    overall_pass_average = round(sum(pass_percentages) / len(pass_percentages), 2)
+                    overall_fail_average = round(sum(fail_percentages) / len(fail_percentages), 2)
 
-                item_path = os.path.join(images_path_of_pdf, process_id)
-                if os.path.isdir(item_path):
-                    shutil.rmtree(item_path)
+                    item_path = os.path.join(images_path_of_pdf, process_id)
+                    if os.path.isdir(item_path):
+                        shutil.rmtree(item_path)
 
-                print('top_colors_list', top_colors_list)
-                # return render_template("index.html", top_4_font_size_=top_4_font_size_,
-                #                        top_4_fonts_types=top_4_fonts_types, total_counts_size=total_counts_size,
-                #                        total_counts_types=total_counts_types, count_urls_=count_urls_final_,
-                #                        count_images_=count_images_, pdf_document_page_count=pdf_document_page_count,
-                #                        percentage_dict_types=percentage_dict_types,
-                #                        percentage_dict_size=percentage_dict_size,
-                #                        length_of_percentage_dict_types=length_of_percentage_dict_types,
-                #                        length_of_percentage_dict_size=length_of_percentage_dict_size,
-                #                        count_=count_, no_of_work=no_of_work, titles_for_headers=titles,
-                #                        fina_header_count_=fina_header_count_, count_of_footers_=count_of_footers_,
-                #                        table_count_=table_count_, final_list_of_rsa=final_list_of_rsa,
-                #                        final_dic_for_access_=final_dic_for_access_, top_colors_list=top_colors_list,
-                #                        percentage_greater_than_16=percentage_greater_than_16
-                #                        , percentage_less_than_16=percentage_less_than_16,
-                #                        overall_pass_average=overall_pass_average,
-                #                        overall_fail_average=overall_fail_average,
-                #                        percentage_with_captions=round(percentage_with_captions, 2),
-                #                        percentage_without_captions=round(percentage_without_captions, 2),
-                #                        captions_with_images=captions_with_images, process_id=process_id,
-                #                        meets_wcag_count=meets_wcag_count,
-                #                        does_not_meet_wcag_count=does_not_meet_wcag_count,
-                #                        meets_wcag_percentage=meets_wcag_percentage,
-                #                        does_not_meet_wcag_percentage=does_not_meet_wcag_percentage)
-                if count_urls_final_ == 0:
-                    percentages = [round(percentage_with_captions, 1), round(percentage_with_captions, 1),
-                                   round(fina_header_count_[0][0], 1), round(count_of_footers_[0][0], 1),
-                                   round(meets_wcag_percentage, 1), round(percentage_with_page_number, 1)]
-                else:
-                    try:
-                        percentages = [round(percentage_with_captions, 1), round(percentage_with_captions, 1),
-                                       round(fina_header_count_[0][0], 1), round(count_of_footers_[0][0], 1),
-                                       round(meets_wcag_percentage, 1), round(percentage_with_page_number, 1),
-                                       round(no_of_work['Number Of Urls Accessible'], 1)]
-                    except:
+                    print('top_colors_list', top_colors_list)
+                    # return render_template("index.html", top_4_font_size_=top_4_font_size_,
+                    #                        top_4_fonts_types=top_4_fonts_types, total_counts_size=total_counts_size,
+                    #                        total_counts_types=total_counts_types, count_urls_=count_urls_final_,
+                    #                        count_images_=count_images_, pdf_document_page_count=pdf_document_page_count,
+                    #                        percentage_dict_types=percentage_dict_types,
+                    #                        percentage_dict_size=percentage_dict_size,
+                    #                        length_of_percentage_dict_types=length_of_percentage_dict_types,
+                    #                        length_of_percentage_dict_size=length_of_percentage_dict_size,
+                    #                        count_=count_, no_of_work=no_of_work, titles_for_headers=titles,
+                    #                        fina_header_count_=fina_header_count_, count_of_footers_=count_of_footers_,
+                    #                        table_count_=table_count_, final_list_of_rsa=final_list_of_rsa,
+                    #                        final_dic_for_access_=final_dic_for_access_, top_colors_list=top_colors_list,
+                    #                        percentage_greater_than_16=percentage_greater_than_16
+                    #                        , percentage_less_than_16=percentage_less_than_16,
+                    #                        overall_pass_average=overall_pass_average,
+                    #                        overall_fail_average=overall_fail_average,
+                    #                        percentage_with_captions=round(percentage_with_captions, 2),
+                    #                        percentage_without_captions=round(percentage_without_captions, 2),
+                    #                        captions_with_images=captions_with_images, process_id=process_id,
+                    #                        meets_wcag_count=meets_wcag_count,
+                    #                        does_not_meet_wcag_count=does_not_meet_wcag_count,
+                    #                        meets_wcag_percentage=meets_wcag_percentage,
+                    #                        does_not_meet_wcag_percentage=does_not_meet_wcag_percentage)
+                    if count_urls_final_ == 0:
                         percentages = [round(percentage_with_captions, 1), round(percentage_with_captions, 1),
                                        round(fina_header_count_[0][0], 1), round(count_of_footers_[0][0], 1),
                                        round(meets_wcag_percentage, 1), round(percentage_with_page_number, 1)]
-                overall_percentage = round(sum(percentages) / len(percentages), 1)
-                remaining_percentage = round(100 - overall_percentage, 1)
+                    else:
+                        try:
+                            percentages = [round(percentage_with_captions, 1), round(percentage_with_captions, 1),
+                                           round(fina_header_count_[0][0], 1), round(count_of_footers_[0][0], 1),
+                                           round(meets_wcag_percentage, 1), round(percentage_with_page_number, 1),
+                                           round(no_of_work['Number Of Urls Accessible'], 1)]
+                        except:
+                            percentages = [round(percentage_with_captions, 1), round(percentage_with_captions, 1),
+                                           round(fina_header_count_[0][0], 1), round(count_of_footers_[0][0], 1),
+                                           round(meets_wcag_percentage, 1), round(percentage_with_page_number, 1)]
+                    overall_percentage = round(sum(percentages) / len(percentages), 1)
+                    remaining_percentage = round(100 - overall_percentage, 1)
+                    final_data_analyze_pdf_colorblind, combined_data_analyze_pdf_colorblind = future.result()
+                    overall_percentages_colorblind = calculate_overall_percentage(combined_data_analyze_pdf_colorblind)
+
+                    with open(os.path.join(pdf_docs_json, process_id, "result_colorblind.json"), "w") as file:
+                        json.dump(final_data_analyze_pdf_colorblind, file)
+                        file.close()
+                    final_json_['overall_percentages_colorblind']=overall_percentages_colorblind
+                    with open(os.path.join(pdf_docs_json, process_id, "result.json"), "w") as file:
+                        json.dump(final_json_, file)
+                        file.close()
+                    # print('final_data_analyze_pdf_colorblind, combined_data_analyze_pdf_colorblind',final_data_analyze_pdf_colorblind, combined_data_analyze_pdf_colorblind)
+                    # exit()
+                    elapsed_time = time.time() - start_time
+                    # print(f"analyze_pdf_colorblind took {elapsed_time:.2f} seconds.")
                 return render_template("pdf_analysis_latest.html", top_4_font_size_=top_4_font_size_,
                                        top_4_fonts_types=top_4_fonts_types, total_counts_size=total_counts_size,
                                        total_counts_types=total_counts_types, count_urls_=count_urls_final_,
@@ -1119,7 +1147,8 @@ def final_result(process_id):
                                        , percentage_with_page_number=percentage_with_page_number,
                                        summarized_text=summarized_text,
                                        filename=filename, overall_percentage=overall_percentage,
-                                       remaining_percentage=remaining_percentage)
+                                       remaining_percentage=remaining_percentage,elapsed_time=elapsed_time,
+                                       final_data_analyze_pdf_colorblind=final_data_analyze_pdf_colorblind,overall_percentages_colorblind=overall_percentages_colorblind)
             else:
                 resp = jsonify({"success": False,
                                 "data": {"pdf name": "None"},
@@ -1144,6 +1173,13 @@ def final_result(process_id):
                 with open(os.path.join(pdf_docs_json, process_id, "result_imagescolor.json"), "r") as file:
                     top_colors_list = json.load(file)
                     file.close()
+
+                with open(os.path.join(pdf_docs_json, process_id, "result_colorblind.json"), "r") as file:
+                    final_data_analyze_pdf_colorblind = json.load(file)
+                    file.close()
+                # with open(os.path.join(pdf_docs_json, process_id, "result_colorblind.json"), "w") as file:
+                #     json.dump(final_data_analyze_pdf_colorblind, file)
+                #     file.close()
 
                 count_urls_ = finl_dd['count_urls_']
                 no_of_work = finl_dd['no_of_work']
@@ -1171,6 +1207,7 @@ def final_result(process_id):
                 pages_without_page_number = finl_dd['pages_without_page_number']
                 percentage_without_page_number = finl_dd['percentage_without_page_number']
                 percentage_with_page_number = finl_dd['percentage_with_page_number']
+                overall_percentages_colorblind = finl_dd['overall_percentages_colorblind']
 
                 titles = finl_dd["titles"]
                 No_headers_Pages = finl_dd["No_headers_Pages"]
@@ -1209,13 +1246,18 @@ def final_result(process_id):
                                "meets_wcag_percentage": meets_wcag_percentage,
                                "does_not_meet_wcag_percentage": does_not_meet_wcag_percentage,
                                "summarized_text": summarized_text,
-                               "filename": filename}
+                               "filename": filename,
+                               "overall_percentages_colorblind":overall_percentages_colorblind}
                 pdf_docs_json = APP.config["PDF_RESULT_JSON"]
                 if not os.path.exists(os.path.join(pdf_docs_json, process_id)):
                     os.mkdir(os.path.join(pdf_docs_json, process_id))
                 with open(os.path.join(pdf_docs_json, process_id, "result.json"), "w") as file:
                     json.dump(final_json_, file)
                     file.close()
+                with open(os.path.join(pdf_docs_json, process_id, "result_colorblind.json"), "w") as file:
+                    json.dump(final_data_analyze_pdf_colorblind, file)
+                    file.close()
+
                 for i in dict_final_:
                     for j in dict_final_[i]:
                         for k in dict_final_[i][j]:
@@ -1337,7 +1379,8 @@ def final_result(process_id):
                                        , percentage_with_page_number=percentage_with_page_number,
                                        summarized_text=summarized_text,
                                        filename=filename, overall_percentage=overall_percentage,
-                                       remaining_percentage=remaining_percentage)
+                                       remaining_percentage=remaining_percentage,final_data_analyze_pdf_colorblind=final_data_analyze_pdf_colorblind,
+                                       overall_percentages_colorblind=overall_percentages_colorblind)
             else:
                 resp = jsonify({"success": False,
                                 "data": {"pdf name": "None"},
