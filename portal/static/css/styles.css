@@ -256,7 +256,7 @@
         .btn:hover .generate-report-button P {
           color: red;
         }
-        
+
 		.generate-report-button {
 			display: flex;
 			align-items: center;

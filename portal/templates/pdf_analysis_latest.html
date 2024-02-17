@@ -22,9 +22,7 @@
 	<div class="main">
 		<div class="nav">
 			<div class="logo">
-			<a href="/PDFAnalyzerX/">
-			<svg class="logo_svg" width="200" height="55" viewBox="0 0 262 76" fill="none" 
-				xmlns="http://www.w3.org/2000/svg">
+			<a href="/PDFAnalyzerX/"><svg class="logo_svg" width="200" height="55" viewBox="0 0 262 76" fill="none" xmlns="http://www.w3.org/2000/svg">
 				<path
 					d="M48.8891 1.93934L48.4497 1.5H47.8284H15C10.8579 1.5 7.5 4.85787 7.5 9V57C7.5 61.142 10.8578 64.5 15 64.5H55C59.142 64.5 62.5 61.142 62.5 57V16.1716V15.5502L62.0607 15.1109L48.8891 1.93934Z"
 					stroke="white" stroke-width="3" />
@@ -182,6 +180,13 @@
 					<h5 id="contrast_score" class="acc-grade">Good</h5>
 				  <!-- <h2>Kristina Zasiadko</h2>
 				  <span>Bank Manager</span> -->
+				</li>
+				<li class="card">
+					<h4 class="acc-score-title">Page Numbers</h4>
+					<canvas id="card_chart6" class="acc_chart1"></canvas>
+					<h5 id="page_score" class="acc-grade">Good</h5>
+				  <!-- <h2>Donald Horton</h2>
+				  <span>App Designer</span> -->
 				</li>
 			  </ul>
 			  <i id="right" class="fa-solid fa-angle-right"></i>
@@ -1333,6 +1338,14 @@
 	if({{count_of_footers_[0][0]}} == 0 && {{count_of_footers_[1][0]}} == 0){
 		count_of_footers = 100;
 	}
+
+	var count_of_footers = {{ count_of_footers_[1][0] }};
+	//check if both the values are zero
+	if({{count_of_footers_[0][0]}} == 0 && {{count_of_footers_[1][0]}} == 0){
+		count_of_footers = 100;
+	}
+
+
 		const CardDataLabels4 = {
 			id: 'CardDataLabels4',
 			afterDatasetsDraw(chart, args, options) {
@@ -1393,6 +1406,13 @@
 	var h5Element = document.getElementById('contrast_score'); // Replace 'your_h5_element_id' with the actual ID of your h5 element
 	h5Element.style.color = backgroundColor5;
 	h5Element.textContent = content;
+	var does_not_meet_wcag_percentage = {{ does_not_meet_wcag_percentage }};
+	//check if both the values are zero
+	if({{meets_wcag_percentage}} == 0 && {{does_not_meet_wcag_percentage}} == 0){
+		does_not_meet_wcag_percentage = 100;
+	}
+
+
 	var does_not_meet_wcag_percentage = {{ does_not_meet_wcag_percentage }};
 	//check if both the values are zero
 	if({{meets_wcag_percentage}} == 0 && {{does_not_meet_wcag_percentage}} == 0){
@@ -1559,8 +1579,10 @@
 		});
 
 	</script>
+
 	<script>
 		const ctx1 = document.getElementById('links_chart').getContext('2d');
+
 		var data_for_no_of_work = {{ no_of_work| tojson | safe}};
 		var datasets_for_no_of_work = [];
 		var labels_data_for_no_of_work = [];
@@ -1605,6 +1627,7 @@
 			},
 			plugins: [ChartDataLabels],
 		});
+
 	</script>
 	<script>
 		const ctx2 = document.getElementById('image_cap').getContext('2d');
@@ -1738,6 +1761,7 @@
 			},
 			plugins: [ChartDataLabels],
 		});
+
 	</script>
 	<script>
 		const ctx5 = document.getElementById('page_contrast').getContext('2d');
@@ -1821,6 +1845,7 @@
 			},
 			plugins: [ChartDataLabels],
 		});
+
 	</script>
 	<script>
 		const ctx7 = document.getElementById('color').getContext('2d');
@@ -1872,77 +1897,125 @@
 		});
 		</script>
 	<script>
-    const ctx8 = document.getElementById('color_blindness').getContext('2d');
+		const ctx8 = document.getElementById('color_blindness').getContext('2d');
 
-    const categorized_data = {{final_data_analyze_pdf_colorblind| tojson | safe}};
-	let consolidatedData = {};
-	const allKeys = Object.keys(categorized_data.Monochromacy); // Assuming all categories have the same keys
-	allKeys.forEach(key => {
-		consolidatedData[key] = [['Monochromacy', 'Protonopia/Deuteranopia', 'Tritanopia'], []];
-	});
-	Object.entries(categorized_data).forEach(([category, values]) => {
-		Object.entries(values).forEach(([key, value]) => {
-			consolidatedData[key][1].push(value);
+		const labels_data_for_myChartBarSection7 = ['Category A', 'Category B', 'Category C', 'Category D', 'Category E'];
+		const datasets_for_myChartBarSection7 = [300, 200, 400, 150, 250];
+
+		new Chart(ctx8, {
+			type: 'bar',
+			data: {
+				labels: labels_data_for_myChartBarSection7,
+				datasets: [{
+					label: 'of Votes',
+					backgroundColor:'#8f57eb',
+					data: datasets_for_myChartBarSection7,
+					borderWidth: 1
+				},
+				{
+					label: 'of Votes',
+					backgroundColor: '#ecadd9',
+					data: datasets_for_myChartBarSection7,
+					borderWidth: 1
+				},
+				{
+					label: 'of Votes',
+					backgroundColor: '#fa997d',
+					data: datasets_for_myChartBarSection7,
+					borderWidth: 1
+				}]
+			},
+			options: {
+				plugins: {
+					legend: {
+						position: 'top',
+						align: 'center',
+						labels: {
+							usePointStyle: true,
+						}
+					},
+					datalabels: {
+						formatter: (value, ctx) => {
+							let sum = 0;
+							let dataArr = ctx.chart.data.datasets[0].data;
+							dataArr.map(data => {
+								sum += data;
+							});
+							let percentage = (value * 100 / sum).toFixed(2) + "%";
+							return percentage;
+						},
+						color: '#fff',
+					}
+				},
+				maintainAspectRatio: false,
+				animation: {
+					duration: 2000,
+					easing: 'easeInOutQuart',
+				},
+			},
+
 		});
-	});
-<!--	console.log(consolidatedData['0'][0][0])-->
-	const data_1_2=[consolidatedData['0-0.5'][1][0],consolidatedData['0.5-1'][1][0],consolidatedData['1+'][1][0]];
-    const labels_data_for_myChartBarSection7 = ['Category A', 'Category B', 'Category C', 'Category D', 'Category E'];
-    const datasets_for_myChartBarSection7 = [300, 200, 400, 150, 250];
-    new Chart(ctx8, {
-        type: 'bar',
-        data: {
-            labels: ['0-0.5','0.5-1','1+'],
-            datasets: [{
-                label: 'Monochromacy',
-                backgroundColor:'#8f57eb',
-                data: data_1_2,
-                borderWidth: 1
-            },
-            {
-                label: 'Protonopia/Deuteranopia',
-                backgroundColor: '#ecadd9',
-                data: [consolidatedData['0-0.5'][1][1],consolidatedData['0.5-1'][1][1],consolidatedData['1+'][1][1]],
-                borderWidth: 1
-            },
-            {
-                label: 'Tritanopia',
-                backgroundColor: '#fa997d',
-                data: [consolidatedData['0-0.5'][1][2],consolidatedData['0.5-1'][1][2],consolidatedData['1+'][1][2]],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            plugins: {
-                legend: {
-                    position: 'top',
-                    align: 'center',
-                    labels: {
-                        usePointStyle: true,
-                    }
-                },
-                datalabels: {
-                    formatter: (value, ctx) => {
-                        let sum = 0;
-                        let dataArr = ctx.chart.data.datasets[0].data;
-                        dataArr.map(data => {
-                            sum += data;
-                        });
-                        let percentage = (value * 100 / sum).toFixed(2) + "%";
-                        return percentage;
-                    },
-                    color: '#fff',
-                }
-            },
-            maintainAspectRatio: false,
-            animation: {
-                duration: 2000,
-                easing: 'easeInOutQuart',
-            },
-        },
+		</script>
+	<script>
+		const ctx9 = document.getElementById('overall_color_blindness').getContext('2d');
 
-    });
-</script>
+		const labels_data_for_myChartBarSection9 = ['Category A', 'Category B', 'Category C', 'Category D', 'Category E'];
+		const datasets_for_myChartBarSection9 = [300, 200, 400, 150, 250];
+
+		new Chart(ctx9, {
+			type: 'bar',
+			data: {
+				labels: labels_data_for_myChartBarSection9,
+				datasets: [{
+					label: 'of Votes',
+					backgroundColor:'#8f57eb',
+					data: datasets_for_myChartBarSection9,
+					borderWidth: 1
+				},
+				{
+					label: 'of Votes',
+					backgroundColor: '#ecadd9',
+					data: datasets_for_myChartBarSection9,
+					borderWidth: 1
+				},
+				{
+					label: 'of Votes',
+					backgroundColor: '#fa997d',
+					data: datasets_for_myChartBarSection9,
+					borderWidth: 1
+				}]
+			},
+			options: {
+				plugins: {
+					legend: {
+						position: 'top',
+						align: 'center',
+						labels: {
+							usePointStyle: true,
+						}
+					},
+					datalabels: {
+						formatter: (value, ctx) => {
+							let sum = 0;
+							let dataArr = ctx.chart.data.datasets[0].data;
+							dataArr.map(data => {
+								sum += data;
+							});
+							let percentage = (value * 100 / sum).toFixed(2) + "%";
+							return percentage;
+						},
+						color: '#fff',
+					}
+				},
+				maintainAspectRatio: false,
+				animation: {
+					duration: 2000,
+					easing: 'easeInOutQuart',
+				},
+			},
+
+		});
+		</script>
 	<script>
 		const wrapper = document.querySelector(".wrapper");
 		const carousel = document.querySelector(".carousel");
@@ -1995,6 +2068,7 @@
 			isDragging = false;
 			carousel.classList.remove("dragging");
 		}
+
 		const infiniteScroll = () => {
 			// If the carousel is at the beginning, scroll to the end
 			if(carousel.scrollLeft === 0) {
@@ -2020,6 +2094,7 @@
 			timeoutId = setTimeout(() => carousel.scrollLeft += firstCardWidth, 2500);
 		}
 		autoPlay();
+
 		carousel.addEventListener("mousedown", dragStart);
 		carousel.addEventListener("mousemove", dragging);
 		document.addEventListener("mouseup", dragStop);

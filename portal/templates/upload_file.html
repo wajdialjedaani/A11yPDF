@@ -241,6 +241,8 @@
         .then(data => {
             const random_numbers = data['random_numbers'];
             document.getElementById("multiform").action = '/PDFAnalyzerX/result/' + random_numbers;
+            // Hide loader
+             hideLoader();
             document.getElementById("multiform").submit();
 <!--            // Hide loader-->
 <!--             hideLoader();-->
