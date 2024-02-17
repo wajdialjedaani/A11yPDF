@@ -22,7 +22,9 @@
 	<div class="main">
 		<div class="nav">
 			<div class="logo">
-			<a href="/PDFAnalyzerX/"><svg class="logo_svg" width="200" height="55" viewBox="0 0 262 76" fill="none" xmlns="http://www.w3.org/2000/svg">
+			<a href="/PDFAnalyzerX/">
+			<svg class="logo_svg" width="200" height="55" viewBox="0 0 262 76" fill="none" 
+				xmlns="http://www.w3.org/2000/svg">
 				<path
 					d="M48.8891 1.93934L48.4497 1.5H47.8284H15C10.8579 1.5 7.5 4.85787 7.5 9V57C7.5 61.142 10.8578 64.5 15 64.5H55C59.142 64.5 62.5 61.142 62.5 57V16.1716V15.5502L62.0607 15.1109L48.8891 1.93934Z"
 					stroke="white" stroke-width="3" />
@@ -140,20 +142,26 @@
 			  <i id="left" class="fa-solid fa-angle-left"></i>
 			  <ul class="carousel">
 				<li class="card">
-					<h4 class="acc-score-title">Font Size</h4>
+					<h4 class="acc-score-title">Monochromacy</h4>
 					<canvas id="card_chart1" class="acc_chart1"></canvas>
 					<h5 id="font_score" class="acc-grade">Good</h5>
 				  <!-- <h2>Blanche Pearson</h2>
 				  <span>Sales Manager</span> -->
 				</li>
 				  <li class="card">
-					<h4 class="acc-score-title">Image Caption</h4>
+					<h4 class="acc-score-title">Protonopia</h4>
 					<canvas id="card_chart2" class="acc_chart1"></canvas>
 					<h5 id="image_score" class="acc-grade">Good</h5>
 				  <!-- <h2>Blanche Pearson</h2>
 				  <span>Sales Manager</span> -->
 				</li>
-
+				<li class="card">
+                <h4 class="acc-score-title">Tritanopia</h4>
+                <canvas id="card_chart6" class="acc_chart1"></canvas>
+                <h5 id="page_score" class="acc-grade">Good</h5>
+                <!-- <h2>Donald Horton</h2>
+                <span>App Designer</span> -->
+            </li>
 				<li class="card">
 					<h4 class="acc-score-title">Header</h4>
 					<canvas id="card_chart3" class="acc_chart1"></canvas>
@@ -175,13 +183,6 @@
 				  <!-- <h2>Kristina Zasiadko</h2>
 				  <span>Bank Manager</span> -->
 				</li>
-				<li class="card">
-					<h4 class="acc-score-title">Page Numbers</h4>
-					<canvas id="card_chart6" class="acc_chart1"></canvas>
-					<h5 id="page_score" class="acc-grade">Good</h5>
-				  <!-- <h2>Donald Horton</h2>
-				  <span>App Designer</span> -->
-				</li>
 			  </ul>
 			  <i id="right" class="fa-solid fa-angle-right"></i>
 			</div>
@@ -190,11 +191,11 @@
 		<div class="indivudual-charts">
 			<div class="box">
 				<div class="row  mt-xl-0 mt-4">
-					<div style="width: 75%;">
+					<div style="width: 70%;">
 							<h4 class="card-title">Fonts Size Analysis</h4>
 					</div>
 					<div>
-						<span>Accessibility</span>
+						<span>Accessibility Score</span>
 						<canvas id="doughnut1" class="doughnut-chart"></canvas>
 					</div>
 				</div>
@@ -221,11 +222,11 @@
 							<a href="#" title="Close" class="modal-close">X</a>
 							<!-- <h1>Fonts Family Analysis</h1> -->
 							<div class="row  mt-xl-0 mt-4">
-								<div style="width: 75%;">
+								<div style="width: 70%;">
 									<h4 class="card-title">Fonts Family Analysis</h4>
 								</div>
 								<div>
-									<span>Accessibility</span>
+									<span>Accessibility Score</span>
 									<canvas id="" class="doughnut-chart"></canvas>
 								</div>
 							</div>
@@ -251,12 +252,12 @@
 					</div>
 				<div class="box">
 					<div class="row  mt-xl-0 mt-4">
-						<div style="width: 75%;">
+						<div style="width: 70%;">
 							<h4 class="card-title">Links</h4>
 						</div>
 						{% if count_urls_ > 0 %}
 						<div>
-							<span>Accessibility</span>
+							<span>Accessibility Score</span>
 							<canvas id="doughnut2" class="doughnut-chart"></canvas>
 						</div>
 						{% else %}
@@ -291,11 +292,11 @@
 				</div>
 				<div class="box">
 					<div class="row  mt-xl-0 mt-4">
-						<div style="width: 75%;">
+						<div style="width: 70%;">
 							<h4 class="card-title">Image Caption</h4>
 						</div>
 						<div>
-							<span>Accessibility</span>
+							<span>Accessibility Score</span>
 							<canvas id="doughnut3" class="doughnut-chart"></canvas>
 						</div>
 					</div>
@@ -319,11 +320,11 @@
 				</div>
 				<div class="box">
 					<div class="row  mt-xl-0 mt-4">
-						<div style="width: 75%;">
+						<div style="width: 70%;">
 							<h4 class="card-title">Header</h4>
 						</div>
 						<div>
-							<span>Accessibility</span>
+							<span>Accessibility Score</span>
 							<canvas id="doughnut4" class="doughnut-chart"></canvas>
 						</div>
 				</div>
@@ -347,11 +348,11 @@
 				</div>
 				<div class="box">
 					<div class="row  mt-xl-0 mt-4">
-						<div style="width: 75%;">
+						<div style="width: 70%;">
 							<h4 class="card-title">Footer</h4>
 						</div>
 						<div>
-							<span>Accessibility</span>
+							<span>Accessibility< Score</span>
 							<canvas id="doughnut5" class="doughnut-chart"></canvas>
 						</div>
 					</div>
@@ -380,11 +381,11 @@
 				</div>
 				<div class="box">
 					<div class="row  mt-xl-0 mt-4">
-						<div style="width: 75%;">
+						<div style="width: 70%;">
 							<h4 class="card-title">Page Contrast</h4>
 						</div>
 						<div>
-						<span>Accessibility</span>
+						<span>Accessibility Score</span>
 							<canvas id="doughnut6" class="doughnut-chart"></canvas>
 						</div>
 					</div>
@@ -408,11 +409,11 @@
 				</div>
 				<div class="box">
 					<div class="row  mt-xl-0 mt-4">
-						<div style="width: 75%;">
+						<div style="width: 70%;">
 							<h4 class="card-title">Page Numbers</h4>
 						</div>
 						<div>
-							<span>Accessibility</span>
+							<span>Accessibility Score</span>
 							<canvas id="doughnut7" class="doughnut-chart"></canvas>
 						</div>
 					</div>
@@ -436,7 +437,7 @@
 				</div>
 				<div class="box">
 					<div class="row  mt-xl-0 mt-4">
-						<div style="width: 75%;">
+						<div style="width: 70%;">
 							<h4 class="card-title">Fonts Family Analysis</h4>
 						</div>
 						<div>
@@ -643,7 +644,7 @@
 		backgroundColor = 'green'; // Red background
 		 content = 'Good';
 	} else if (percentage >= 40 && percentage <= 60) {
-		backgroundColor = 'orange'; // Orange background
+		backgroundColor = '#e3700e'; // Orange background
 		 content = 'Average';
 	} else {
 		backgroundColor = '#E33147'; // Green background
@@ -655,8 +656,6 @@
 	h5Element.style.color = backgroundColor;
 	h5Element.textContent = content;
 
-
-
 		const ChartDataLabels_acc = {
 			id: 'ChartDataLabels',
 			afterDatasetsDraw(chart, args, options) {
@@ -667,7 +666,7 @@
 				ctx.font = 'bolder 44px Arial';
 				ctx.fillStyle = backgroundColor;
 				ctx.textAlign = 'center';
-				ctx.fillText('{{overall_percentage}}%', 130, 140);
+				ctx.fillText('{{overall_percentage}}%', 140, 150);
 			}
 		};
 
@@ -727,7 +726,7 @@
 				ctx.font = 'bolder 22px Arial';
 				ctx.fillStyle = backgroundColor;
 				ctx.textAlign = 'center';
-				ctx.fillText('{{percentage_greater_than_16}}%', 45, 50);
+				ctx.fillText('{{percentage_greater_than_16}}%', 55, 60);
 			}
 		};
 
@@ -785,7 +784,7 @@
 				ctx.font = 'bolder 22px Arial';
 				ctx.fillStyle = backgroundColor;
 				ctx.textAlign = 'center';
-				ctx.fillText('{{no_of_work['Number Of Urls Accessible']}}%', 45, 50);
+				ctx.fillText('{{no_of_work['Number Of Urls Accessible']}}%', 55, 60);
 			}
 		};
 
@@ -844,7 +843,7 @@
 				ctx.font = 'bolder 22px Arial';
 				ctx.fillStyle = backgroundColor;
 				ctx.textAlign = 'center';
-				ctx.fillText('{{percentage_with_captions}}%', 45, 50);
+				ctx.fillText('{{percentage_with_captions}}%', 55, 60);
 			}
 		};
 
@@ -903,7 +902,7 @@
 				ctx.font = 'bolder 22px Arial';
 				ctx.fillStyle = backgroundColor;
 				ctx.textAlign = 'center';
-				ctx.fillText('{{ fina_header_count_[0][0] }}%', 45, 50);
+				ctx.fillText('{{ fina_header_count_[0][0] }}%', 55, 60);
 			}
 		};
 
@@ -963,7 +962,7 @@
 				ctx.font = 'bolder 22px Arial';
 				ctx.fillStyle = backgroundColor;
 				ctx.textAlign = 'center';
-				ctx.fillText('{{count_of_footers_[0][0]}}%', 45, 50);
+				ctx.fillText('{{count_of_footers_[0][0]}}%', 55, 60);
 			}
 		};
 
@@ -1022,7 +1021,7 @@
 				ctx.font = 'bolder 22px Arial';
 				ctx.fillStyle = backgroundColor;
 				ctx.textAlign = 'center';
-				ctx.fillText('{{percentage_with_page_number}}%', 45, 50);
+				ctx.fillText('{{percentage_with_page_number}}%', 55, 60);
 			}
 		};
 
@@ -1052,60 +1051,6 @@
 			plugins: [ChartDataLabels7],
 		});
 	</script>
-	<script>
-		// Determine background color based on percentage
-
-		percentage = 45;
-		var backgroundColor = '';
-		if (percentage > 60) {
-			backgroundColor = 'green'; // Red background
-		} else if (percentage >= 40 && percentage <= 60) {
-			backgroundColor = 'orange'; // Orange background
-		} else {
-			backgroundColor = '#E33147'; // Green background
-		}
-
-		const ChartDataLabels8 = {
-			id: 'ChartDataLabels',
-			afterDatasetsDraw(chart, args, options) {
-				const { ctx, chartArea: { left, right, top, bottom, width, height } } = chart;
-				ctx.save();
-<!--				console.log(top);-->
-
-				ctx.font = 'bolder 22px Arial';
-				ctx.fillStyle = backgroundColor;
-				ctx.textAlign = 'center';
-				ctx.fillText('', 45, 50);
-			}
-		};
-
-		var ctxDough = document.getElementById('doughnut8').getContext('2d');
-		var myChart = new Chart(ctxDough, {
-			type: 'doughnut',
-			data: {
-				labels: [''], // No labels needed for a single segment
-				datasets: [{
-					data: [], // 84% filled, 16% empty
-					weight: 10,
-					backgroundColor: [backgroundColor, '#d7d9db'],
-					borderColor: 'white',
-					borderWidth: 0
-				}]
-			},
-			options: {
-				cutout: 30, // Adjust cutout size as needed
-				rotation: -90, // Start at the top
-				circumference: 360, // Adjust to match image proportions
-				plugins: {
-					legend: {
-						display: false,
-					}
-				},
-			}, // Add a comma here
-			plugins: [ChartDataLabels8],
-		});
-	</script>
-
 <script>
 	// Determine background color based on percentage
 
@@ -1135,7 +1080,7 @@
 			ctx.font = 'bolder 22px Arial';
 			ctx.fillStyle = backgroundColor;
 			ctx.textAlign = 'center';
-			ctx.fillText('{{meets_wcag_percentage}}%', 45, 50);
+			ctx.fillText('{{meets_wcag_percentage}}%', 55, 60);
 		}
 	};
 
@@ -1165,35 +1110,32 @@
 		plugins: [ChartDataLabels6],
 	});
 </script>
-
-
 	<script>
-	// Determine background color based on percentage
-
-	percentage = {{percentage_greater_than_16}};
-	var backgroundColor1 = '';
-	if (percentage > 60) {
-		backgroundColor1 = 'green'; // Red background
-		 content = 'Good';
-	} else if (percentage >= 40 && percentage <= 60) {
-		backgroundColor1 = 'orange'; // Orange background
-		 content = 'Average';
-	} else {
-		backgroundColor1 = '#E33147'; // Green background
-		 content = 'Poor';
-	}
+   // Determine background color based on percentage
+    percentage = {{overall_percentages_colorblind['Monochromacy']['Actual']}};
+    var backgroundColor1 = '';
+    if (percentage > 60) {
+        backgroundColor1 = 'green'; // Red background
+         content = 'Good';
+    } else if (percentage >= 40 && percentage <= 60) {
+        backgroundColor1 = '#e3700e'; // Orange background
+         content = 'Average';
+    } else {
+        backgroundColor1 = '#E33147'; // Green background
+         content = 'bad';
+    }
 
 	// Set the background color and content for the h5 element
 	var h5Element = document.getElementById('font_score'); // Replace 'your_h5_element_id' with the actual ID of your h5 element
 	h5Element.style.color = backgroundColor1;
 	h5Element.textContent = content;
 
-	var percentage_less_than_16 = {{percentage_less_than_16}};
-	//check if both the values are zero
-	if({{percentage_greater_than_16}} == 0 && {{percentage_less_than_16}} == 0){
-		percentage_less_than_16 = 100;
-	}
 
+	var monochromacy_remaining = {{overall_percentages_colorblind['Monochromacy']['Remaining']}};
+	//check if both the values are zero
+	if({{overall_percentages_colorblind['Monochromacy']['Actual']}} == 0 && {{overall_percentages_colorblind['Monochromacy']['Remaining']}} == 0){
+		monochromacy_remaining = 100;
+	}
 		const CardDataLabels1 = {
 			id: 'CardDataLabels1',
 			afterDatasetsDraw(chart, args, options) {
@@ -1204,7 +1146,7 @@
 				ctx.font = 'bolder 45px Arial';
 				ctx.fillStyle = backgroundColor1;
 				ctx.textAlign = 'center';
-				ctx.fillText('{{percentage_greater_than_16}}%', 100, 115);
+				ctx.fillText('{{overall_percentages_colorblind['Monochromacy']['Actual']}}%', 100, 115);
 			}
 		};
 
@@ -1214,7 +1156,7 @@
 			data: {
 				labels: [''], // No labels needed for a single segment
 				datasets: [{
-					data: [{{percentage_greater_than_16}}, percentage_less_than_16], // 84% filled, 16% empty
+					data: [{{overall_percentages_colorblind['Monochromacy']['Actual']}}, monochromacy_remaining], // 84% filled, 16% empty
 					weight: 10,
 					backgroundColor: [backgroundColor1, '#d7d9db'],
 					borderColor: 'white',
@@ -1237,13 +1179,13 @@
 	<script>
 	// Determine background color based on percentage
 
-	percentage = {{percentage_with_captions}};
+	percentage = {{overall_percentages_colorblind['Protonopia/Deuteranopia']['Actual']}};
 	var backgroundColor2 = '';
 	if (percentage > 60) {
 		backgroundColor2 = 'green'; // Red background
 		 content = 'Good';
 	} else if (percentage >= 40 && percentage <= 60) {
-		backgroundColor2 = 'orange'; // Orange background
+		backgroundColor2 = '#e3700e'; // Orange background
 		 content = 'Average';
 	} else {
 		backgroundColor2 = '#E33147'; // Green background
@@ -1255,13 +1197,11 @@
 	h5Element.style.color = backgroundColor2;
 	h5Element.textContent = content;
 
-
-	var percentage_without_captions = {{percentage_without_captions}};
+	var Protonopia_Remaining = {{overall_percentages_colorblind['Protonopia/Deuteranopia']['Remaining']}};
 	//check if both the values are zero
-	if({{percentage_with_captions}} == 0 && {{percentage_without_captions}} == 0){
-		percentage_without_captions = 100;
+	if({{overall_percentages_colorblind['Protonopia/Deuteranopia']['Actual']}} == 0 && {{overall_percentages_colorblind['Protonopia/Deuteranopia']['Remaining']}} == 0){
+		Protonopia_Remaining = 100;
 	}
-
 		const CardDataLabels2 = {
 			id: 'CardDataLabels2',
 			afterDatasetsDraw(chart, args, options) {
@@ -1272,7 +1212,7 @@
 				ctx.font = 'bolder 45px Arial';
 				ctx.fillStyle = backgroundColor2;
 				ctx.textAlign = 'center';
-				ctx.fillText('{{percentage_with_captions}}%', 100, 115);
+				ctx.fillText('{{overall_percentages_colorblind['Protonopia/Deuteranopia']['Actual']}}%', 100, 115);
 			}
 		};
 
@@ -1284,7 +1224,7 @@
 			data: {
 				labels: [''], // No labels needed for a single segment
 				datasets: [{
-					data: [{{percentage_with_captions}}, percentage_without_captions], // 84% filled, 16% empty
+					data: [{{overall_percentages_colorblind['Protonopia/Deuteranopia']['Actual']}}, Protonopia_Remaining], // 84% filled, 16% empty
 					weight: 10,
 					backgroundColor: [backgroundColor2, '#d7d9db'],
 					borderColor: 'white',
@@ -1307,38 +1247,33 @@
 
 	<script>
 			// Determine background color based on percentage
-
 		percentage = {{ fina_header_count_[0][0] }};
 		var backgroundColor3 = '';
 		if (percentage > 60) {
 		backgroundColor3 = 'green'; // Red background
 		 content = 'Good';
 	} else if (percentage >= 40 && percentage <= 60) {
-		backgroundColor3 = 'orange'; // Orange background
+		backgroundColor3 = '#e3700e'; // Orange background
 		 content = 'Average';
 	} else {
 		backgroundColor3 = '#E33147'; // Green background
 		 content = 'Poor';
 	}
-
 	// Set the background color and content for the h5 element
 	var h5Element = document.getElementById('header_score'); // Replace 'your_h5_element_id' with the actual ID of your h5 element
 	h5Element.style.color = backgroundColor3;
 	h5Element.textContent = content;
-
 	var fina_header_count = {{ fina_header_count_[1][0] }};
 	//check if both the values are zero
 	if({{fina_header_count_[0][0]}} == 0 && {{fina_header_count_[1][0]}} == 0){
 		fina_header_count = 100;
 	}
-
 		const CardDataLabels3 = {
 			id: 'CardDataLabels3',
 			afterDatasetsDraw(chart, args, options) {
 				const { ctx, chartArea: { left, right, top, bottom, width, height } } = chart;
 				ctx.save();
 <!--				console.log(top);-->
-
 				ctx.font = 'bolder 45px Arial';
 				ctx.fillStyle = backgroundColor3;
 				ctx.textAlign = 'center';
@@ -1381,7 +1316,7 @@
 		backgroundColor4 = 'green'; // Red background
 		 content = 'Good';
 	} else if (percentage >= 40 && percentage <= 60) {
-		backgroundColor4 = 'orange'; // Orange background
+		backgroundColor4 = '#e3700e'; // Orange background
 		 content = 'Average';
 	} else {
 		backgroundColor4 = '#E33147'; // Green background
@@ -1398,8 +1333,6 @@
 	if({{count_of_footers_[0][0]}} == 0 && {{count_of_footers_[1][0]}} == 0){
 		count_of_footers = 100;
 	}
-
-
 		const CardDataLabels4 = {
 			id: 'CardDataLabels4',
 			afterDatasetsDraw(chart, args, options) {
@@ -1449,7 +1382,7 @@
 		backgroundColor5 = 'green'; // Red background
 		 content = 'Good';
 	} else if (percentage >= 40 && percentage <= 60) {
-		backgroundColor5 = 'orange'; // Orange background
+		backgroundColor5 = '#e3700e'; // Orange background
 		 content = 'Average';
 	} else {
 		backgroundColor5 = '#E33147'; // Green background
@@ -1460,7 +1393,6 @@
 	var h5Element = document.getElementById('contrast_score'); // Replace 'your_h5_element_id' with the actual ID of your h5 element
 	h5Element.style.color = backgroundColor5;
 	h5Element.textContent = content;
-
 	var does_not_meet_wcag_percentage = {{ does_not_meet_wcag_percentage }};
 	//check if both the values are zero
 	if({{meets_wcag_percentage}} == 0 && {{does_not_meet_wcag_percentage}} == 0){
@@ -1510,30 +1442,29 @@
 	<script>
 		// Determine background color based on percentage
 
-		percentage = {{percentage_with_page_number}};
+		percentage = {{overall_percentages_colorblind['Tritanopia']['Actual']}};
 		var backgroundColor6 = '';
 		if (percentage > 60) {
 		backgroundColor6 = 'green'; // Red background
 		 content = 'Good';
 	} else if (percentage >= 40 && percentage <= 60) {
-		backgroundColor6 = 'orange'; // Orange background
+		backgroundColor6 = '#e3700e'; // Orange background
 		 content = 'Average';
 	} else {
 		backgroundColor6 = '#E33147'; // Green background
 		 content = 'Poor';
 	}
-
 	// Set the background color and content for the h5 element
 	var h5Element = document.getElementById('page_score'); // Replace 'your_h5_element_id' with the actual ID of your h5 element
 	h5Element.style.color = backgroundColor6;
 	h5Element.textContent = content;
 
-var percentage_without_page_number = {{ percentage_without_page_number }};
-	//check if both the values are zero
-	if({{percentage_with_page_number}} == 0 && {{percentage_without_page_number}} == 0){
-		percentage_without_page_number = 100;
-	}
 
+	var Tritanopia_Remaining = {{overall_percentages_colorblind['Tritanopia']['Remaining']}};
+	//check if both the values are zero
+	if({{overall_percentages_colorblind['Tritanopia']['Actual']}} == 0 && {{overall_percentages_colorblind['Tritanopia']['Remaining']}} == 0){
+		Tritanopia_Remaining = 100;
+	}
 		const CardDataLabels6 = {
 			id: 'CardDataLabels6',
 			afterDatasetsDraw(chart, args, options) {
@@ -1544,7 +1475,7 @@ var percentage_without_page_number = {{ percentage_without_page_number }};
 				ctx.font = 'bolder 45px Arial';
 				ctx.fillStyle = backgroundColor6;
 				ctx.textAlign = 'center';
-				ctx.fillText('{{percentage_with_page_number}}%', 100, 115);
+				ctx.fillText('{{overall_percentages_colorblind['Tritanopia']['Actual']}}%', 100, 115);
 			}
 		};
 
@@ -1554,7 +1485,7 @@ var percentage_without_page_number = {{ percentage_without_page_number }};
 			data: {
 				labels: [''], // No labels needed for a single segment
 				datasets: [{
-					data: [{{percentage_with_page_number}},percentage_without_page_number], // 84% filled, 16% empty
+					data: [{{overall_percentages_colorblind['Tritanopia']['Actual']}},Tritanopia_Remaining], // 84% filled, 16% empty
 					weight: 10,
 					backgroundColor: [backgroundColor6, '#d7d9db'],
 					borderColor: 'white',
@@ -1628,10 +1559,8 @@ var percentage_without_page_number = {{ percentage_without_page_number }};
 		});
 
 	</script>
-
 	<script>
 		const ctx1 = document.getElementById('links_chart').getContext('2d');
-
 		var data_for_no_of_work = {{ no_of_work| tojson | safe}};
 		var datasets_for_no_of_work = [];
 		var labels_data_for_no_of_work = [];
@@ -1676,7 +1605,6 @@ var percentage_without_page_number = {{ percentage_without_page_number }};
 			},
 			plugins: [ChartDataLabels],
 		});
-
 	</script>
 	<script>
 		const ctx2 = document.getElementById('image_cap').getContext('2d');
@@ -1810,7 +1738,6 @@ var percentage_without_page_number = {{ percentage_without_page_number }};
 			},
 			plugins: [ChartDataLabels],
 		});
-
 	</script>
 	<script>
 		const ctx5 = document.getElementById('page_contrast').getContext('2d');
@@ -1894,7 +1821,6 @@ var percentage_without_page_number = {{ percentage_without_page_number }};
 			},
 			plugins: [ChartDataLabels],
 		});
-
 	</script>
 	<script>
 		const ctx7 = document.getElementById('color').getContext('2d');
@@ -1946,125 +1872,77 @@ var percentage_without_page_number = {{ percentage_without_page_number }};
 		});
 		</script>
 	<script>
-		const ctx8 = document.getElementById('color_blindness').getContext('2d');
+    const ctx8 = document.getElementById('color_blindness').getContext('2d');
 
-		const labels_data_for_myChartBarSection7 = ['Category A', 'Category B', 'Category C', 'Category D', 'Category E'];
-		const datasets_for_myChartBarSection7 = [300, 200, 400, 150, 250];
-
-		new Chart(ctx8, {
-			type: 'bar',
-			data: {
-				labels: labels_data_for_myChartBarSection7,
-				datasets: [{
-					label: 'of Votes',
-					backgroundColor:'#8f57eb',
-					data: datasets_for_myChartBarSection7,
-					borderWidth: 1
-				},
-				{
-					label: 'of Votes',
-					backgroundColor: '#ecadd9',
-					data: datasets_for_myChartBarSection7,
-					borderWidth: 1
-				},
-				{
-					label: 'of Votes',
-					backgroundColor: '#fa997d',
-					data: datasets_for_myChartBarSection7,
-					borderWidth: 1
-				}]
-			},
-			options: {
-				plugins: {
-					legend: {
-						position: 'top',
-						align: 'center',
-						labels: {
-							usePointStyle: true,
-						}
-					},
-					datalabels: {
-						formatter: (value, ctx) => {
-							let sum = 0;
-							let dataArr = ctx.chart.data.datasets[0].data;
-							dataArr.map(data => {
-								sum += data;
-							});
-							let percentage = (value * 100 / sum).toFixed(2) + "%";
-							return percentage;
-						},
-						color: '#fff',
-					}
-				},
-				maintainAspectRatio: false,
-				animation: {
-					duration: 2000,
-					easing: 'easeInOutQuart',
-				},
-			},
-
+    const categorized_data = {{final_data_analyze_pdf_colorblind| tojson | safe}};
+	let consolidatedData = {};
+	const allKeys = Object.keys(categorized_data.Monochromacy); // Assuming all categories have the same keys
+	allKeys.forEach(key => {
+		consolidatedData[key] = [['Monochromacy', 'Protonopia/Deuteranopia', 'Tritanopia'], []];
+	});
+	Object.entries(categorized_data).forEach(([category, values]) => {
+		Object.entries(values).forEach(([key, value]) => {
+			consolidatedData[key][1].push(value);
 		});
-		</script>
-	<script>
-		const ctx9 = document.getElementById('overall_color_blindness').getContext('2d');
+	});
+<!--	console.log(consolidatedData['0'][0][0])-->
+	const data_1_2=[consolidatedData['0-0.5'][1][0],consolidatedData['0.5-1'][1][0],consolidatedData['1+'][1][0]];
+    const labels_data_for_myChartBarSection7 = ['Category A', 'Category B', 'Category C', 'Category D', 'Category E'];
+    const datasets_for_myChartBarSection7 = [300, 200, 400, 150, 250];
+    new Chart(ctx8, {
+        type: 'bar',
+        data: {
+            labels: ['0-0.5','0.5-1','1+'],
+            datasets: [{
+                label: 'Monochromacy',
+                backgroundColor:'#8f57eb',
+                data: data_1_2,
+                borderWidth: 1
+            },
+            {
+                label: 'Protonopia/Deuteranopia',
+                backgroundColor: '#ecadd9',
+                data: [consolidatedData['0-0.5'][1][1],consolidatedData['0.5-1'][1][1],consolidatedData['1+'][1][1]],
+                borderWidth: 1
+            },
+            {
+                label: 'Tritanopia',
+                backgroundColor: '#fa997d',
+                data: [consolidatedData['0-0.5'][1][2],consolidatedData['0.5-1'][1][2],consolidatedData['1+'][1][2]],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            plugins: {
+                legend: {
+                    position: 'top',
+                    align: 'center',
+                    labels: {
+                        usePointStyle: true,
+                    }
+                },
+                datalabels: {
+                    formatter: (value, ctx) => {
+                        let sum = 0;
+                        let dataArr = ctx.chart.data.datasets[0].data;
+                        dataArr.map(data => {
+                            sum += data;
+                        });
+                        let percentage = (value * 100 / sum).toFixed(2) + "%";
+                        return percentage;
+                    },
+                    color: '#fff',
+                }
+            },
+            maintainAspectRatio: false,
+            animation: {
+                duration: 2000,
+                easing: 'easeInOutQuart',
+            },
+        },
 
-		const labels_data_for_myChartBarSection9 = ['Category A', 'Category B', 'Category C', 'Category D', 'Category E'];
-		const datasets_for_myChartBarSection9 = [300, 200, 400, 150, 250];
-
-		new Chart(ctx9, {
-			type: 'bar',
-			data: {
-				labels: labels_data_for_myChartBarSection9,
-				datasets: [{
-					label: 'of Votes',
-					backgroundColor:'#8f57eb',
-					data: datasets_for_myChartBarSection9,
-					borderWidth: 1
-				},
-				{
-					label: 'of Votes',
-					backgroundColor: '#ecadd9',
-					data: datasets_for_myChartBarSection9,
-					borderWidth: 1
-				},
-				{
-					label: 'of Votes',
-					backgroundColor: '#fa997d',
-					data: datasets_for_myChartBarSection9,
-					borderWidth: 1
-				}]
-			},
-			options: {
-				plugins: {
-					legend: {
-						position: 'top',
-						align: 'center',
-						labels: {
-							usePointStyle: true,
-						}
-					},
-					datalabels: {
-						formatter: (value, ctx) => {
-							let sum = 0;
-							let dataArr = ctx.chart.data.datasets[0].data;
-							dataArr.map(data => {
-								sum += data;
-							});
-							let percentage = (value * 100 / sum).toFixed(2) + "%";
-							return percentage;
-						},
-						color: '#fff',
-					}
-				},
-				maintainAspectRatio: false,
-				animation: {
-					duration: 2000,
-					easing: 'easeInOutQuart',
-				},
-			},
-
-		});
-		</script>
+    });
+</script>
 	<script>
 		const wrapper = document.querySelector(".wrapper");
 		const carousel = document.querySelector(".carousel");
@@ -2117,7 +1995,6 @@ var percentage_without_page_number = {{ percentage_without_page_number }};
 			isDragging = false;
 			carousel.classList.remove("dragging");
 		}
-
 		const infiniteScroll = () => {
 			// If the carousel is at the beginning, scroll to the end
 			if(carousel.scrollLeft === 0) {
@@ -2143,7 +2020,6 @@ var percentage_without_page_number = {{ percentage_without_page_number }};
 			timeoutId = setTimeout(() => carousel.scrollLeft += firstCardWidth, 2500);
 		}
 		autoPlay();
-
 		carousel.addEventListener("mousedown", dragStart);
 		carousel.addEventListener("mousemove", dragging);
 		document.addEventListener("mouseup", dragStop);

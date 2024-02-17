@@ -21,3 +21,4 @@ torchvision
 sumy
 charset_normalizer
 colorspacious
+scikit-learn
