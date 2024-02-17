@@ -22,3 +22,6 @@ sumy
 charset_normalizer
 colorspacious
 scikit-learn
+camelot-py
+charset_normalizer
+pdfminer.six

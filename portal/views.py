@@ -21,6 +21,7 @@ from datetime import datetime, date
 import shutil
 import PyPDF2
 import re
+from .packages.table_caption import *
 
 bp = Blueprint('view', __name__, url_prefix='/PDFAnalyzerX', template_folder="./templates", static_folder="./static")
 
@@ -138,6 +139,8 @@ def upload_bill(process_id):
                 file.save(os.path.join(pdf_docs, process_id, filename))
                 count_urls_, count_images_, dict_final_, pdf_document_page_count = get_final_result(
                     os.path.join(pdf_docs, process_id, filename), process_id)
+                percentage_with_caption_table, percentage_without_caption_table, captions_with_tables = analyze_table_caption(
+                    os.path.join(pdf_docs, process_id, filename))
 
                 titles, No_headers_Pages, yes_headers_pages, percentage_with_headers, percentage_without_headers = extract_headers(
                     os.path.join(pdf_docs, process_id, filename))
@@ -166,10 +169,11 @@ def upload_bill(process_id):
 
                 percentage_with_captions, percentage_without_captions, captions_with_images = analyze_figure_captions(
                     os.path.join(pdf_docs, process_id, filename))
-                meets_wcag_count, does_not_meet_wcag_count, meets_wcag_percentage, does_not_meet_wcag_percentage,meets_wcag_pages,does_not_meet_wcag_pages = analyze_pdf(
+                meets_wcag_count, does_not_meet_wcag_count, meets_wcag_percentage, does_not_meet_wcag_percentage, meets_wcag_pages, does_not_meet_wcag_pages = analyze_pdf(
                     os.path.join(pdf_docs, process_id, filename))
                 meets_wcag_count, does_not_meet_wcag_count, meets_wcag_percentage, does_not_meet_wcag_percentage = meets_wcag_count, does_not_meet_wcag_count, round(
                     meets_wcag_percentage, 2), round(does_not_meet_wcag_percentage, 2)
+
                 final_json_ = {"count_urls_": count_urls_final_, "dict_final_": dict_final_,
                                "count_images_": count_images_,
                                "pdf_document_page_count": pdf_document_page_count, "no_of_work": no_of_work,
@@ -187,7 +191,11 @@ def upload_bill(process_id):
                                "does_not_meet_wcag_count": does_not_meet_wcag_count,
                                "meets_wcag_percentage": meets_wcag_percentage,
                                "does_not_meet_wcag_percentage": does_not_meet_wcag_percentage,
-                               "meets_wcag_pages":meets_wcag_pages,"does_not_meet_wcag_pages":does_not_meet_wcag_pages}
+                               "meets_wcag_pages": meets_wcag_pages,
+                               "does_not_meet_wcag_pages": does_not_meet_wcag_pages,
+                               "percentage_with_caption_table": percentage_with_caption_table,
+                               "percentage_without_caption_table": percentage_without_caption_table,
+                               "captions_with_tables": captions_with_tables}
 
                 fina_header_count_ = [[percentage_with_headers, yes_headers_pages],
                                       [percentage_without_headers, No_headers_Pages]]
@@ -295,7 +303,10 @@ def upload_bill(process_id):
                                        meets_wcag_count=meets_wcag_count,
                                        does_not_meet_wcag_count=does_not_meet_wcag_count,
                                        meets_wcag_percentage=meets_wcag_percentage,
-                                       does_not_meet_wcag_percentage=does_not_meet_wcag_percentage)
+                                       does_not_meet_wcag_percentage=does_not_meet_wcag_percentage,
+                                       percentage_with_caption_table=percentage_with_caption_table,
+                                       percentage_without_caption_table=percentage_without_caption_table,
+                                       captions_with_tables=captions_with_tables)
             else:
                 resp = jsonify({"success": False,
                                 "data": {"pdf name": "None"},
@@ -343,15 +354,23 @@ def upload_bill(process_id):
                 meets_wcag_percentage = finl_dd["meets_wcag_percentage"]
                 does_not_meet_wcag_percentage = finl_dd["does_not_meet_wcag_percentage"]
 
-                meets_wcag_pages= finl_dd["meets_wcag_pages"]
+                meets_wcag_pages = finl_dd["meets_wcag_pages"]
                 does_not_meet_wcag_pages = finl_dd["does_not_meet_wcag_pages"]
+
+                percentage_with_caption_table = finl_dd["percentage_with_caption_table"]
+                percentage_without_caption_table = finl_dd["percentage_without_caption_table"]
+                captions_with_tables = finl_dd["captions_with_tables"]
 
                 titles = finl_dd["titles"]
                 No_headers_Pages = finl_dd["No_headers_Pages"]
                 yes_headers_pages = finl_dd["yes_headers_pages"]
                 table_count_ = finl_dd["table_count_"]
                 percentage_with_captions, percentage_without_captions, captions_with_images = finl_dd[
-                    "percentage_with_captions"], finl_dd["percentage_without_captions"], finl_dd["captions_with_images"]
+                                                                                                  "percentage_with_captions"], \
+                                                                                              finl_dd[
+                                                                                                  "percentage_without_captions"], \
+                                                                                              finl_dd[
+                                                                                                  "captions_with_images"]
 
                 fina_header_count_ = [[percentage_with_headers, yes_headers_pages],
                                       [percentage_without_headers, No_headers_Pages]]
@@ -375,7 +394,12 @@ def upload_bill(process_id):
                     , "meets_wcag_count": meets_wcag_count, "does_not_meet_wcag_count": does_not_meet_wcag_count,
                                "meets_wcag_percentage": meets_wcag_percentage,
                                "does_not_meet_wcag_percentage": does_not_meet_wcag_percentage,
-                               "meets_wcag_pages": meets_wcag_pages, "does_not_meet_wcag_pages": does_not_meet_wcag_pages}
+                               "meets_wcag_pages": meets_wcag_pages,
+                               "does_not_meet_wcag_pages": does_not_meet_wcag_pages,
+                               "percentage_with_caption_table": percentage_with_caption_table,
+                               "percentage_without_caption_table": percentage_without_caption_table,
+                               "captions_with_tables": captions_with_tables
+                               }
                 pdf_docs_json = APP.config["PDF_RESULT_JSON"]
                 if not os.path.exists(os.path.join(pdf_docs_json, process_id)):
                     os.mkdir(os.path.join(pdf_docs_json, process_id))
@@ -452,7 +476,9 @@ def upload_bill(process_id):
                                        does_not_meet_wcag_count=does_not_meet_wcag_count,
                                        meets_wcag_percentage=meets_wcag_percentage,
                                        does_not_meet_wcag_percentage=does_not_meet_wcag_percentage
-                                       )
+                                       , percentage_with_caption_table=percentage_with_caption_table,
+                                       percentage_without_caption_table=percentage_without_caption_table,
+                                       captions_with_tables=captions_with_tables)
             else:
                 resp = jsonify({"success": False,
                                 "data": {"pdf name": "None"},
@@ -683,6 +709,7 @@ def calculate_overall_percentage(data):
         # Storing the result in the dictionary
         results[key] = {"Actual": actual_percentage, "Remaining": remaining_percentage}
     return results
+
 
 @bp.route('/generate_report/<string:type_>/<string:process_id>', methods=["GET", "POST"])
 def generate_report_pdf(type_, process_id):
@@ -1058,14 +1085,15 @@ def final_result(process_id):
 
                     percentage_with_captions, percentage_without_captions, captions_with_images = analyze_figure_captions(
                         os.path.join(pdf_docs, process_id, filename))
-                    meets_wcag_count, does_not_meet_wcag_count, meets_wcag_percentage, does_not_meet_wcag_percentage,image_accessibility = analyze_pdf(
+                    meets_wcag_count, does_not_meet_wcag_count, meets_wcag_percentage, does_not_meet_wcag_percentage, image_accessibility = analyze_pdf(
                         os.path.join(pdf_docs, process_id, filename))
                     meets_wcag_count, does_not_meet_wcag_count, meets_wcag_percentage, does_not_meet_wcag_percentage = meets_wcag_count, does_not_meet_wcag_count, round(
                         meets_wcag_percentage), round(does_not_meet_wcag_percentage)
-                    pages_with_page_number, pages_without_page_number, percentage_with_page_number, percentage_without_page_number ,image_page_number_accessibility= check_page_number(
+                    pages_with_page_number, pages_without_page_number, percentage_with_page_number, percentage_without_page_number, image_page_number_accessibility = check_page_number(
                         os.path.join(pdf_docs, process_id, filename))
 
-                    full_text, summarized_text = extract_and_summarize_text(os.path.join(pdf_docs, process_id, filename))
+                    full_text, summarized_text = extract_and_summarize_text(
+                        os.path.join(pdf_docs, process_id, filename))
 
                     final_json_ = {"summarized_text": summarized_text, "pages_with_page_number": pages_with_page_number,
                                    "pages_without_page_number": pages_without_page_number,
@@ -1089,9 +1117,9 @@ def final_result(process_id):
                                    "meets_wcag_percentage": meets_wcag_percentage,
                                    "does_not_meet_wcag_percentage": does_not_meet_wcag_percentage,
                                    "filename": filename,
-                                   "image_accessibility":image_accessibility,
-                                   "image_page_number_accessibility":image_page_number_accessibility,
-                                   "url_access_list":url_access_list}
+                                   "image_accessibility": image_accessibility,
+                                   "image_page_number_accessibility": image_page_number_accessibility,
+                                   "url_access_list": url_access_list}
 
                     fina_header_count_ = [[round(percentage_with_headers), yes_headers_pages],
                                           [round(percentage_without_headers), No_headers_Pages]]
@@ -1219,8 +1247,8 @@ def final_result(process_id):
                     with open(os.path.join(pdf_docs_json, process_id, "result_colorblind.json"), "w") as file:
                         json.dump(final_data_analyze_pdf_colorblind, file)
                         file.close()
-                    final_json_['overall_percentages_colorblind']=overall_percentages_colorblind
-                    final_json_["combined_data_analyze_pdf_colorblind"]=combined_data_analyze_pdf_colorblind
+                    final_json_['overall_percentages_colorblind'] = overall_percentages_colorblind
+                    final_json_["combined_data_analyze_pdf_colorblind"] = combined_data_analyze_pdf_colorblind
                     with open(os.path.join(pdf_docs_json, process_id, "result.json"), "w") as file:
                         json.dump(final_json_, file)
                         file.close()
@@ -1257,8 +1285,9 @@ def final_result(process_id):
                                        , percentage_with_page_number=round(percentage_with_page_number),
                                        summarized_text=summarized_text,
                                        filename=filename, overall_percentage=round(overall_percentage),
-                                       remaining_percentage=round(remaining_percentage),elapsed_time=elapsed_time,
-                                       final_data_analyze_pdf_colorblind=final_data_analyze_pdf_colorblind,overall_percentages_colorblind=overall_percentages_colorblind)
+                                       remaining_percentage=round(remaining_percentage), elapsed_time=elapsed_time,
+                                       final_data_analyze_pdf_colorblind=final_data_analyze_pdf_colorblind,
+                                       overall_percentages_colorblind=overall_percentages_colorblind)
             else:
                 resp = jsonify({"success": False,
                                 "data": {"pdf name": "None"},
@@ -1326,12 +1355,16 @@ def final_result(process_id):
                 table_count_ = finl_dd["table_count_"]
                 summarized_text = finl_dd['summarized_text']
                 filename = finl_dd['filename']
-                image_accessibility=finl_dd["image_accessibility"]
-                image_page_number_accessibility= finl_dd["image_page_number_accessibility"]
+                image_accessibility = finl_dd["image_accessibility"]
+                image_page_number_accessibility = finl_dd["image_page_number_accessibility"]
                 combined_data_analyze_pdf_colorblind = finl_dd["combined_data_analyze_pdf_colorblind"]
 
                 percentage_with_captions, percentage_without_captions, captions_with_images = finl_dd[
-                    "percentage_with_captions"], finl_dd["percentage_without_captions"], finl_dd["captions_with_images"]
+                                                                                                  "percentage_with_captions"], \
+                                                                                              finl_dd[
+                                                                                                  "percentage_without_captions"], \
+                                                                                              finl_dd[
+                                                                                                  "captions_with_images"]
 
                 fina_header_count_ = [[round(percentage_with_headers), yes_headers_pages],
                                       [round(percentage_without_headers), No_headers_Pages]]
@@ -1361,11 +1394,11 @@ def final_result(process_id):
                                "does_not_meet_wcag_percentage": does_not_meet_wcag_percentage,
                                "summarized_text": summarized_text,
                                "filename": filename,
-                               "overall_percentages_colorblind":overall_percentages_colorblind,
-                               "image_accessibility":image_accessibility,
-                               "image_page_number_accessibility":image_page_number_accessibility,
-                               "combined_data_analyze_pdf_colorblind":combined_data_analyze_pdf_colorblind,
-                               "url_access_list":url_access_list}
+                               "overall_percentages_colorblind": overall_percentages_colorblind,
+                               "image_accessibility": image_accessibility,
+                               "image_page_number_accessibility": image_page_number_accessibility,
+                               "combined_data_analyze_pdf_colorblind": combined_data_analyze_pdf_colorblind,
+                               "url_access_list": url_access_list}
                 pdf_docs_json = APP.config["PDF_RESULT_JSON"]
                 if not os.path.exists(os.path.join(pdf_docs_json, process_id)):
                     os.mkdir(os.path.join(pdf_docs_json, process_id))
@@ -1497,7 +1530,8 @@ def final_result(process_id):
                                        , percentage_with_page_number=round(percentage_with_page_number),
                                        summarized_text=summarized_text,
                                        filename=filename, overall_percentage=round(overall_percentage),
-                                       remaining_percentage=round(remaining_percentage),final_data_analyze_pdf_colorblind=final_data_analyze_pdf_colorblind,
+                                       remaining_percentage=round(remaining_percentage),
+                                       final_data_analyze_pdf_colorblind=final_data_analyze_pdf_colorblind,
                                        overall_percentages_colorblind=overall_percentages_colorblind)
             else:
                 resp = jsonify({"success": False,
