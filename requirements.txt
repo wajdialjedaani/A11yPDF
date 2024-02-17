@@ -18,6 +18,7 @@ pdfix-sdk
 transformers
 torch
 torchvision
+nltk
 sumy
 charset_normalizer
 colorspacious

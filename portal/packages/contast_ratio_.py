@@ -151,10 +151,3 @@ def check_page_number(pdf_file_path):
     percentage_without_page_number = (len(pages_without_page_number) / total_pages) * 100
 
     return pages_with_page_number, pages_without_page_number, round(percentage_with_page_number,1), round(percentage_without_page_number,1),image_page_number_accessibility
-
-
-# (pages_with_page_number, pages_without_page_number,
-#  percentage_with_page_number, percentage_without_page_number) = check_page_number(
-#     "/Users/sandeepkumarrudhravaram/WorkSpace/UntProjects/pdf_analyzer_prodv1/Team16_Sprint_2.pdf")
-# print((pages_with_page_number, pages_without_page_number,
-#  percentage_with_page_number, percentage_without_page_number))

@@ -2,8 +2,9 @@ import pdfplumber
 from sumy.parsers.plaintext import PlaintextParser
 from sumy.nlp.tokenizers import Tokenizer
 from sumy.summarizers.lsa import LsaSummarizer
-
 def extract_and_summarize_text(pdf_file, summary_sentences=3):
+    import nltk
+    nltk.download('punkt')
     """
     Extracts text from a PDF and generates a summarized version.
 

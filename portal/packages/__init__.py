@@ -49,9 +49,12 @@ def get_random_numbers(string_length=5):
 
 
 def extract_urls_from_pdf(pdf_path):
-    with fitz.open(pdf_path) as doc:
-        links_list = [block['uri'] for page in doc for block in page.get_links()]
-
+    links_list=[]
+    try:
+        with fitz.open(pdf_path) as doc:
+            links_list = [block['uri'] for page in doc for block in page.get_links()]
+    except:
+        pass
     return links_list
 
 
@@ -315,7 +318,11 @@ def extract_footer(pdf_path):
 #     return count_urls, count_images, dict_final, pdf_document_page_count
 
 def get_final_result(pdf_file, process_id=''):
-    count_urls_ = count_custom_urls_in_pdf(pdf_file)
+    try:
+        count_urls_ = count_custom_urls_in_pdf(pdf_file)
+    except:
+        count_urls_={}
+        pass
     # count_images_ = count_images_in_pdf(pdf_file)
     dict_final_, pdf_document_page_count, counYimg_fr_pdf_ = text_font(pdf_file, process_id)
     return count_urls_, counYimg_fr_pdf_, dict_final_, pdf_document_page_count
@@ -776,6 +783,7 @@ def analyze_figure_captions(filename):
                     caption = block[4].strip().replace("\n", "")
                     if images:
                         for img in images:
+                            print("abs(block[2] - img[0])",abs(block[2] - img[0]))
                             if abs(block[2] - img[0]) < 70 and block[5] - img[1] < 50:
                                 images_with_captions += 1
                                 captions_with_images.append({
