@@ -80,7 +80,7 @@
                         it here</h6>
                     <span class="upload-area-title"></span>
                     <a class="browse_btn">Browse File</a>
-                    <input type="file" name="pdf_file" id="pdf_file">
+                    <input type="file" accept=".pdf" name="pdf_file" id="pdf_file">
                 </form>
 
             </label>
@@ -200,8 +200,37 @@
     </div>
 </div>
 </body>
+<!--*******************
+        Preloader start
+    ********************-->
+<div id="preloader" class="loading-div">
+    <div class="loading-container">
+  <div class="loading-text">
+    <span>L</span>
+    <span>O</span>
+    <span>A</span>
+    <span>D</span>
+    <span>I</span>
+    <span>N</span>
+    <span>G</span>
+  </div>
+    </div>
+    </div>
+    <!--*******************
+        Preloader end
+    ********************-->
 <script>
     function submitForms_file() {
+        var fileInput = document.getElementById('pdf_file');
+        if (fileInput.files.length === 0) {
+            // Show error message if no file is uploaded
+            alert("Please upload a PDF file before proceeding.");
+            return;
+        }
+
+
+         // Show loader
+        showLoader();
         fetch('/PDFAnalyzerX/get_random_numbers/', {
             method: 'GET',
             headers: {
@@ -213,12 +242,26 @@
             const random_numbers = data['random_numbers'];
             document.getElementById("multiform").action = '/PDFAnalyzerX/result/' + random_numbers;
             document.getElementById("multiform").submit();
+<!--            // Hide loader-->
+<!--             hideLoader();-->
             return true;
         })
         .catch(error => {
             console.error('Error:', error);
+             // Hide loader in case of error
+            hideLoader();
         });
     }
+
+    // Function to show the loader
+function showLoader() {
+    document.getElementById('preloader').style.display = 'flex';
+}
+
+// Function to hide the loader
+function hideLoader() {
+    document.getElementById('preloader').style.display = 'none';
+}
 </script>
 <script>
 

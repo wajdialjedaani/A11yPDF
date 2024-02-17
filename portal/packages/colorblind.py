@@ -5,8 +5,8 @@ import pandas as pd
 import numpy as np
 import colorsys
 import tkinter as tk
-import matplotlib.pyplot as plt
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+# import matplotlib.pyplot as plt
+# from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import fitz
 from sklearn.cluster import MiniBatchKMeans
 import concurrent.futures
