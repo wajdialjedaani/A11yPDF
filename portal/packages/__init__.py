@@ -18,14 +18,13 @@ from collections import Counter
 import threading
 from concurrent import futures
 
-
-
 ALLOWED_IMAGE_EXTENSIONS = ['.jpg', '.jpeg', '.png', '.gif']
 DIMENSION_THRESHOLD = 1000
 NORMALIZATION_CONSTANT = 100
 NUM_COLORS = 5
 MAX_IMAGES_TO_PROCESS = 6
 TIMEOUT_SECONDS = 30
+
 
 def count_images_in_pdf(pdf_path: str) -> int:
     """
@@ -75,7 +74,7 @@ def count_custom_urls_in_pdf(pdf_path):
     final_result = {}
     yes_count = 0
     no_count = 0
-
+    url_access_list={}
     for link_index, link in enumerate(links_list):
         temp_result = check_url_access(link)
         temp_result['url'] = link
@@ -83,12 +82,15 @@ def count_custom_urls_in_pdf(pdf_path):
 
         if temp_result['url_acc'] == "Yes":
             yes_count += 1
+            url_access_list[link_index]=[link,"Accessible"]
         else:
             no_count += 1
+            url_access_list[link_index] = [link, "Not Accessible"]
 
     count_urls = len(links_list)
 
-    return {"count_urls_": count_urls, "final_": final_result, "yes_count_": yes_count, "no_count_": no_count}
+    return {"count_urls_": count_urls, "final_": final_result, "yes_count_": yes_count, "no_count_": no_count,
+            "url_access_list":url_access_list}
 
 
 def save_image(image_data, image_name, process_id):
@@ -416,12 +418,10 @@ def extract_foter(pdf_path):
     percentage_with_footer = (yes_footer_pages / count_) * 100
     percentage_without_footer = (No_footer_Pages / count_) * 100
 
-    count_of_footers_ = [[round(percentage_with_footer, 2), yes_footer_pages],
-                         [round(percentage_without_footer, 2), No_footer_Pages]]
+    count_of_footers_ = [[round(percentage_with_footer), yes_footer_pages],
+                         [round(percentage_without_footer), No_footer_Pages]]
 
     return titles, count_of_footers_
-
-
 
 
 def get_tables_count(pdf_path):
@@ -467,6 +467,7 @@ def get_image_contract(image_path):
         print(f"Error processing image {image_path}: {e}")
 
     return sharpness, file_size_mb
+
 
 def get_image_resolution_aspect_ratio(folder_path):
     image_info_dict = {}
@@ -796,7 +797,3 @@ def analyze_figure_captions(filename):
         captions_with_images.append("No images found in the PDF.")
 
     return percentage_with_captions, percentage_without_captions, captions_with_images
-
-
-
-

@@ -48,24 +48,39 @@ def analyze_pdf(pdf_path):
     total_pages = pdf_document.page_count
     meets_wcag_count = 0
     does_not_meet_wcag_count = 0
-
+    meets_wcag_pages = []  # To store page numbers of images meeting WCAG standards
+    image_accessibility = {}
     # Loop through each page in the PDF
     for page_num in range(total_pages):
         page = pdf_document.load_page(page_num)
         image_list = page.get_images(full=True)
-
+        page_meets_wcag = False
+        page_does_not_meet_wcag = False
         # Loop through each image in the page
+        if not image_list:  # If there are no images on the page, consider it as "Access"
+            key2 = f"{page_num}_{0}"
+            image_accessibility[key2] = "No Images"
+            continue
         for img_index, img_info in enumerate(image_list):
             xref = img_info[0]
             base_image = pdf_document.extract_image(xref)
             image_bytes = base_image["image"]
             image = Image.open(io.BytesIO(image_bytes))
-
             # Calculate contrast for the image
             if check_contrast(image):
                 meets_wcag_count += 1
+                # page_meets_wcag = True
+                image_status = "Accessible"
             else:
                 does_not_meet_wcag_count += 1
+                image_status ="Not Accessible"
+                # page_does_not_meet_wcag = True
+            key = f"{page_num + 1}_{img_index + 1}"
+            image_accessibility[key] = image_status
+        # if page_meets_wcag:
+        #     meets_wcag_pages.append(page_num + 1)  # Pages are 0-indexed, adding 1 for human-readable format
+        # if page_does_not_meet_wcag:
+        #     does_not_meet_wcag_pages.append(page_num + 1)
 
     # Calculate percentages
     meets_wcag_percentage = (meets_wcag_count / total_pages) * 100
@@ -76,7 +91,7 @@ def analyze_pdf(pdf_path):
     print(f"Pages not meeting WCAG AA standards: {does_not_meet_wcag_count} ({does_not_meet_wcag_percentage:.2f}%)")
 
     pdf_document.close()
-    return meets_wcag_count, does_not_meet_wcag_count, meets_wcag_percentage, does_not_meet_wcag_percentage
+    return meets_wcag_count, does_not_meet_wcag_count, meets_wcag_percentage, does_not_meet_wcag_percentage,image_accessibility
 
 
 def check_page_number(pdf_file_path):
@@ -89,6 +104,8 @@ def check_page_number(pdf_file_path):
     # Initialize lists to store pages with and without page numbers
     pages_with_page_number = []
     pages_without_page_number = []
+
+    image_page_number_accessibility = {}
 
     # Iterate through each page in the document
     for page_number, page in enumerate(doc, start=1):
@@ -124,14 +141,16 @@ def check_page_number(pdf_file_path):
         # Based on whether page number text is found, append page number to respective list
         if text_found:
             pages_with_page_number.append(page_number)
+            image_page_number_accessibility[page_number]='Accessible'
         else:
             pages_without_page_number.append(page_number)
+            image_page_number_accessibility[page_number] = 'Not Accessible'
 
     # Calculate the percentage of pages with and without page numbers
     percentage_with_page_number = (len(pages_with_page_number) / total_pages) * 100
     percentage_without_page_number = (len(pages_without_page_number) / total_pages) * 100
 
-    return pages_with_page_number, pages_without_page_number, round(percentage_with_page_number,1), round(percentage_without_page_number,1)
+    return pages_with_page_number, pages_without_page_number, round(percentage_with_page_number,1), round(percentage_without_page_number,1),image_page_number_accessibility
 
 
 # (pages_with_page_number, pages_without_page_number,
