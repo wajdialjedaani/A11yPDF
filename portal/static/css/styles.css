@@ -92,6 +92,7 @@
 			line-height: 45px;
 			color: var(--bg-color);
 			margin: 0 0 15px 0;
+			cursor: pointer;
 		}
 
 		.title-desc {
@@ -720,7 +721,7 @@ background: #d7d9db;
 
 .footer-box-upload{
     position: absolute;
-    width: 1423px;
+    width: 100%;
     height: 380px;
     left: 0px;
     background: var(--bg-color);
@@ -849,7 +850,7 @@ input[type=file] {
     color: green;
     font-size: 21px;
     margin: 25px 5px;
-    height: 25px;
+    height: 30px;
 }
 
 
@@ -1056,4 +1057,8 @@ input[type=file] {
     transform: translateX(15vw);
     opacity: 0;
   }
+}
+
+ .title:hover {
+    text-decoration: underline;
 }

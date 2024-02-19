@@ -73,7 +73,7 @@
 		<div class="outer-box">
 
 			<div class="sub-title-box-1">
-				<h2 class="title">{{filename}}</h2>
+				<h2 class="title" onclick="location.href='/PDFAnalyzerX/generate_report/fsa/{{process_id}}'">{{filename}}</h2>
 				<h5 class="title-desc">{{summarized_text}} </h5>
 				<div class="grp-btn" onclick="location.href='/PDFAnalyzerX/generate_report/{{process_id}}'">
 					<div class="generate-report-button">
@@ -935,7 +935,7 @@
 		// Determine background color based on percentage
 
 		percentage = {{ fina_header_count_[0][0] }};
-		var backgroundColor = '';
+		var backgroundColor10 = '';
 		if (percentage > 60) {
 			backgroundColor10 = 'green'; // Red background
 		} else if (percentage >= 40 && percentage <= 60) {
@@ -1735,6 +1735,7 @@
 			plugins: [ChartDataLabels],
 		});
 
+
 	</script>
 	<script>
 		const ctx1 = document.getElementById('links_chart').getContext('2d');
@@ -1758,23 +1759,32 @@
 					borderWidth: 1
 				}]
 			},
-			options: {
-				plugins: {
-					legend: {
-						position: 'left',
-						align: 'center',
-						labels: {
-							usePointStyle: true,
-							color: '#000000',
-						}
-					},
-					datalabels: {
-						color: '#fff',
-						font: {
-							weight: 'bold',
-						}
-					}
-				},
+				options: {
+					plugins: {
+						legend: {
+			padding: 20,
+			position: 'left',
+			align: 'center',
+			labels: {
+			  boxWidth: 50, // Adjust if needed
+			  usePointStyle: true,
+			  color: '#000000',
+			  font: {
+				size: 10, // Reduced font size
+			  }
+			},
+			title: {
+			  display: true,
+			  padding: 15, // Increased padding
+			}
+		  },
+		  datalabels: {
+			color: '#fff',
+			font: {
+			  weight: 'bold',
+			}
+		  }
+		},
 				maintainAspectRatio: false,
 				animation: {
 					duration: 2000,
@@ -2118,27 +2128,24 @@
                 backgroundColor:'#0282c1',
                 data: data_1_2,
                 borderWidth: 1,
-				barThickness: 70,
-				categoryPercentage: 0.8,
-        		barPercentage: 0.5,
+				categoryPercentage: 0.6,
+    			barPercentage: 0.8,
             },
             {
                 label: 'Protonopia/Deuteranopia',
                 backgroundColor: '#df2488',
                 data: [consolidatedData['0-0.5'][1][1],consolidatedData['0.5-1'][1][1],consolidatedData['1+'][1][1]],
                 borderWidth: 1,
-				barThickness: 70,
-				categoryPercentage: 0.8,
-        		barPercentage: 0.5,
+				categoryPercentage: 0.6,
+    			barPercentage: 0.8,
             },
             {
                 label: 'Tritanopia',
                 backgroundColor: '#e34c19',
                 data: [consolidatedData['0-0.5'][1][2],consolidatedData['0.5-1'][1][2],consolidatedData['1+'][1][2]],
                 borderWidth: 1,
-				barThickness: 70,
-				categoryPercentage: 0.8,
-        		barPercentage: 0.5,
+				categoryPercentage: 0.6,
+    			barPercentage: 0.8,
             }]
         },
         options: {
@@ -2165,17 +2172,17 @@
                 easing: 'easeInOutQuart',
             },
             scales: {
-					x: {
-						ticks: {
-							color: '#000000' // Change x-axis label color here
-						}
-					},
-					y: {
-						ticks: {
-							color: '#000000' // Change y-axis label color here
-						}
+				x: {
+					ticks: {
+						color: '#000000' // Change x-axis label color here
+					}
+				},
+				y: {
+					ticks: {
+						color: '#000000' // Change y-axis label color here
 					}
 				}
+			},
         },
 		plugins: [ChartDataLabels],
     });
