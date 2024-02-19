@@ -49,7 +49,7 @@ def get_random_numbers(string_length=5):
 
 
 def extract_urls_from_pdf(pdf_path):
-    links_list=[]
+    links_list = []
     try:
         with fitz.open(pdf_path) as doc:
             links_list = [block['uri'] for page in doc for block in page.get_links()]
@@ -71,29 +71,61 @@ def check_url_access(url):
     return temp
 
 
+import fitz  # PyMuPDF
+
+
+def extract_urls_from_pdf_to_dict(pdf_path):
+    links_dict = {}
+    try:
+        with fitz.open(pdf_path) as doc:
+            for page_num, page in enumerate(doc, start=1):  # Start page numbering at 1
+                try:
+                    links = page.get_links()
+                    for link in links:
+                        if 'uri' in link:  # Ensure the block has a URI
+                            if page_num not in links_dict:
+                                links_dict[page_num] = []
+                            links_dict[page_num].append(link['uri'])
+                except:
+                    pass
+    except Exception as e:
+        print(f"An error occurred: {e}")
+    return links_dict
+
+
 def count_custom_urls_in_pdf(pdf_path):
-    links_list = extract_urls_from_pdf(pdf_path)
+    links_dict = extract_urls_from_pdf_to_dict(pdf_path)
 
     final_result = {}
     yes_count = 0
     no_count = 0
-    url_access_list={}
-    for link_index, link in enumerate(links_list):
-        temp_result = check_url_access(link)
-        temp_result['url'] = link
-        final_result[link_index] = temp_result
+    url_access_list = {}
 
-        if temp_result['url_acc'] == "Yes":
-            yes_count += 1
-            url_access_list[link_index]=[link,"Accessible"]
-        else:
-            no_count += 1
-            url_access_list[link_index] = [link, "Not Accessible"]
+    link_index = 0  # Initialize link index to enumerate all links across pages
+    for page, links in links_dict.items():
+        for link in links:
+            temp_result = check_url_access(link)
+            temp_result['url'] = link
+            final_result[link_index] = temp_result
 
-    count_urls = len(links_list)
+            if temp_result['url_acc'] == "Yes":
+                yes_count += 1
+                url_access_list[link_index] = [link, "Accessible", page]
+            else:
+                no_count += 1
+                url_access_list[link_index] = [link, "Not Accessible", page]
 
-    return {"count_urls_": count_urls, "final_": final_result, "yes_count_": yes_count, "no_count_": no_count,
-            "url_access_list":url_access_list}
+            link_index += 1  # Increment link index for a flat enumeration
+
+    count_urls = sum(len(links) for links in links_dict.values())
+
+    return {
+        "count_urls_": count_urls,
+        "final_": final_result,
+        "yes_count_": yes_count,
+        "no_count_": no_count,
+        "url_access_list": url_access_list
+    }
 
 
 def save_image(image_data, image_name, process_id):
@@ -232,11 +264,31 @@ def text_font(pdf_path, process_id):
         page = pdf_document.load_page(page_number)
         font_sizes, counYimg_fr_pdf_ = get_font_size(page, counYimg_fr_pdf_, process_id, page_number_)
         font_sizes = font_sizes
-        dict_final_[str(page_number)] = font_sizes
+        dict_final_[str(page_number + 1)] = font_sizes
         page_number_ += 1
 
     return dict_final_, pdf_document.page_count, counYimg_fr_pdf_
 
+def extract_entire_block_text(block_lines):
+    """
+    Concatenates text from all spans within each line of a given block.
+
+    Args:
+    - block_lines: A list of lines, where each line contains spans with text.
+
+    Returns:
+    - A string representing the concatenated text of the entire block.
+    """
+    block_text = ""
+    try:
+        for line in block_lines:
+            # Join text from all spans in the line, then add to the block text
+            line_text = ''.join(span['text'] for span in line['spans'])
+            block_text += line_text + " "  # Add a space for readability/separation
+    except:
+        pass
+
+    return block_text.strip()  # Remove trailing space for a cleaner output
 
 def extract_header(pdf_path):
     doc = fitz.open(pdf_path)
@@ -254,7 +306,8 @@ def extract_header(pdf_path):
                         if str(span['text']).strip() == '':
                             pass
                         elif span['bbox'][1] < 50:
-                            titles[count_] = span['text']
+                            block_txt = extract_entire_block_text(block["lines"])
+                            titles[count_] = block_txt
                             text_found_ = True
                             Final_text_found = True
                             break
@@ -321,7 +374,7 @@ def get_final_result(pdf_file, process_id=''):
     try:
         count_urls_ = count_custom_urls_in_pdf(pdf_file)
     except:
-        count_urls_={}
+        count_urls_ = {}
         pass
     # count_images_ = count_images_in_pdf(pdf_file)
     dict_final_, pdf_document_page_count, counYimg_fr_pdf_ = text_font(pdf_file, process_id)
@@ -347,7 +400,8 @@ def extract_headers(pdf_path):
                         if str(span['text']).strip() == '':
                             pass
                         elif span['bbox'][1] < 50:
-                            titles[count_] = span['text']
+                            block_txt = extract_entire_block_text(block["lines"])
+                            titles[count_] = block_txt
                             text_found_ = True
                             Final_text_found = True
                             break
@@ -781,10 +835,12 @@ def analyze_figure_captions(filename):
                                                                                                                "").lower().strip().startswith(
                     "image"):
                     caption = block[4].strip().replace("\n", "")
+
                     if images:
                         for img in images:
-                            print("abs(block[2] - img[0])",abs(block[2] - img[0]))
+                            print("abs(block[2] - img[0])", abs(block[2] - img[0]))
                             if abs(block[2] - img[0]) < 70 and block[5] - img[1] < 50:
+                                print('captionasdsdasdasdds', caption)
                                 images_with_captions += 1
                                 captions_with_images.append({
                                     "page_number": page_num,

@@ -58,7 +58,7 @@ def analyze_pdf(pdf_path):
         page_does_not_meet_wcag = False
         # Loop through each image in the page
         if not image_list:  # If there are no images on the page, consider it as "Access"
-            key2 = f"{page_num}_{0}"
+            key2 = f"{page_num+1}_{0}"
             image_accessibility[key2] = "No Images"
             continue
         for img_index, img_info in enumerate(image_list):

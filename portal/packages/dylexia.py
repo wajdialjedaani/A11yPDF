@@ -17,4 +17,5 @@ def analyze_dylexia(fonts_dict):
 
     # Calculate the overall percentage of usage for readable fonts
     percentage = (matching_usage / total_usage) * 100
+    print('percentage,matching_fonts,non_matching_fonts',percentage,matching_fonts,non_matching_fonts)
     return percentage,matching_fonts,non_matching_fonts

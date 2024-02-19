@@ -622,29 +622,29 @@ def generate_report(process_id):
                 with pd.ExcelWriter(excel_file, engine='openpyxl', mode='a') as writer:
                     image_df.to_excel(writer, sheet_name='Caption Analysis', index=False)
 
-                image_details_data = finl_dd['image_info_dict']
-
-                # Create a DataFrame from the new JSON data
-                image_details_rows = []
-                for filename, details in image_details_data.items():
-                    page_number, image_number = split_filename(filename)
-                    try:
-                        image_details_rows.append({
-                            'Page Number': page_number,
-                            'Image Number': image_number,
-                            'Image Name': filename,
-                            'Aspect Ratio': details['aspect_ratio'],
-                            'Height': details['height'],
-                            'Width': details['width']
-                        })
-                    except:
-                        pass
-
-                image_details_df = pd.DataFrame(image_details_rows)
-
-                # Write to a new sheet in the existing Excel file
-                with pd.ExcelWriter(excel_file, engine='openpyxl', mode='a') as writer:
-                    image_details_df.to_excel(writer, sheet_name='Image Analysis', index=False)
+                # image_details_data = finl_dd['image_info_dict']
+                #
+                # # Create a DataFrame from the new JSON data
+                # image_details_rows = []
+                # for filename, details in image_details_data.items():
+                #     page_number, image_number = split_filename(filename)
+                #     try:
+                #         image_details_rows.append({
+                #             'Page Number': page_number,
+                #             'Image Number': image_number,
+                #             'Image Name': filename,
+                #             'Aspect Ratio': details['aspect_ratio'],
+                #             'Height': details['height'],
+                #             'Width': details['width']
+                #         })
+                #     except:
+                #         pass
+                #
+                # image_details_df = pd.DataFrame(image_details_rows)
+                #
+                # # Write to a new sheet in the existing Excel file
+                # with pd.ExcelWriter(excel_file, engine='openpyxl', mode='a') as writer:
+                #     image_details_df.to_excel(writer, sheet_name='Image Analysis', index=False)
                 pdf_titles_data = finl_dd['titles']
                 pdf_footer_data = finl_dd['titles_for_footers_']
                 additional_data = {
@@ -719,6 +719,23 @@ def calculate_overall_percentage(data):
     return results
 
 
+def prepare_data_for_excel(combined_data):
+    # Create a list of dictionaries, each representing a page and its analysis
+    pages_data = []
+    for i, page_number in enumerate(combined_data['page number']):
+        page_data = {'page number': page_number}
+        for analysis_type in combined_data:
+            if analysis_type != 'page number':  # Exclude the 'page number' list
+                # Ensure there is data for the current page; if not, append None or an appropriate placeholder
+                page_data[analysis_type] = combined_data[analysis_type][i] if i < len(combined_data[analysis_type]) else None
+        pages_data.append(page_data)
+
+    # Sort the list of dictionaries by 'page number'
+    sorted_pages_data = sorted(pages_data, key=lambda x: x['page number'])
+
+    return sorted_pages_data
+
+
 @bp.route('/generate_report/<string:type_>/<string:process_id>', methods=["GET", "POST"])
 def generate_report_pdf(type_, process_id):
     pdf_docs_json = APP.config["PDF_RESULT_JSON"]
@@ -748,7 +765,7 @@ def generate_report_pdf(type_, process_id):
                             try:
                                 row = {
                                     "Page": page,
-                                    "Section": section,
+                                    # "Section": section,
                                     "Font Line": text_data.get("font_line", ""),
                                     "Font Type": ", ".join(text_data.get("font_font_type", [])),
                                     "Font Sizes": ", ".join(text_data.get("font_sizes", []))
@@ -1010,6 +1027,7 @@ def generate_report_pdf(type_, process_id):
     elif type_ == "color_blindness":
         try:
             combined_data_analyze_pdf_colorblind = finl_dd['combined_data_analyze_pdf_colorblind']
+            combined_data_analyze_pdf_colorblind=prepare_data_for_excel(combined_data_analyze_pdf_colorblind)
             image_df = pd.DataFrame(combined_data_analyze_pdf_colorblind)
             image_df.to_excel(excel_file, sheet_name="Color Blindness", index=False)
             file_name1 = "Report_" + str(process_id) + "_" + str(type_) + ".xlsx"
@@ -1028,9 +1046,9 @@ def generate_report_pdf(type_, process_id):
         try:
             combined_data_analyze_pdf_colorblind = finl_dd['url_access_list']
             url_rows = []
-            for index, (url, accessibility) in combined_data_analyze_pdf_colorblind.items():
+            for index, (url, accessibility, page) in combined_data_analyze_pdf_colorblind.items():
                 row = {
-                    "Index": index,
+                    "Page Number": page,
                     "URL": url,
                     "Accessible/Not Accessible": accessibility
                 }
@@ -1038,7 +1056,80 @@ def generate_report_pdf(type_, process_id):
 
             # Creating a DataFrame from the list of dictionaries
             df_urls = pd.DataFrame(url_rows)
-            df_urls.to_excel(excel_file, sheet_name="Color Blindness", index=False)
+            df_urls.to_excel(excel_file, sheet_name="urls", index=False)
+            file_name1 = "Report_" + str(process_id) + "_" + str(type_) + ".xlsx"
+            try:
+                return send_file(filepath, download_name=file_name1, as_attachment=True)
+            except:
+                return send_file(filepath, attachment_filename=file_name1, as_attachment=True)
+        except Exception as e:
+            resp = jsonify({"success": False,
+                            "errors": "Something went wrong",
+                            "e": str(e)})
+            resp.status_code = 400
+            return resp
+
+    elif type_ == "analyze_dylexia":
+        try:
+            #             image_details_data = finl_dd['image_info_dict":
+            non_matching_fonts_analyze_dylexia = finl_dd['non_matching_fonts_analyze_dylexia']
+            matching_fonts_analyze_dylexia = finl_dd['matching_fonts_analyze_dylexia']
+            pdf_titles_rows = []
+            for item in non_matching_fonts_analyze_dylexia:
+                try:
+                    row = {
+                        "Font": item,
+                        "Count": non_matching_fonts_analyze_dylexia[item],
+                        "Accessible/Not": "Not Accessible"
+                    }
+                except:
+                    row = {}
+                    pass
+                pdf_titles_rows.append(row)
+            for item in matching_fonts_analyze_dylexia:
+                try:
+                    row = {
+                        "Font": item,
+                        "Count": matching_fonts_analyze_dylexia[item],
+                        "Accessible/Not": "Accessible"
+                    }
+                except:
+                    row = {}
+                    pass
+                pdf_titles_rows.append(row)
+
+            image_df = pd.DataFrame(pdf_titles_rows)
+
+            # with pd.ExcelWriter(excel_file, engine='openpyxl', mode='a') as writer:
+            #     image_df.to_excel(writer, sheet_name='Headers In Pdf', index=False)
+            # file_name1 = "Report_" + str(process_id) + "_" + str(type_) + ".xlsx"
+            # return send_file(filepath, download_name=file_name1, as_attachment=True)
+
+            image_df.to_excel(excel_file, sheet_name="analyze dylexia", index=False)
+            file_name1 = "Report_" + str(process_id) + "_" + str(type_) + ".xlsx"
+            try:
+                return send_file(filepath, download_name=file_name1, as_attachment=True)
+            except:
+                return send_file(filepath, attachment_filename=file_name1, as_attachment=True)
+        except Exception as e:
+            resp = jsonify({"success": False,
+                            "errors": "Something went wrong",
+                            "e": str(e)})
+            resp.status_code = 400
+            return resp
+    elif type_ == "table_dylexia":
+        try:
+            #             image_details_data = finl_dd['image_info_dict":
+            non_matching_fonts_analyze_dylexia = finl_dd['captions_with_tables']
+
+            image_df = pd.DataFrame(non_matching_fonts_analyze_dylexia)
+
+            # with pd.ExcelWriter(excel_file, engine='openpyxl', mode='a') as writer:
+            #     image_df.to_excel(writer, sheet_name='Headers In Pdf', index=False)
+            # file_name1 = "Report_" + str(process_id) + "_" + str(type_) + ".xlsx"
+            # return send_file(filepath, download_name=file_name1, as_attachment=True)
+
+            image_df.to_excel(excel_file, sheet_name="Table Caption", index=False)
             file_name1 = "Report_" + str(process_id) + "_" + str(type_) + ".xlsx"
             try:
                 return send_file(filepath, download_name=file_name1, as_attachment=True)
@@ -1058,7 +1149,19 @@ def generate_report_pdf(type_, process_id):
         return resp
 
 
-@bp.route('/result/<string:process_id>', methods=['GET', "POST"])
+@bp.route('/download/<string:filename>/<string:process_id>', methods=["GET", "POST"])
+def generate_download(filename, process_id):
+    pdf_docs = APP.config["PDF_DIR"]
+    filepath = os.path.join(pdf_docs, process_id, filename)
+    if os.path.exists(os.path.join(pdf_docs, process_id, filename)):
+        if os.path.exists(filepath):
+            try:
+                return send_file(filepath, download_name=filename, as_attachment=True)
+            except:
+                return send_file(filepath, attachment_filename=filename, as_attachment=True)
+
+
+@bp.route('/result/<string:process_id>/', methods=['GET', "POST"])
 def final_result(process_id):
     if request.method == "POST":
         pdf_docs = APP.config["PDF_DIR"]
@@ -1107,14 +1210,16 @@ def final_result(process_id):
                     titles_for_footers_, count_of_footers_ = extract_foter(os.path.join(pdf_docs, process_id, filename))
                     table_count_ = get_tables_count(os.path.join(pdf_docs, process_id, filename))
 
-                    image_info_dict, final_list_of_rsa = get_image_resolution_aspect_ratio(
-                        os.path.join(images_path_of_pdf, process_id))
+                    image_info_dict, final_list_of_rsa={},[]
+                    # image_info_dict, final_list_of_rsa = get_image_resolution_aspect_ratio(
+                    #     os.path.join(images_path_of_pdf, process_id))
 
-                    overall_sharpness, overall_contrast, overall_visibility = assess_pdf_quality(
-                        os.path.join(pdf_docs, process_id, filename))
-                    # overall_sharpness, overall_contrast, overall_visibility=0,0,0
-                    final_dic_for_access_ = [
-                        [round(overall_sharpness, 2), round(overall_visibility, 2), round(overall_contrast)]]
+                    # overall_sharpness, overall_contrast, overall_visibility = assess_pdf_quality(
+                    #     os.path.join(pdf_docs, process_id, filename))
+                    # # overall_sharpness, overall_contrast, overall_visibility=0,0,0
+                    # final_dic_for_access_ = [
+                    #     [round(overall_sharpness, 2), round(overall_visibility, 2), round(overall_contrast)]]
+                    final_dic_for_access_ = []
 
                     # top_colors_list = get_top_colors(os.path.join(images_path_of_pdf, process_id))
                     top_colors_list = []
@@ -1164,9 +1269,9 @@ def final_result(process_id):
                                    "image_accessibility": image_accessibility,
                                    "image_page_number_accessibility": image_page_number_accessibility,
                                    "url_access_list": url_access_list,
-                               "percentage_with_caption_table": percentage_with_caption_table,
-                               "percentage_without_caption_table": percentage_without_caption_table,
-                               "captions_with_tables": captions_with_tables}
+                                   "percentage_with_caption_table": percentage_with_caption_table,
+                                   "percentage_without_caption_table": percentage_without_caption_table,
+                                   "captions_with_tables": captions_with_tables}
 
                     fina_header_count_ = [[round(percentage_with_headers), yes_headers_pages],
                                           [round(percentage_without_headers), No_headers_Pages]]
@@ -1288,6 +1393,13 @@ def final_result(process_id):
                                            round(meets_wcag_percentage, 1), round(percentage_with_page_number, 1)]
                     overall_percentage = round(sum(percentages) / len(percentages), 1)
                     remaining_percentage = round(100 - overall_percentage, 1)
+
+                    percentage_analyze_dylexia, matching_fonts_analyze_dylexia, non_matching_fonts_analyze_dylexia = analyze_dylexia(
+                        font_type_dict_)
+                    final_json_['matching_fonts_analyze_dylexia'] = matching_fonts_analyze_dylexia
+                    final_json_['non_matching_fonts_analyze_dylexia'] = non_matching_fonts_analyze_dylexia
+                    remaining_percentage_dylexia = round(100 - percentage_analyze_dylexia)
+
                     final_data_analyze_pdf_colorblind, combined_data_analyze_pdf_colorblind = future.result()
                     overall_percentages_colorblind = calculate_overall_percentage(combined_data_analyze_pdf_colorblind)
 
@@ -1302,10 +1414,10 @@ def final_result(process_id):
                     # print('final_data_analyze_pdf_colorblind, combined_data_analyze_pdf_colorblind',final_data_analyze_pdf_colorblind, combined_data_analyze_pdf_colorblind)
                     # exit()
                     elapsed_time = time.time() - start_time
-                    # print(f"analyze_pdf_colorblind took {elapsed_time:.2f} seconds.")
+                    print(f"analyze_pdf_colorblind took {elapsed_time:.2f} seconds.")
                 # print('font_type_dict_', font_type_dict_)
                 # exit()
-                percentage,matching_fonts,non_matching_fonts=analyze_dylexia(font_type_dict_)
+
                 return render_template("pdf_analysis_latest.html", top_4_font_size_=top_4_font_size_,
                                        top_4_fonts_types=top_4_fonts_types, total_counts_size=total_counts_size,
                                        total_counts_types=total_counts_types, count_urls_=count_urls_final_,
@@ -1341,7 +1453,10 @@ def final_result(process_id):
                                        percentage_with_caption_table=percentage_with_caption_table,
                                        percentage_without_caption_table=percentage_without_caption_table,
                                        captions_with_tables=captions_with_tables,
-                                       percentage=percentage,matching_fonts=matching_fonts,non_matching_fonts=non_matching_fonts)
+                                       percentage_analyze_dylexia=round(percentage_analyze_dylexia),
+                                       matching_fonts_analyze_dylexia=matching_fonts_analyze_dylexia,
+                                       non_matching_fonts_analyze_dylexia=non_matching_fonts_analyze_dylexia,
+                                       remaining_percentage_dylexia=round(remaining_percentage_dylexia))
             else:
                 resp = jsonify({"success": False,
                                 "data": {"pdf name": "None"},
@@ -1430,6 +1545,9 @@ def final_result(process_id):
                 font_size_dict_ = {}
                 font_type_dict_ = {}
                 count_ = 0
+                matching_fonts_analyze_dylexia = finl_dd['matching_fonts_analyze_dylexia']
+                non_matching_fonts_analyze_dylexia = finl_dd['non_matching_fonts_analyze_dylexia']
+
                 final_json_ = {"pages_with_page_number": pages_with_page_number,
                                "pages_without_page_number": pages_without_page_number,
                                "percentage_without_page_number": percentage_without_page_number,
@@ -1459,7 +1577,9 @@ def final_result(process_id):
                                "url_access_list": url_access_list,
                                "percentage_with_caption_table": percentage_with_caption_table,
                                "percentage_without_caption_table": percentage_without_caption_table,
-                               "captions_with_tables": captions_with_tables}
+                               "captions_with_tables": captions_with_tables,
+                               "matching_fonts_analyze_dylexia": matching_fonts_analyze_dylexia,
+                               "non_matching_fonts_analyze_dylexia": non_matching_fonts_analyze_dylexia}
                 pdf_docs_json = APP.config["PDF_RESULT_JSON"]
                 if not os.path.exists(os.path.join(pdf_docs_json, process_id)):
                     os.mkdir(os.path.join(pdf_docs_json, process_id))
@@ -1559,9 +1679,15 @@ def final_result(process_id):
                         percentages = [round(percentage_with_captions, 1), round(percentage_with_captions, 1),
                                        round(fina_header_count_[0][0], 1), round(count_of_footers_[0][0], 1),
                                        round(meets_wcag_percentage, 1), round(percentage_with_page_number, 1)]
-                overall_percentage = round(sum(percentages) / len(percentages), 1)
-                remaining_percentage = round(100 - overall_percentage, 1)
-                percentage, matching_fonts, non_matching_fonts = analyze_dylexia(font_type_dict_)
+                overall_percentage = round(sum(percentages) / len(percentages))
+                remaining_percentage = round(100 - overall_percentage)
+                # percentage, matching_fonts, non_matching_fonts = analyze_dylexia(font_type_dict_)
+                percentage_analyze_dylexia, matching_fonts_analyze_dylexia, non_matching_fonts_analyze_dylexia = analyze_dylexia(
+                    font_type_dict_)
+                # print('percentage_analyze_dylexia, matching_fonts_analyze_dylexia, non_matching_fonts_analyze_dylexia',percentage_analyze_dylexia, matching_fonts_analyze_dylexia)
+                remaining_percentage_dylexia = round(100 - percentage_analyze_dylexia)
+                # print('non_matching_fonts_analyze_dylexia',non_matching_fonts_analyze_dylexia)
+                # print('remaining_percentage_dylexia',remaining_percentage_dylexia)
                 return render_template("pdf_analysis_latest.html", top_4_font_size_=top_4_font_size_,
                                        top_4_fonts_types=top_4_fonts_types, total_counts_size=total_counts_size,
                                        total_counts_types=total_counts_types, count_urls_=count_urls_,
@@ -1597,7 +1723,10 @@ def final_result(process_id):
                                        percentage_with_caption_table=percentage_with_caption_table,
                                        percentage_without_caption_table=percentage_without_caption_table,
                                        captions_with_tables=captions_with_tables,
-                                       percentage=percentage, matching_fonts=matching_fonts, non_matching_fonts=non_matching_fonts)
+                                       percentage_analyze_dylexia=round(percentage_analyze_dylexia),
+                                       matching_fonts_analyze_dylexia=matching_fonts_analyze_dylexia,
+                                       non_matching_fonts_analyze_dylexia=non_matching_fonts_analyze_dylexia,
+                                       remaining_percentage_dylexia=round(remaining_percentage_dylexia))
             else:
                 resp = jsonify({"success": False,
                                 "data": {"pdf name": "None"},

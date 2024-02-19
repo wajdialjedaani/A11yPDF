@@ -73,7 +73,7 @@
 		<div class="outer-box">
 
 			<div class="sub-title-box-1">
-				<h2 class="title" onclick="location.href='/PDFAnalyzerX/generate_report/fsa/{{process_id}}'">{{filename}}</h2>
+				<h2 class="title" onclick="location.href='/PDFAnalyzerX/download/{{filename}}/{{process_id}}'">{{filename}}</h2>
 				<h5 class="title-desc">{{summarized_text}} </h5>
 				<div class="grp-btn" onclick="location.href='/PDFAnalyzerX/generate_report/{{process_id}}'">
 					<div class="generate-report-button">
@@ -527,7 +527,7 @@
 					</div>
 					<div class="button-con">
 						<div class="moreinfo-con"><a class="button arrow" href="#open-modal">More Info </a></div>
-						<div class="btn" onclick="location.href='/PDFAnalyzerX/generate_report/fsa/{{process_id}}'">
+						<div class="btn" onclick="location.href='/PDFAnalyzerX/generate_report/table_dylexia/{{process_id}}'">
 							<div class="generate-report-button">
 								<p>Generate Report</p>
 								<svg width="28" height="30" viewBox="0 0 28 30" fill="none"
@@ -555,7 +555,7 @@
 					</div>
 					<div class="button-con">
 						<div class="moreinfo-con"><a class="button arrow" href="#open-modal">More Info </a></div>
-						<div class="btn" onclick="location.href='/PDFAnalyzerX/generate_report/fsa/{{process_id}}'">
+						<div class="btn" onclick="location.href='/PDFAnalyzerX/generate_report/analyze_dylexia/{{process_id}}'">
 							<div class="generate-report-button">
 								<p>Generate Report</p>
 								<svg width="28" height="30" viewBox="0 0 28 30" fill="none"
@@ -935,7 +935,7 @@
 		// Determine background color based on percentage
 
 		percentage = {{ fina_header_count_[0][0] }};
-		var backgroundColor10 = '';
+		var backgroundColor = '';
 		if (percentage > 60) {
 			backgroundColor10 = 'green'; // Red background
 		} else if (percentage >= 40 && percentage <= 60) {
@@ -1197,7 +1197,7 @@
 			ctx.font = 'bolder 22px Arial';
 			ctx.fillStyle = backgroundColor14;
 			ctx.textAlign = 'center';
-			ctx.fillText('{{meets_wcag_percentage}}%', 55, 60);
+			ctx.fillText('{{percentage_with_caption_table}}%', 55, 60);
 		}
 	};
 
@@ -1207,7 +1207,7 @@
 		data: {
 			labels: [''], // No labels needed for a single segment
 			datasets: [{
-				data: [{{meets_wcag_percentage}},does_not_meet_wcag_percentage], // 84% filled, 16% empty
+				data: [{{percentage_with_caption_table}},{{percentage_without_caption_table}}], // 84% filled, 16% empty
 				weight: 10,
 				backgroundColor: [backgroundColor14, '#d7d9db'],
 				borderColor: 'white',
@@ -1256,7 +1256,7 @@
 			ctx.font = 'bolder 22px Arial';
 			ctx.fillStyle = backgroundColor15;
 			ctx.textAlign = 'center';
-			ctx.fillText('{{meets_wcag_percentage}}%', 55, 60);
+			ctx.fillText('{{percentage_analyze_dylexia}}%', 55, 60);
 		}
 	};
 
@@ -1266,7 +1266,7 @@
 		data: {
 			labels: [''], // No labels needed for a single segment
 			datasets: [{
-				data: [{{meets_wcag_percentage}},does_not_meet_wcag_percentage], // 84% filled, 16% empty
+				data: [{{percentage_analyze_dylexia}},{{remaining_percentage_dylexia}}], // 84% filled, 16% empty
 				weight: 10,
 				backgroundColor: [backgroundColor15, '#d7d9db'],
 				borderColor: 'white',
@@ -1735,7 +1735,6 @@
 			plugins: [ChartDataLabels],
 		});
 
-
 	</script>
 	<script>
 		const ctx1 = document.getElementById('links_chart').getContext('2d');
@@ -1759,32 +1758,23 @@
 					borderWidth: 1
 				}]
 			},
-				options: {
-					plugins: {
-						legend: {
-			padding: 20,
-			position: 'left',
-			align: 'center',
-			labels: {
-			  boxWidth: 50, // Adjust if needed
-			  usePointStyle: true,
-			  color: '#000000',
-			  font: {
-				size: 10, // Reduced font size
-			  }
-			},
-			title: {
-			  display: true,
-			  padding: 15, // Increased padding
-			}
-		  },
-		  datalabels: {
-			color: '#fff',
-			font: {
-			  weight: 'bold',
-			}
-		  }
-		},
+			options: {
+				plugins: {
+					legend: {
+						position: 'left',
+						align: 'center',
+						labels: {
+							usePointStyle: true,
+							color: '#000000',
+						}
+					},
+					datalabels: {
+						color: '#fff',
+						font: {
+							weight: 'bold',
+						}
+					}
+				},
 				maintainAspectRatio: false,
 				animation: {
 					duration: 2000,
@@ -1807,7 +1797,7 @@
 				datasets: [{
 					label: 'of Votes',
 					backgroundColor: ['#1a951d', '#e34c19'],
-					data: ['40','30'],
+					data: datasets_for_no_of_work,
 					borderWidth: 1,
 					barThickness: 50
 				}]
@@ -2128,24 +2118,27 @@
                 backgroundColor:'#0282c1',
                 data: data_1_2,
                 borderWidth: 1,
-				categoryPercentage: 0.6,
-    			barPercentage: 0.8,
+				barThickness: 70,
+				categoryPercentage: 0.8,
+        		barPercentage: 0.5,
             },
             {
                 label: 'Protonopia/Deuteranopia',
                 backgroundColor: '#df2488',
                 data: [consolidatedData['0-0.5'][1][1],consolidatedData['0.5-1'][1][1],consolidatedData['1+'][1][1]],
                 borderWidth: 1,
-				categoryPercentage: 0.6,
-    			barPercentage: 0.8,
+				barThickness: 70,
+				categoryPercentage: 0.8,
+        		barPercentage: 0.5,
             },
             {
                 label: 'Tritanopia',
                 backgroundColor: '#e34c19',
                 data: [consolidatedData['0-0.5'][1][2],consolidatedData['0.5-1'][1][2],consolidatedData['1+'][1][2]],
                 borderWidth: 1,
-				categoryPercentage: 0.6,
-    			barPercentage: 0.8,
+				barThickness: 70,
+				categoryPercentage: 0.8,
+        		barPercentage: 0.5,
             }]
         },
         options: {
@@ -2172,17 +2165,17 @@
                 easing: 'easeInOutQuart',
             },
             scales: {
-				x: {
-					ticks: {
-						color: '#000000' // Change x-axis label color here
-					}
-				},
-				y: {
-					ticks: {
-						color: '#000000' // Change y-axis label color here
+					x: {
+						ticks: {
+							color: '#000000' // Change x-axis label color here
+						}
+					},
+					y: {
+						ticks: {
+							color: '#000000' // Change y-axis label color here
+						}
 					}
 				}
-			},
         },
 		plugins: [ChartDataLabels],
     });
@@ -2193,11 +2186,11 @@
 		new Chart(ctx9, {
 			type: 'pie',
 			data: {
-				labels: ["Contains Page Numbers %","Doesn't Contains Page Numbers %"],
+				labels: ["Table Contains Caption %","Table Doesn't Contains Caption %"],
 				datasets: [{
-					label: 'Page',
+					label: 'Table',
 					backgroundColor: ['#df2488', '#1a951d'],
-					data: [{{percentage_with_page_number}},{{percentage_without_page_number}}],
+					data: [{{percentage_with_caption_table}},{{percentage_without_caption_table}}],
 					borderWidth: 1
 				}]
 			},
@@ -2233,11 +2226,11 @@
 		new Chart(ctx10, {
 			type: 'pie',
 			data: {
-				labels: ["Contains Page Numbers %","Doesn't Contains Page Numbers %"],
+				labels: ["Satisfies Dylexia %","Doesn't Satisfies Dylexia %"],
 				datasets: [{
 					label: 'Page',
 					backgroundColor: ['#df2488', '#1a951d'],
-					data: [{{percentage_with_page_number}},{{percentage_without_page_number}}],
+					data: [{{percentage_analyze_dylexia}},{{remaining_percentage_dylexia}}],
 					borderWidth: 1
 				}]
 			},

@@ -40,8 +40,6 @@ def luminance(rgb):
     L = 0.2126 * rgb[0] + 0.7152 * rgb[1] + 0.0722 * rgb[2]
     return L
 
-
-# returns letters to mark which tests a colour qualifies for based on hue
 def relevantTests(hue, sat):
     hue *= 360
     sat *= 100
@@ -64,13 +62,6 @@ def relevantTests(hue, sat):
     else:
         return "NA"
 
-
-# added labels to plt plot from geeksforgeeks article
-# def addlabels(x,y):
-#     for i in range(len(x)):
-#         plt.text(i, y[i], y[i], ha = 'center')
-
-# analyse image
 def analyzeFrame(img, ratios):
     img = quantise(img)
     # blank set
@@ -132,30 +123,6 @@ def analyzeFrame(img, ratios):
         print(data)
     return data
     # chart(data)
-
-
-# def chart(data):
-#         #old chart
-#         #labels = ['Monochromacy', 'Protonopia/Deuteranopia', 'Tritanopia']
-#         #plt.xticks(range(len(data)), labels)
-#         #addlabels(labels, data)
-#         #plt.xlabel('Type')
-#         #plt.ylabel('Score')
-#         #plt.title('Ratings')
-#         #plt.grid(color='#95a5a6', linestyle='--', linewidth=2, axis='y', alpha=0.7)
-#         #plt.bar(range(len(data)), data, color='purple')
-#         #plt.show()
-#
-#         #bar chart on tkinter box
-#         df1=pd.DataFrame(data)
-#         figure = plt.Figure(figsize=(6,6), dpi=100)
-#         ax = figure.add_subplot(111)
-#         chart_type = FigureCanvasTkAgg(figure, root)
-#         chart_type.get_tk_widget().pack(side=tk.LEFT, fill=tk.BOTH)
-#         df1 = df1[['Monochromacy','Protonopia/Deuteranopia', 'Tritanopia']]
-#         df1.plot(kind='bar', legend=True, ax=ax)
-#         ax.set_title('Ratings')
-#         root.mainloop()
 
 
 def processResults(ratios):
@@ -256,7 +223,8 @@ def analyze_pdf_colorblind(pdf_path, zoom=2):
     combined_data = {
         'Monochromacy': [],
         'Protonopia/Deuteranopia': [],
-        'Tritanopia': []
+        'Tritanopia': [],
+        'page number': []
     }
 
     with concurrent.futures.ThreadPoolExecutor() as executor:
@@ -268,23 +236,12 @@ def analyze_pdf_colorblind(pdf_path, zoom=2):
             page_number = future_to_page[future]
             try:
                 page_data = future.result() # Updated to use the new function
+                combined_data['page number'].append(page_number+1)
                 for key in combined_data:
-                    if key in page_data:
+                    if key in page_data and key != 'page number':
                         combined_data[key].append(page_data[key][0])  # Assuming page_data[key] is a list with a single element
             except Exception as exc:
                 print(f'Page {page_number} generated an exception: {exc}')
     doc.close()
     final_data_=categorize_values(combined_data)
     return final_data_,combined_data
-
-
-
-
-
-# combined_data = analyze_pdf(
-#     "/Users/sandeepkumarrudhravaram/WorkSpace/UntProjects/pdf_analyzer_prod_final/Team16_Sprint_2.pdf")
-# # data=get_data("/Users/sandeepkumarrudhravaram/WorkSpace/UntProjects/pdf_analyzer_prod_final/181120230516496633511.png")
-# # print(data,"sads")
-# # Categorizing the combined_data
-# categorized_data = categorize_values(combined_data)
-# print('categorized_data', categorized_data)
