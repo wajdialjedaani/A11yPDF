@@ -906,7 +906,7 @@ input[type=file] {
 
 /*preloader*/
 .loading-div{
-      width: 100%;
+    width: 100%;
     position: absolute;
     height: 100%;
     justify-content: center;
@@ -1711,4 +1711,37 @@ width: 35%;
     .file-upload {
         width: 50%;
     }
+}
+@media screen and (max-width: 430px) {
+    .nav{
+        width: 90%;
+    }
+    .logo_svg{
+        width: 120px;
+        height: 40px;
+        margin-top: 8px;
+    }
+    .nav-icons{
+        gap: 15px;
+    }
+    .homeDiv{
+        width: 140px;
+        height: 45px;
+    }
+    .homeSpan{
+        width: 145px;
+        top: -2px;
+    }
+    .acc-score-title{
+        width: 100%;
+    }
+    .color_box{
+        width:90%
+    }
+    .indivudual-charts .box{
+        height:  fit-content;
+    }
+}
+.color_box{
+    width:100%
 }
