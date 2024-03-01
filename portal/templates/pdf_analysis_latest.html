@@ -44,7 +44,7 @@
 				</svg></a>
 			</div>
 			<div class="nav-icons">
-				<div class="homeDiv" onclick="location.href='/PDFAnalyzerX/'">
+				<div id="pdf-upload" class="homeDiv" onclick="location.href='/PDFAnalyzerX/'">
 					<span class="homeSpan">
 						Upload Pdf
 						<svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom: -8px;margin-top: 8px;">
@@ -209,8 +209,8 @@
 		<div class="indivudual-charts">
 			<div class="box">
 				<div class="row  mt-xl-0 mt-4">
-					<div style="width: 70%;">
-							<h4 class="card-title">Fonts Size Analysis</h4>
+					<div id="fontsizelbl" class="font-div">
+							<h4 class="card-title">Fonts Size</h4>
 					</div>
 					<div>
 						<span>Accessibility Score</span>
@@ -221,8 +221,8 @@
 					<canvas id="font_size"></canvas>
 				</div>
 				<div class="button-con">
-					<div class="moreinfo-con"><a class="button arrow" href="#open-modal">More Info </a></div>
-					<div class="btn" onclick="location.href='/PDFAnalyzerX/generate_report/fsa/{{process_id}}'">
+					<div id="more_info" class="moreinfo-con"><a class="button arrow" href="#open-modal">More Info </a></div>
+					<div class="btn" id="gen_report" onclick="location.href='/PDFAnalyzerX/generate_report/fsa/{{process_id}}'">
 						<div class="generate-report-button">
 							<p>Generate Report</p>
 							<svg width="28" height="30" viewBox="0 0 28 30" fill="none"
@@ -240,7 +240,7 @@
 							<a href="#" title="Close" class="modal-close">X</a>
 							<!-- <h1>Fonts Family Analysis</h1> -->
 							<div class="row  mt-xl-0 mt-4">
-								<div style="width: 70%;">
+								<div class="font-div">
 									<h4 class="card-title">Fonts Family Analysis</h4>
 								</div>
 								<div>
@@ -270,7 +270,7 @@
 					</div>
 				<div class="box">
 					<div class="row  mt-xl-0 mt-4">
-						<div style="width: 70%;">
+						<div class="font-div">
 							<h4 class="card-title">Links</h4>
 						</div>
 						{% if count_urls_ > 0 %}
@@ -310,7 +310,7 @@
 				</div>
 				<div class="box">
 					<div class="row  mt-xl-0 mt-4">
-						<div style="width: 70%;">
+						<div class="font-div">
 							<h4 class="card-title">Image Caption</h4>
 						</div>
 						<div>
@@ -338,7 +338,7 @@
 				</div>
 				<div class="box">
 					<div class="row  mt-xl-0 mt-4">
-						<div style="width: 70%;">
+						<div  class="font-div">
 							<h4 class="card-title">Header</h4>
 						</div>
 						<div>
@@ -366,7 +366,7 @@
 				</div>
 				<div class="box">
 					<div class="row  mt-xl-0 mt-4">
-						<div style="width: 70%;">
+						<div class="font-div">
 							<h4 class="card-title">Footer</h4>
 						</div>
 						<div>
@@ -399,7 +399,7 @@
 				</div>
 				<div class="box">
 					<div class="row  mt-xl-0 mt-4">
-						<div style="width: 70%;">
+						<div  class="font-div">
 							<h4 class="card-title">Page Contrast</h4>
 						</div>
 						<div>
@@ -427,7 +427,7 @@
 				</div>
 				<div class="box">
 					<div class="row  mt-xl-0 mt-4">
-						<div style="width: 70%;">
+						<div  class="font-div">
 							<h4 class="card-title">Page Numbers</h4>
 						</div>
 						<div>
@@ -455,8 +455,8 @@
 				</div>
 				<div class="box">
 					<div class="row  mt-xl-0 mt-4">
-						<div style="width: 70%;">
-							<h4 class="card-title">Fonts Family Analysis</h4>
+						<div class="font-div">
+							<h4 class="card-title card-430">Fonts Family Analysis</h4>
 						</div>
 						<div>
 <!--							<span>Accessibility</span>-->
@@ -483,8 +483,8 @@
 				</div>
 				<div class="box color_box">
 					<div class="row  mt-xl-0 mt-4">
-						<div style="width: 75%;">
-							<h4 class="card-title">Color Blindness</h4>
+						<div class="font-div">
+							<h4 class="card-title card-430">Color Blindness</h4>
 						</div>
 						<div>
 <!--							<span>Accessibility</span>-->
@@ -494,7 +494,7 @@
 					<div class="col-md-12" style="height: 55%;">
 						<canvas id="color_blindness"></canvas>
 					</div>
-					<div class="button-con" style="margin: 3% auto;width: 35%;">
+					<div class="button-con color-btn-div" style="margin: 3% auto;">
 						<div class="moreinfo-con"><a class="button arrow" href="#open-modal">More Info </a></div>
 						<div class="btn" onclick="location.href='/PDFAnalyzerX/generate_report/color_blindness/{{process_id}}'">
 							<div class="generate-report-button">
@@ -511,7 +511,7 @@
 				</div>
 			<div class="box">
 				<div id="table-caption" class="row  mt-xl-0 mt-4">
-					<div style="width: 70%;">
+					<div class="font-div">
 						<h4 class="card-title">Table Caption</h4>
 					</div>
 					<div>
@@ -539,7 +539,7 @@
 			</div>
 			<div class="box">
 				<div id="dyslexia" class="row  mt-xl-0 mt-4">
-					<div style="width: 70%;">
+					<div class="font-div">
 						<h4 class="card-title">Dyslexia</h4>
 					</div>
 					<div>
@@ -692,7 +692,7 @@
 
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.2.0/chartjs-plugin-datalabels.min.js"></script>
-
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/hopscotch/0.3.1/js/hopscotch.js"></script>
 	<script>
 		// Determine background color based on percentage
 
@@ -721,10 +721,18 @@
 				ctx.save();
 <!--				console.logconsole.log(top);-->
 
+				// Calculate the position relative to the chart area
+				const x = (left + width / 2) + 5; // Center horizontally
+				const y = (top + height / 2) + 10; // Center vertically
+
+				// Determine the font size dynamically based on the chart size
+				const fontSize = Math.min(width, height) * 0.2; // Adjust 0.2 as needed for font size scaling
+
 				ctx.font = 'bolder 44px Arial';
 				ctx.fillStyle = backgroundColor;
 				ctx.textAlign = 'center';
-				ctx.fillText('{{overall_percentage}}%', 140, 150);
+<!--				ctx.fillText('{{overall_percentage}}%', 140, 150);-->
+				ctx.fillText('{{overall_percentage}}%', x, y);
 			}
 		};
 
@@ -781,10 +789,18 @@
 				ctx.save();
 <!--				console.log(top);-->
 
+				// Calculate the position relative to the chart area
+				const x = (left + width / 2) + 5; // Center horizontally
+				const y = (top + height / 2) + 10; // Center vertically
+
+				// Determine the font size dynamically based on the chart size
+				const fontSize = Math.min(width, height) * 0.2; // Adjust 0.2 as needed for font size scaling
+
 				ctx.font = 'bolder 22px Arial';
 				ctx.fillStyle = backgroundColor7;
 				ctx.textAlign = 'center';
-				ctx.fillText('{{percentage_greater_than_16}}%', 55, 60);
+<!--				ctx.fillText('{{percentage_greater_than_16}}%', 55, 60);-->
+				ctx.fillText('{{percentage_greater_than_16}}%', x, y);
 			}
 		};
 
@@ -839,10 +855,18 @@
 				ctx.save();
 <!--				console.log(top);-->
 
+				// Calculate the position relative to the chart area
+				const x = (left + width / 2) + 5; // Center horizontally
+				const y = (top + height / 2) + 10; // Center vertically
+
+				// Determine the font size dynamically based on the chart size
+				const fontSize = Math.min(width, height) * 0.2; // Adjust 0.2 as needed for font size scaling
+
 				ctx.font = 'bolder 22px Arial';
 				ctx.fillStyle = backgroundColor8;
 				ctx.textAlign = 'center';
-				ctx.fillText('{{no_of_work['Number Of Urls Accessible']}}%', 55, 60);
+<!--				ctx.fillText('{{no_of_work['Number Of Urls Accessible']}}%', 55, 60);-->
+				ctx.fillText('{{no_of_work['Number Of Urls Accessible']}}%', x, y);
 			}
 		};
 
@@ -898,10 +922,18 @@
 				ctx.save();
 <!--				console.log(top);-->
 
+				// Calculate the position relative to the chart area
+				const x = (left + width / 2) + 5; // Center horizontally
+				const y = (top + height / 2) + 10; // Center vertically
+
+				// Determine the font size dynamically based on the chart size
+				const fontSize = Math.min(width, height) * 0.2; // Adjust 0.2 as needed for font size scaling
+
 				ctx.font = 'bolder 22px Arial';
 				ctx.fillStyle = backgroundColor9;
 				ctx.textAlign = 'center';
-				ctx.fillText('{{percentage_with_captions}}%', 55, 60);
+<!--				ctx.fillText('{{percentage_with_captions}}%', 55, 60);-->
+				ctx.fillText('{{percentage_with_captions}}%', x, y);
 			}
 		};
 
@@ -957,10 +989,18 @@
 				ctx.save();
 <!--				console.log(top);-->
 
+				// Calculate the position relative to the chart area
+				const x = (left + width / 2) + 5; // Center horizontally
+				const y = (top + height / 2) + 10; // Center vertically
+
+				// Determine the font size dynamically based on the chart size
+				const fontSize = Math.min(width, height) * 0.2; // Adjust 0.2 as needed for font size scaling
+
 				ctx.font = 'bolder 22px Arial';
 				ctx.fillStyle = backgroundColor10;
 				ctx.textAlign = 'center';
-				ctx.fillText('{{ fina_header_count_[0][0] }}%', 55, 60);
+<!--				ctx.fillText('{{ fina_header_count_[0][0] }}%', 55, 60);-->
+				ctx.fillText('{{ fina_header_count_[0][0] }}%', x, y);
 			}
 		};
 
@@ -1017,10 +1057,18 @@
 				ctx.save();
 <!--				console.log(top);-->
 
+				// Calculate the position relative to the chart area
+				const x = (left + width / 2) + 5; // Center horizontally
+				const y = (top + height / 2) + 10; // Center vertically
+
+				// Determine the font size dynamically based on the chart size
+				const fontSize = Math.min(width, height) * 0.2; // Adjust 0.2 as needed for font size scaling
+
 				ctx.font = 'bolder 22px Arial';
 				ctx.fillStyle = backgroundColor11;
 				ctx.textAlign = 'center';
-				ctx.fillText('{{count_of_footers_[0][0]}}%', 55, 60);
+<!--				ctx.fillText('{{count_of_footers_[0][0]}}%', 55, 60);-->
+				ctx.fillText('{{count_of_footers_[0][0]}}%', x, y);
 			}
 		};
 
@@ -1076,10 +1124,18 @@
 				ctx.save();
 <!--				console.log(top);-->
 
+				// Calculate the position relative to the chart area
+				const x = (left + width / 2) + 5; // Center horizontally
+				const y = (top + height / 2) + 10; // Center vertically
+
+				// Determine the font size dynamically based on the chart size
+				const fontSize = Math.min(width, height) * 0.2; // Adjust 0.2 as needed for font size scaling
+
 				ctx.font = 'bolder 22px Arial';
 				ctx.fillStyle = backgroundColor12;
 				ctx.textAlign = 'center';
-				ctx.fillText('{{percentage_with_page_number}}%', 55, 60);
+<!--				ctx.fillText('{{percentage_with_page_number}}%', 55, 60);-->
+				ctx.fillText('{{percentage_with_page_number}}%', x, y);
 			}
 		};
 
@@ -1135,10 +1191,18 @@
 			ctx.save();
 <!--			console.log(top);-->
 
+			// Calculate the position relative to the chart area
+			const x = (left + width / 2) + 5; // Center horizontally
+			const y = (top + height / 2) + 10; // Center vertically
+
+			// Determine the font size dynamically based on the chart size
+			const fontSize = Math.min(width, height) * 0.2; // Adjust 0.2 as needed for font size scaling
+
 			ctx.font = 'bolder 22px Arial';
 			ctx.fillStyle = backgroundColor13;
 			ctx.textAlign = 'center';
-			ctx.fillText('{{meets_wcag_percentage}}%', 55, 60);
+<!--			ctx.fillText('{{meets_wcag_percentage}}%', 55, 60);-->
+			ctx.fillText('{{meets_wcag_percentage}}%', x, y);
 		}
 	};
 
@@ -1335,10 +1399,18 @@
 				ctx.save();
 <!--				console.log(top);-->
 
+				// Calculate the position relative to the chart area
+				const x = (left + width / 2) + 5; // Center horizontally
+				const y = (top + height / 2) + 10; // Center vertically
+
+				// Determine the font size dynamically based on the chart size
+				const fontSize = Math.min(width, height) * 0.2; // Adjust 0.2 as needed for font size scaling
+
 				ctx.font = 'bolder 45px Arial';
 				ctx.fillStyle = backgroundColor1;
 				ctx.textAlign = 'center';
-				ctx.fillText('{{overall_percentages_colorblind['Monochromacy']['Actual']}}%', 100, 115);
+<!--				ctx.fillText('{{overall_percentages_colorblind['Monochromacy']['Actual']}}%', 100, 115);-->
+				ctx.fillText('{{overall_percentages_colorblind['Monochromacy']['Actual']}}%', x, y);
 			}
 		};
 
@@ -1401,10 +1473,18 @@
 				ctx.save();
 <!--				console.log(top);-->
 
+				// Calculate the position relative to the chart area
+				const x = (left + width / 2) + 5; // Center horizontally
+				const y = (top + height / 2) + 10; // Center vertically
+
+				// Determine the font size dynamically based on the chart size
+				const fontSize = Math.min(width, height) * 0.2; // Adjust 0.2 as needed for font size scaling
+
 				ctx.font = 'bolder 45px Arial';
 				ctx.fillStyle = backgroundColor2;
 				ctx.textAlign = 'center';
-				ctx.fillText('{{overall_percentages_colorblind['Protonopia/Deuteranopia']['Actual']}}%', 100, 115);
+<!--				ctx.fillText('{{overall_percentages_colorblind['Protonopia/Deuteranopia']['Actual']}}%', 100, 115);-->
+				ctx.fillText('{{overall_percentages_colorblind['Protonopia/Deuteranopia']['Actual']}}%', x, y);
 			}
 		};
 
@@ -1466,10 +1546,20 @@
 				const { ctx, chartArea: { left, right, top, bottom, width, height } } = chart;
 				ctx.save();
 <!--				console.log(top);-->
+
+				// Calculate the position relative to the chart area
+				const x = (left + width / 2) + 5; // Center horizontally
+				const y = (top + height / 2) + 10; // Center vertically
+
+				// Determine the font size dynamically based on the chart size
+				const fontSize = Math.min(width, height) * 0.2; // Adjust 0.2 as needed for font size scaling
+
+
 				ctx.font = 'bolder 45px Arial';
 				ctx.fillStyle = backgroundColor3;
 				ctx.textAlign = 'center';
-				ctx.fillText('{{ fina_header_count_[0][0] }}%', 100, 115);
+<!--				ctx.fillText('{{ fina_header_count_[0][0] }}%', 100, 115);-->
+				ctx.fillText('{{ fina_header_count_[0][0] }}%', x, y);
 			}
 		};
 
@@ -1532,10 +1622,18 @@
 				ctx.save();
 <!--				console.log(top);-->
 
+				// Calculate the position relative to the chart area
+				const x = (left + width / 2) + 5; // Center horizontally
+				const y = (top + height / 2) + 10; // Center vertically
+
+				// Determine the font size dynamically based on the chart size
+				const fontSize = Math.min(width, height) * 0.2; // Adjust 0.2 as needed for font size scaling
+
 				ctx.font = 'bolder 45px Arial';
 				ctx.fillStyle = backgroundColor4;
 				ctx.textAlign = 'center';
-				ctx.fillText('{{count_of_footers_[0][0]}}%', 100, 115);
+<!--				ctx.fillText('{{count_of_footers_[0][0]}}%', 100, 115);-->
+				ctx.fillText('{{count_of_footers_[0][0]}}%', x, y);
 			}
 		};
 
@@ -1598,10 +1696,18 @@
 				ctx.save();
 <!--				console.log(top);-->
 
+				// Calculate the position relative to the chart area
+				const x = (left + width / 2) + 5; // Center horizontally
+				const y = (top + height / 2) + 10; // Center vertically
+
+				// Determine the font size dynamically based on the chart size
+				const fontSize = Math.min(width, height) * 0.2; // Adjust 0.2 as needed for font size scaling
+
 				ctx.font = 'bolder 45px Arial';
 				ctx.fillStyle = backgroundColor5;
 				ctx.textAlign = 'center';
-				ctx.fillText('{{meets_wcag_percentage}}%', 100, 115);
+<!--				ctx.fillText('{{meets_wcag_percentage}}%', 100, 115);-->
+				ctx.fillText('{{meets_wcag_percentage}}%', x, y);
 			}
 		};
 
@@ -1664,10 +1770,19 @@
 				ctx.save();
 <!--				console.log(top);-->
 
+
+				// Calculate the position relative to the chart area
+				const x = (left + width / 2) + 5; // Center horizontally
+				const y = (top + height / 2) + 10; // Center vertically
+
+				// Determine the font size dynamically based on the chart size
+				const fontSize = Math.min(width, height) * 0.2; // Adjust 0.2 as needed for font size scaling
+
 				ctx.font = 'bolder 45px Arial';
 				ctx.fillStyle = backgroundColor6;
 				ctx.textAlign = 'center';
-				ctx.fillText('{{overall_percentages_colorblind['Tritanopia']['Actual']}}%', 100, 115);
+<!--				ctx.fillText('{{overall_percentages_colorblind['Tritanopia']['Actual']}}%', 100, 115);-->
+				ctx.fillText('{{overall_percentages_colorblind['Tritanopia']['Actual']}}%', x, y);
 			}
 		};
 
@@ -2366,7 +2481,173 @@
 		wrapper.addEventListener("mouseenter", () => clearTimeout(timeoutId));
 		wrapper.addEventListener("mouseleave", autoPlay);
 	</script>
+<script>
+		/* globals hopscotch: false */
 
+		/* ============ */
+		/* EXAMPLE TOUR */
+		/* ============ */
+		var tour = {
+		  id: 'hello-hopscotch',
+		  steps: [
+			{
+			  target: 'hopscotch-title',
+			  title: 'Welcome to Bootstrap grid examples!',
+			  content: 'Hey there! This is where we start our website tour. It\'s gonna be awesome.',
+			  placement: 'bottom',
+			  arrowOffset: 30
+			},
+			{
+			  target: 'pdf-upload',
+			  title: 'This is pointing to a specific word',
+			  content: 'Just to show this plugin is flexible enough to target even words',
+			  placement: 'bottom',
+			  arrowOffset: 80,
+			  xOffset: -80
+			},
+			{
+			  target: 'pdf-title',
+			  title: 'This is pointing to a specific word',
+			  content: 'Just to show this plugin is flexible enough to target even words',
+			  placement: 'bottom',
+			  yOffset: -20
+			},
+			{
+			  target: 'access_chart',
+			  placement: 'top',
+			  title: 'Grid for mobile and desktop?',
+			  content: 'These are the most basic step options: <b>target</b>, <b>title</b>, <b>content</b>, and <b>placement</b>. For some steps, they may be all you need.!'
+			},
+			{
+			  target: 'generate-btn',
+			  placement: 'top',
+			  title: 'Starting your tour',
+			  content: 'After you\'ve created your tour, pass it in to the startTour() method to start it.',
+			  yOffset: -25
+			},
+			{
+			  target: 'fontsizelbl',
+			  placement: 'top',
+			  title: 'Basic step options',
+			  content: 'These are the most basic step options: <b>target</b>, <b>title</b>, <b>content</b>, and <b>placement</b>. For some steps, they may be all you need.',
+
+			},
+			{
+			  target: 'doughnut1',
+			  placement: 'top',
+			  title: 'Hopscotch API methods',
+			  content: 'Control your tour programmatically using these methods.',
+			},
+			{
+			  target: 'font_size',
+			  placement: 'top',
+			  title: 'This tour\'s code',
+			  content: 'This is the JSON for the current tour! Pretty simple, right?',
+			  arrowOffset: 270
+			},
+			{
+			  target: 'more_info',
+			  placement: 'top',
+			  title: 'You\'re all set!',
+			  content: 'Now go and build some great tours!',
+			  arrowOffset: 70
+			},
+			{
+			  target: 'gen_report',
+			  placement: 'top',
+			  title: 'This tour\'s code',
+			  content: 'This is the JSON for the current tour! Pretty simple, right?',
+			  arrowOffset: 70
+			}
+<!--			{-->
+<!--			  target: 'page-contrast',-->
+<!--			  placement: 'top',-->
+<!--			  title: 'You\'re all set!',-->
+<!--			  content: 'Now go and build some great tours!',-->
+<!--			},-->
+<!--			{-->
+<!--			  target: 'page-numbers',-->
+<!--			  placement: 'top',-->
+<!--			  title: 'This tour\'s code',-->
+<!--			  content: 'This is the JSON for the current tour! Pretty simple, right?',-->
+<!--			},-->
+<!--			{-->
+<!--			  target: 'font-family',-->
+<!--			  placement: 'top',-->
+<!--			  title: 'You\'re all set!',-->
+<!--			  content: 'Now go and build some great tours!',-->
+<!--			},-->
+<!--			{-->
+<!--			  target: 'color-blindness',-->
+<!--			  placement: 'top',-->
+<!--			  title: 'You\'re all set!',-->
+<!--			  content: 'Now go and build some great tours!',-->
+<!--			},-->
+<!--			{-->
+<!--			  target: 'table-caption',-->
+<!--			  placement: 'top',-->
+<!--			  title: 'This tour\'s code',-->
+<!--			  content: 'This is the JSON for the current tour! Pretty simple, right?',-->
+<!--			},-->
+<!--			{-->
+<!--			  target: 'dyslexia',-->
+<!--			  placement: 'top',-->
+<!--			  title: 'You\'re all set!',-->
+<!--			  content: 'Now go and build some great tours!',-->
+<!--			}-->
+		  ],
+		  showPrevButton: true,
+		  scrollTopMargin: 100,
+		  onShow: function() {
+			// Check if the current step is the first step
+			if (hopscotch.getCurrStepNum() === 0 || hopscotch.getCurrStepNum() === 1) {
+			  // If it is the first step, set the position to fixed
+			  document.querySelector('.hopscotch-bubble').style.position = 'fixed';
+			} else {
+			  // If it's not the first step, set the position to absolute
+			  document.querySelector('.hopscotch-bubble').style.position = 'absolute';
+			}
+		  }
+		},
+
+		/* ========== */
+		/* TOUR SETUP */
+		/* ========== */
+		addClickListener = function(el, fn) {
+		  if (el.addEventListener) {
+			el.addEventListener('click', fn, false);
+		  }
+		  else {
+			el.attachEvent('onclick', fn);
+		  }
+		},
+
+		init = function() {
+
+			  mgr = hopscotch.getCalloutManager(),
+			  state = hopscotch.getState();
+
+			if (!hopscotch.isActive) {
+			  mgr.removeAllCallouts();
+			  hopscotch.startTour(tour);
+			}
+		};
+		init();
+<!--		document.addEventListener('DOMContentLoaded', function() {-->
+<!--			var fixedElement = document.getElementById('hopscotch-title');-->
+<!--			var bubbleElement = document.getElementsByClassName("hopscotch-bubble")[0];-->
+
+<!--			if (fixedElement) {-->
+<!--				bubbleElement.classList.add('fixed-tour-element');-->
+<!--			}-->
+<!--			else{-->
+<!--				bubbleElement.classList.remove('fixed-tour-element');-->
+<!--			}-->
+
+<!--		});-->
+
+
+</script>
 </body>
 
 </html>

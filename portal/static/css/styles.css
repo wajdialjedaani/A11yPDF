@@ -693,7 +693,7 @@ background: #d7d9db;
     font-family: 'Poppins';
     font-style: normal;
     font-weight: 500;
-    font-size: 18px;
+    font-size: 22px;
     line-height: 27px;
     text-align: center;
     color: var(--bg-color);
@@ -1731,17 +1731,34 @@ width: 35%;
     .homeSpan{
         width: 145px;
         top: -2px;
+        font-size: 18px;
     }
     .acc-score-title{
         width: 100%;
     }
     .color_box{
-        width:90%
+        width:90% !important;
     }
     .indivudual-charts .box{
         height:  fit-content;
     }
+    .color-btn-div{
+        width: 77% !important;
+    }
+    .card-430{
+        margin: 40px 0;
+    }
+    .grp-btn{
+        width: 45%;
+    }
 }
 .color_box{
-    width:100%
+    width:90% !important;
+}
+.color-btn-div{
+    width: 35%;
+}
+
+.font-div{
+    width: 70%;
 }
