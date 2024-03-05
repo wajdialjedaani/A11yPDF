@@ -2754,7 +2754,14 @@
 	</script>
 <script>
 		/* globals hopscotch: false */
+	function hasTourStarted() {
+	  return localStorage.getItem('tourStarted') === 'true';
+	}
 
+	// Function to mark that the tour has been started
+	function markTourStarted() {
+	  localStorage.setItem('tourStarted', 'true');
+	}
 		/* ============ */
 		/* EXAMPLE TOUR */
 		/* ============ */
@@ -2909,11 +2916,13 @@
 
 			  mgr = hopscotch.getCalloutManager(),
 			  state = hopscotch.getState();
-
+		 if (!hasTourStarted()) {
 			if (!hopscotch.isActive) {
 			  mgr.removeAllCallouts();
 			  hopscotch.startTour(tour);
+			   markTourStarted();
 			}
+		 }
 		};
 		init();
 </script>
