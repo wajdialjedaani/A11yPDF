@@ -10,6 +10,7 @@
             line-height: normal;
             font-weight: normal;
             text-align: center;
+
 		}
 
 		:root {
@@ -21,11 +22,18 @@
           --title-color: #001CA7;
           --title-desc: #000000;
           --acc-score-title: #000000;
+          --dashed-color: rgba(0, 0, 0, 0.5);
+          --upload-box: #e3e3e3;
 
         }
 
         .main{
          overflow: auto;
+         background: var(--main-bg);
+        }
+
+         .main1{
+         height: 115vh;
          background: var(--main-bg);
         }
 
@@ -401,6 +409,15 @@
             margin-top: 10px;
 		}
 
+		.doughnut-chart1 {
+			height: 90px !important;
+			display: block;
+			box-sizing: border-box;
+			width: 90px !important;
+            margin-left: 35px;
+            margin-top: 10px;
+		}
+
 		.moreinfo-con {
 			display: flex;
 			align-items: center;
@@ -680,7 +697,7 @@
 
 		.indivudual-charts .box {
 			width: 80%;
-			height: 430px;
+			height: fit-content  !important;
 		}
 		.card-title {
 			font-size: 18px;
@@ -747,7 +764,7 @@ background: #d7d9db;
     margin-left: auto;
     margin-right: auto;
     top: 140px;
-    background: #F2F2F2;
+    background: var(--card-bg);
     box-shadow: 0px 4px 15px -1px rgba(0, 0, 0, 0.25);
     border-radius: 59px;
 }
@@ -775,7 +792,7 @@ background: #d7d9db;
     font-weight: 700;
     font-size: 28px;
     line-height: 24px;
-    color: #292D32;
+    color: var(--title-color);
     margin: 0;
 }
 .upload-sub-title{
@@ -786,7 +803,7 @@ background: #d7d9db;
     font-weight: 500;
     font-size: 22px;
     line-height: 33px;
-    color: #000;
+    color: var(--title-desc);;
     margin: 0;
     text-align: left;
 }
@@ -805,7 +822,7 @@ background: #d7d9db;
     height: 250px;
     /*left: 79px;*/
     top: 160px;
-    border: 1px dashed rgba(0, 0, 0, 0.5);
+    border: 1px dashed var(--dashed-color);
     border-radius: 5px;
     padding-top: 25px;
     text-align: center;
@@ -815,7 +832,7 @@ background: #d7d9db;
 .browse_btn{
     display: block;
     text-align: center;
-    color: var(--bg-color);
+    color: var(--title-color);
     font-size: 22px;
 }
 
@@ -858,9 +875,9 @@ background: #d7d9db;
     padding: 15px;
     width: 34%;
     font-size: 20px;
-    background: var(--bg-color);
-    border: 1px solid var(--bg-color);
-    color: white;
+    background:  var(--title-color);
+    border: 1px solid  var(--title-color);
+    color: var(--card-bg);
     border-radius: 12px;
     text-align: center;
     cursor: pointer;
@@ -889,6 +906,7 @@ input[type=file] {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    font-weight: 800;
 }
 
 
@@ -903,7 +921,7 @@ input[type=file] {
     background: #e3e3e3;
 }
 .upload-box:hover{
-    background: #e3e3e3;
+    background: var(--upload-box);
 }
 /*Spinner animation*/
 .file-upload .spinner {
@@ -1643,6 +1661,9 @@ div.hopscotch-bubble .hopscotch-actions {
     .btn{
         width: 40%;
     }
+    .color-btn-div{
+        width: 45% !important;
+    }
 }
 @media screen and (max-width: 1200px) {
     .outer-box{
@@ -1662,6 +1683,9 @@ div.hopscotch-bubble .hopscotch-actions {
     .file_upload{
         width: 55%;
     }
+    .color-btn-div{
+        width: 51% !important;
+    }
 }
 @media screen and (max-width: 1080px) {
     .rbox{
@@ -1672,6 +1696,9 @@ div.hopscotch-bubble .hopscotch-actions {
     }
     .file_upload{
         width: 60%;
+    }
+    .color-btn-div{
+        width: 61% !important;
     }
 }
 @media screen and (max-width: 900px) {
@@ -1687,6 +1714,9 @@ div.hopscotch-bubble .hopscotch-actions {
     .file_upload{
         width: 70%;
     }
+     .color-btn-div{
+        width: 70% !important;
+    }
 }
 
 @media screen and (max-width: 800px) {
@@ -1694,6 +1724,9 @@ div.hopscotch-bubble .hopscotch-actions {
         width: 80%;
         top: 115px;
     }
+    .color-btn-div {
+    width: 75% !important;
+}
 }
 
 @media screen and (max-width: 700px) {
@@ -1776,7 +1809,7 @@ width: 35%;
         width:90% !important;
     }
     .indivudual-charts .box{
-        height:  fit-content;
+        height:  fit-content !important;
     }
     .color-btn-div{
         width: 77% !important;
@@ -1846,7 +1879,15 @@ width: 35%;
 --title-color: #fff;
 --title-desc: #dcd9d9;
 --acc-score-title: #ffffff;
+ --dashed-color: #ffffff;
+--upload-box:#3c3c3c;
+}
 
+.form-lbl{
+    font-size: 25px;
+    margin: 17px 5px 15px;
+    text-align: center;
+    color: var(--title-desc);
 }
 /*#1d1d1d;
 #F2F2F2

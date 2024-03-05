@@ -497,9 +497,9 @@
 						<div>
 							<span>Accessibility</span>
 							<div style="display:flex;">
-							<canvas id="doughnut11" class="doughnut-chart"></canvas>
-							<canvas id="doughnut12" class="doughnut-chart"></canvas>
-							<canvas id="doughnut13" class="doughnut-chart"></canvas>
+							<canvas id="doughnut11" class="doughnut-chart1"></canvas>
+							<canvas id="doughnut12" class="doughnut-chart1"></canvas>
+							<canvas id="doughnut13" class="doughnut-chart1"></canvas>
 								</div>
 						</div>
 					</div>
@@ -1412,13 +1412,13 @@
 <!--				console.log(top);-->
 
 				// Calculate the position relative to the chart area
-				const x = (left + width / 2) + 5; // Center horizontally
-				const y = (top + height / 2) + 18; // Center vertically
+				const x = (left + width / 2) + 2; // Center horizontally
+				const y = (top + height / 2) + 6; // Center vertically
 
 				// Determine the font size dynamically based on the chart size
 				const fontSize = Math.min(width, height) * 0.2; // Adjust 0.2 as needed for font size scaling
 
-				ctx.font = 'bolder 45px Arial';
+				ctx.font = 'bolder 25px Arial';
 				ctx.fillStyle = backgroundColor16;
 				ctx.textAlign = 'center';
 <!--				ctx.fillText('{{overall_percentages_colorblind['Monochromacy']['Actual']}}%', 100, 115);-->
@@ -1440,7 +1440,7 @@
 				}]
 			},
 			options: {
-				cutout: 70, // Adjust cutout size as needed
+				cutout: 35, // Adjust cutout size as needed
 				rotation: -90, // Start at the top
 				circumference: 360, // Adjust to match image proportions
 				plugins: {
@@ -1489,13 +1489,13 @@
 <!--				console.log(top);-->
 
 				// Calculate the position relative to the chart area
-				const x = (left + width / 2) + 5; // Center horizontally
-				const y = (top + height / 2) + 18; // Center vertically
+				const x = (left + width / 2) + 2; // Center horizontally
+				const y = (top + height / 2) + 6; // Center vertically
 
 				// Determine the font size dynamically based on the chart size
 				const fontSize = Math.min(width, height) * 0.2; // Adjust 0.2 as needed for font size scaling
 
-				ctx.font = 'bolder 45px Arial';
+				ctx.font = 'bolder 25px Arial';
 				ctx.fillStyle = backgroundColor17;
 				ctx.textAlign = 'center';
 <!--				ctx.fillText('{{overall_percentages_colorblind['Protonopia/Deuteranopia']['Actual']}}%', 100, 115);-->
@@ -1519,7 +1519,7 @@
 				}]
 			},
 			options: {
-				cutout: 70, // Adjust cutout size as needed
+				cutout: 35, // Adjust cutout size as needed
 				rotation: -90, // Start at the top
 				circumference: 360, // Adjust to match image proportions
 				plugins: {
@@ -1565,14 +1565,14 @@
 <!--				console.log(top);-->
 
 
-				// Calculate the position relative to the chart area
-				const x = (left + width / 2) + 5; // Center horizontally
-				const y = (top + height / 2) + 18; // Center vertically
+			// Calculate the position relative to the chart area
+				const x = (left + width / 2) + 2; // Center horizontally
+				const y = (top + height / 2) + 6; // Center vertically
 
 				// Determine the font size dynamically based on the chart size
 				const fontSize = Math.min(width, height) * 0.2; // Adjust 0.2 as needed for font size scaling
 
-				ctx.font = 'bolder 45px Arial';
+				ctx.font = 'bolder 25px Arial';
 				ctx.fillStyle = backgroundColor18;
 				ctx.textAlign = 'center';
 <!--				ctx.fillText('{{overall_percentages_colorblind['Tritanopia']['Actual']}}%', 100, 115);-->
@@ -1593,7 +1593,7 @@
 				}]
 			},
 			options: {
-				cutout: 70, // Adjust cutout size as needed
+				cutout: 35, // Adjust cutout size as needed
 				rotation: -90, // Start at the top
 				circumference: 360, // Adjust to match image proportions
 				plugins: {
@@ -2068,7 +2068,7 @@
 <!--		const labels_data_for_myChartBarSection = ['Category A', 'Category B', 'Category C', 'Category D', 'Category E'];-->
 <!--		const datasets_for_myChartBarSection = [300, 200, 400, 150, 250];-->
 
-		var mychart = new Chart(ctx, {
+		var myChart1 = new Chart(ctx, {
 			type: 'pie',
 			data: {
 				labels: labels_data_top_4_font_size_,
@@ -2104,10 +2104,18 @@
 			},
 			plugins: [ChartDataLabels],
 		});
-	function toggleDarkMode(isDarkMode) {
-		myChart.options.legend.labels.fontColor = isDarkMode ? 'white' : 'black'; // Change as needed
-		myChart.update(); // Apply changes
-	}
+		function toggleDarkMode1(isDarkMode) {
+			if (isDarkMode) {
+				if (myChart1.options.plugins.legend) {
+					myChart1.options.plugins.legend.labels.color = 'white'; // Set font color for dark mode
+				}
+			} else {
+				if (myChart1.options.plugins.legend) {
+					myChart1.options.plugins.legend.labels.color = 'black'; // Set font color for light mode
+				}
+			}
+			myChart1.update(); // Apply changes
+		}
 	</script>
 	<script>
 		const ctx1 = document.getElementById('links_chart').getContext('2d');
@@ -2120,7 +2128,7 @@
         labels_data_for_no_of_work.push(key)
     	}
 
-		new Chart(ctx1, {
+		var myChart2 = new Chart(ctx1, {
 			type: 'pie',
 			data: {
 				labels: labels_data_for_no_of_work,
@@ -2165,6 +2173,16 @@
 			},
 			plugins: [ChartDataLabels],
 		});
+<!--		function toggleDarkMode2(isDarkMode) {-->
+<!--			if (isDarkMode) {-->
+<!--				myChart.options.plugins.legend.labels.color = 'white';-->
+<!--			} else {-->
+<!--				if (myChart2.options.plugins.legend) {-->
+<!--					myChart2.options.plugins.legend.labels.color = 'black'; // Set font color for light mode-->
+<!--				}-->
+<!--			}-->
+<!--			myChart2.update(); // Apply changes-->
+<!--		}-->
 	</script>
 	<script>
 		const ctx2 = document.getElementById('image_cap').getContext('2d');
@@ -2172,7 +2190,7 @@
 		var datasets_for_no_of_work = [{{ percentage_with_captions}},{{percentage_without_captions}}];;
 		var labels_data_for_no_of_work = ["Images with Caption","Images without Caption"];
 
-		new Chart(ctx2, {
+		var myChart3 = new Chart(ctx2, {
 			type: 'bar',
 			data: {
 				labels: labels_data_for_no_of_work,
@@ -2221,7 +2239,18 @@
 			},
 			plugins: [ChartDataLabels],
 		});
-
+		function toggleDarkMode3(isDarkMode) {
+			if (isDarkMode) {
+				if (myChart3.options.plugins.legend) {
+					myChart3.options.plugins.legend.labels.color = 'white'; // Set font color for dark mode
+				}
+			} else {
+				if (myChart3.options.plugins.legend) {
+					myChart3.options.plugins.legend.labels.color = 'black'; // Set font color for light mode
+				}
+			}
+			myChart3.update(); // Apply changes
+		}
 	</script>
 	<script>
 		const ctx3 = document.getElementById('header_chart').getContext('2d');
@@ -2905,10 +2934,16 @@ themeToggler.addEventListener('click', () => {
         // If the body now has the dark theme, it means we've just switched to dark mode
         darkModeIcon.classList.add('active'); // Mark the dark mode icon as active
         lightModeIcon.classList.remove('active'); // Ensure the light mode icon is not marked as active
+        toggleDarkMode1(true);
+<!--        toggleDarkMode2(true);-->
+        toggleDarkMode3(true);
     } else {
         // If the body does not have the dark theme, it means we've just switched to light mode
         lightModeIcon.classList.add('active'); // Mark the light mode icon as active
         darkModeIcon.classList.remove('active'); // Ensure the dark mode icon is not marked as active
+        toggleDarkMode1(false);
+<!--        toggleDarkMode2(false);-->
+        toggleDarkMode3(false);
     }
 });
 
