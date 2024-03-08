@@ -53,8 +53,6 @@
 							<path d="M15 6.5625C12.5175 6.5625 10.3594 7.72312 8.81813 9.43406C8.69063 9.41812 8.57625 9.375 8.4375 9.375C6.375 9.375 4.6875 11.0625 4.6875 13.125C3.06562 14.1141 1.875 15.7837 1.875 17.8125C1.875 20.9062 4.40625 23.4375 7.5 23.4375H12.1875L12.1875 21.5625H7.5C5.41969 21.5625 3.75 19.8928 3.75 17.8125C3.74982 17.0755 3.96642 16.3548 4.37283 15.74C4.77924 15.1252 5.3575 14.6436 6.03562 14.355L6.67969 14.0925L6.59156 13.3894C6.57961 13.3015 6.56992 13.2134 6.5625 13.125C6.56047 12.8409 6.62354 12.5601 6.74687 12.3042C6.87021 12.0483 7.05053 11.824 7.27401 11.6486C7.49749 11.4732 7.75818 11.3513 8.03608 11.2923C8.31398 11.2332 8.60171 11.2387 8.87719 11.3081L9.46312 11.4553L9.81469 10.9866C10.4276 10.1946 11.2134 9.55321 12.1121 9.11141C13.0108 8.66962 13.9986 8.43911 15 8.4375C18.0722 8.4375 20.6362 10.5506 21.3572 13.3884L21.5334 14.1206L22.3237 14.0925C22.5216 14.0812 22.5656 14.0625 22.5 14.0625C24.5803 14.0625 26.25 15.7322 26.25 17.8125C26.25 19.8928 24.5803 21.5625 22.5 21.5625H17.8125V23.4375H22.5C25.5938 23.4375 28.125 20.9062 28.125 17.8125C28.125 14.8538 25.7925 12.4837 22.8806 12.2756C21.735 8.97562 18.6806 6.5625 15 6.5625ZM15 14.0625L11.25 17.8125H14.0625L14.0625 25.3125H15.9375L15.9375 17.8125H18.75L15 14.0625Z" fill="#001CA7"/>
 							</svg>
 						</span>
-
-
 				</div>
 				<a href="/PDFAnalyzerX/about"><svg width="25" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" style="cursor: pointer;">
 					<path fill-rule="evenodd" clip-rule="evenodd"
@@ -495,12 +493,15 @@
 							<h4 class="card-title card-430">Color Blindness</h4>
 						</div>
 						<div>
-							<span>Accessibility</span>
 							<div style="display:flex;">
-							<canvas id="doughnut11" class="doughnut-chart1"></canvas>
-							<canvas id="doughnut12" class="doughnut-chart1"></canvas>
-							<canvas id="doughnut13" class="doughnut-chart1"></canvas>
+								<div><span class="access-core" style="margin-left: 20px;">Monochromacy</span>
+								<canvas id="doughnut11" class="doughnut-chart1"></canvas>
+								</div><div><span class="access-core" style="margin-left: 30px;">Protonopia</span>
+								<canvas id="doughnut12" class="doughnut-chart1"></canvas>
+								</div><div><span class="access-core" style="margin-left: 30px;">Tritanopia</span>
+								<canvas id="doughnut13" class="doughnut-chart1"></canvas>
 								</div>
+							</div>
 						</div>
 					</div>
 					<div class="col-md-12" style="height: 55%;">
@@ -1440,7 +1441,7 @@
 				}]
 			},
 			options: {
-				cutout: 35, // Adjust cutout size as needed
+				cutout: 45, // Adjust cutout size as needed
 				rotation: -90, // Start at the top
 				circumference: 360, // Adjust to match image proportions
 				plugins: {
@@ -2241,12 +2242,18 @@
 		});
 		function toggleDarkMode3(isDarkMode) {
 			if (isDarkMode) {
-				if (myChart3.options.plugins.legend) {
-					myChart3.options.plugins.legend.labels.color = 'white'; // Set font color for dark mode
+				if (myChart3.options.scales) {
+					myChart3.options.scales.x.ticks.color = 'white'; // Set x-axis label color for dark mode
+					myChart3.options.scales.y.ticks.color = 'white'; // Set y-axis label color for dark mode
+					myChart3.options.scales.x.grid.color = '#c1c1c1'
+					myChart3.options.scales.y.grid.color = '#c1c1c1'
 				}
 			} else {
-				if (myChart3.options.plugins.legend) {
-					myChart3.options.plugins.legend.labels.color = 'black'; // Set font color for light mode
+				if (myChart3.options.scales) {
+					myChart3.options.scales.x.ticks.color = 'black'; // Set x-axis label color for light mode
+					myChart3.options.scales.y.ticks.color = 'black'; // Set y-axis label color for light mode
+					myChart3.options.scales.x.grid.color = '#d7d9db';
+					myChart3.options.scales.y.grid.color = '#d7d9db';
 				}
 			}
 			myChart3.update(); // Apply changes
@@ -2260,14 +2267,19 @@
 		let datasets_for_percentage_with_headers= data_for_header_cal[0];
 		let datasets_for_percentage_without_headers= data_for_header_cal[1];
 
-		new Chart(ctx3, {
+		// Filter out data points with value 0
+		datasets_for_percentage_with_headers = datasets_for_percentage_with_headers.filter(value => value !== 0);
+		datasets_for_percentage_without_headers = datasets_for_percentage_without_headers.filter(value => value !== 0);
+
+
+		var myChart4 = new Chart(ctx3, {
 			type: 'doughnut',
 			data: {
 				labels: ["Header's Present %","Header's Not Present %"],
 				datasets: [{
 					label: 'of Votes',
 					backgroundColor: ['#0282c1', '#e34c19'],
-					data: [datasets_for_percentage_with_headers[0],datasets_for_percentage_without_headers[0]],
+					data: [datasets_for_percentage_with_headers[0], datasets_for_percentage_without_headers[0]],
 					borderWidth: 1
 				}]
 			},
@@ -2293,9 +2305,23 @@
 					duration: 2000,
 					easing: 'easeInOutQuart',
 				},
+				cutoutPercentage: 0,
 			},
 			plugins: [ChartDataLabels],
 		});
+
+		function toggleDarkMode4(isDarkMode) {
+			if (isDarkMode) {
+				if (myChart4.options.plugins.legend) {
+					myChart4.options.plugins.legend.labels.color = 'white'; // Set font color for dark mode
+				}
+			} else {
+				if (myChart4.options.plugins.legend) {
+					myChart4.options.plugins.legend.labels.color = 'black'; // Set font color for light mode
+				}
+			}
+			myChart4.update(); // Apply changes
+		}
 
 	</script>
 	<script>
@@ -2306,7 +2332,12 @@
 		let datasets_for_percentage_with_footer= count_of_footers_[0];
 		let datasets_for_percentage_without_footer= count_of_footers_[1];
 
-		new Chart(ctx4, {
+
+		// Filter out data points with value 0
+		datasets_for_percentage_with_footer = datasets_for_percentage_with_footer.filter(value => value !== 0);
+		datasets_for_percentage_without_footer = datasets_for_percentage_without_footer.filter(value => value !== 0);
+
+		var myChart5 = new Chart(ctx4, {
 			type: 'doughnut',
 			data: {
 				labels: ["Footer's Present %","Footer's Not Present %"],
@@ -2342,6 +2373,19 @@
 			},
 			plugins: [ChartDataLabels],
 		});
+
+		function toggleDarkMode5(isDarkMode) {
+			if (isDarkMode) {
+				if (myChart5.options.plugins.legend) {
+					myChart5.options.plugins.legend.labels.color = 'white'; // Set font color for dark mode
+				}
+			} else {
+				if (myChart5.options.plugins.legend) {
+					myChart5.options.plugins.legend.labels.color = 'black'; // Set font color for light mode
+				}
+			}
+			myChart5.update(); // Apply changes
+		}
 	</script>
 	<script>
 		const ctx5 = document.getElementById('page_contrast').getContext('2d');
@@ -2349,7 +2393,7 @@
 		const labels_data_for_myChartBarSection5 = ['Category A', 'Category B', 'Category C', 'Category D', 'Category E'];
 		const datasets_for_myChartBarSection5 = [300, 200, 400, 150, 250];
 
-		new Chart(ctx5, {
+		var myChart6 = new Chart(ctx5, {
 			type: 'bar',
 			data: {
 				labels: ["Pages meeting WCAG standards","Pages not meeting WCAG standards"],
@@ -2399,18 +2443,45 @@
 			plugins: [ChartDataLabels],
 		});
 
+		function toggleDarkMode6(isDarkMode) {
+			if (isDarkMode) {
+				if (myChart6.options.scales) {
+					myChart6.options.scales.x.ticks.color = 'white'; // Set x-axis label color for dark mode
+					myChart6.options.scales.y.ticks.color = 'white'; // Set y-axis label color for dark mode
+					myChart6.options.scales.x.grid.color = '#c1c1c1'
+					myChart6.options.scales.y.grid.color = '#c1c1c1'
+				}
+			} else {
+				if (myChart6.options.scales) {
+					myChart6.options.scales.x.ticks.color = 'black'; // Set x-axis label color for light mode
+					myChart6.options.scales.y.ticks.color = 'black'; // Set y-axis label color for light mode
+					myChart6.options.scales.x.grid.color = '#d7d9db';
+					myChart6.options.scales.y.grid.color = '#d7d9db';
+				}
+			}
+			myChart6.update(); // Apply changes
+		}
+
 	</script>
 	<script>
 		const ctx6 = document.getElementById('page_numbers').getContext('2d');
 
-		new Chart(ctx6, {
+		// Check if any of the data values is 0
+		const dataValues = [{{percentage_with_page_number}},{{percentage_without_page_number}}];
+		const hasZero = dataValues.some(value => value === 0);
+
+		// If any of the data values is 0, filter them out
+		const filteredData = dataValues.filter(value => value !== 0);
+
+
+		var myChart7 = new Chart(ctx6, {
 			type: 'pie',
 			data: {
 				labels: ["Contains Page Numbers %","Doesn't Contains Page Numbers %"],
 				datasets: [{
 					label: 'Page',
 					backgroundColor: ['#0282c1', '#e34c19'],
-					data: [{{percentage_with_page_number}},{{percentage_without_page_number}}],
+					data: filteredData,
 					borderWidth: 1
 				}]
 			},
@@ -2439,6 +2510,19 @@
 			},
 			plugins: [ChartDataLabels],
 		});
+
+		function toggleDarkMode7(isDarkMode) {
+			if (isDarkMode) {
+				if (myChart7.options.plugins.legend) {
+					myChart7.options.plugins.legend.labels.color = 'white'; // Set font color for dark mode
+				}
+			} else {
+				if (myChart7.options.plugins.legend) {
+					myChart7.options.plugins.legend.labels.color = 'black'; // Set font color for light mode
+				}
+			}
+			myChart7.update(); // Apply changes
+		}
 	</script>
 	<script>
 		const ctx7 = document.getElementById('color').getContext('2d');
@@ -2452,7 +2536,7 @@
         labels_data_for_myChartBarSection.push(key)
     	}
 
-		new Chart(ctx7, {
+		var myChart11 = new Chart(ctx7, {
 			type: 'bar',
 			data: {
 				labels: labels_data_for_myChartBarSection,
@@ -2501,6 +2585,25 @@
 			},
 			plugins: [ChartDataLabels],
 		});
+
+	function toggleDarkMode11(isDarkMode) {
+		if (isDarkMode) {
+			if (myChart11.options.scales) {
+				myChart11.options.scales.x.ticks.color = 'white'; // Set x-axis label color for dark mode
+				myChart11.options.scales.y.ticks.color = 'white'; // Set y-axis label color for dark mode
+				myChart11.options.scales.x.grid.color = '#c1c1c1'
+				myChart11.options.scales.y.grid.color = '#c1c1c1'
+			}
+		} else {
+			if (myChart11.options.scales) {
+				myChart11.options.scales.x.ticks.color = 'black'; // Set x-axis label color for light mode
+				myChart11.options.scales.y.ticks.color = 'black'; // Set y-axis label color for light mode
+				myChart11.options.scales.x.grid.color = '#d7d9db';
+				myChart11.options.scales.y.grid.color = '#d7d9db';
+			}
+		}
+		myChart11.update(); // Apply changes
+	}
 		</script>
 	<script>
     const ctx8 = document.getElementById('color_blindness').getContext('2d');
@@ -2520,7 +2623,7 @@
 	const data_1_2=[consolidatedData['0-0.5'][1][0],consolidatedData['0.5-1'][1][0],consolidatedData['1+'][1][0]];
     const labels_data_for_myChartBarSection7 = ['Category A', 'Category B', 'Category C', 'Category D', 'Category E'];
     const datasets_for_myChartBarSection7 = [300, 200, 400, 150, 250];
-    new Chart(ctx8, {
+    var myChart10 = new Chart(ctx8, {
         type: 'bar',
         data: {
             labels: ['0-0.5','0.5-1','1+'],
@@ -2587,11 +2690,30 @@
         },
 		plugins: [ChartDataLabels],
     });
+
+    function toggleDarkMode10(isDarkMode) {
+		if (isDarkMode) {
+			if (myChart10.options.scales) {
+				myChart10.options.scales.x.ticks.color = 'white'; // Set x-axis label color for dark mode
+				myChart10.options.scales.y.ticks.color = 'white'; // Set y-axis label color for dark mode
+				myChart10.options.scales.x.grid.color = '#c1c1c1'
+				myChart10.options.scales.y.grid.color = '#c1c1c1'
+			}
+		} else {
+			if (myChart10.options.scales) {
+				myChart10.options.scales.x.ticks.color = 'black'; // Set x-axis label color for light mode
+				myChart10.options.scales.y.ticks.color = 'black'; // Set y-axis label color for light mode
+				myChart10.options.scales.x.grid.color = '#d7d9db';
+				myChart10.options.scales.y.grid.color = '#d7d9db';
+			}
+		}
+		myChart10.update(); // Apply changes
+	}
 </script>
 	<script>
 		const ctx9 = document.getElementById('table_caption').getContext('2d');
 
-		new Chart(ctx9, {
+		var myChart8 = new Chart(ctx9, {
 			type: 'pie',
 			data: {
 				labels: ["Table Contains Caption %","Table Doesn't Contains Caption %"],
@@ -2627,11 +2749,24 @@
 			},
 			plugins: [ChartDataLabels],
 		});
+
+		function toggleDarkMode8(isDarkMode) {
+			if (isDarkMode) {
+				if (myChart8.options.plugins.legend) {
+					myChart8.options.plugins.legend.labels.color = 'white'; // Set font color for dark mode
+				}
+			} else {
+				if (myChart8.options.plugins.legend) {
+					myChart8.options.plugins.legend.labels.color = 'black'; // Set font color for light mode
+				}
+			}
+			myChart8.update(); // Apply changes
+		}
 	</script>
 	<script>
 		const ctx10 = document.getElementById('dylexia').getContext('2d');
 
-		new Chart(ctx10, {
+		var myChart9 = new Chart(ctx10, {
 			type: 'pie',
 			data: {
 				labels: ["Satisfies Dylexia %","Doesn't Satisfies Dylexia %"],
@@ -2667,6 +2802,19 @@
 			},
 			plugins: [ChartDataLabels],
 		});
+
+		function toggleDarkMode9(isDarkMode) {
+			if (isDarkMode) {
+				if (myChart9.options.plugins.legend) {
+					myChart9.options.plugins.legend.labels.color = 'white'; // Set font color for dark mode
+				}
+			} else {
+				if (myChart9.options.plugins.legend) {
+					myChart9.options.plugins.legend.labels.color = 'black'; // Set font color for light mode
+				}
+			}
+			myChart9.update(); // Apply changes
+		}
 	</script>
 	<script>
 		const wrapper = document.querySelector(".wrapper");
@@ -2742,7 +2890,20 @@
 		const autoPlay = () => {
 			if(window.innerWidth < 800 || !isAutoPlay) return; // Return if window is smaller than 800 or isAutoPlay is false
 			// Autoplay the carousel after every 2500 ms
-			timeoutId = setTimeout(() => carousel.scrollLeft += firstCardWidth, 2500);
+			//timeoutId = setTimeout(() => carousel.scrollLeft += firstCardWidth, 2500);
+			const maxScroll = carousel.scrollWidth - carousel.clientWidth;
+			// If at the beginning of the carousel, scroll right
+			if (carousel.scrollLeft === 0) {
+				timeoutId = setTimeout(() => carousel.scrollLeft += firstCardWidth, 2500);
+			}
+			// If at the end of the carousel, scroll left
+			else if (carousel.scrollLeft >= maxScroll) {
+				timeoutId = setTimeout(() => carousel.scrollLeft -= firstCardWidth, 2500);
+			}
+			// Otherwise, continue scrolling right
+			else {
+				timeoutId = setTimeout(() => carousel.scrollLeft += firstCardWidth, 2500);
+			}
 		}
 		autoPlay();
 		carousel.addEventListener("mousedown", dragStart);
@@ -2846,42 +3007,6 @@
 			  arrowOffset: 80,
 			  xOffset: -30
 			}
-<!--			{-->
-<!--			  target: 'page-contrast',-->
-<!--			  placement: 'top',-->
-<!--			  title: 'You\'re all set!',-->
-<!--			  content: 'Now go and build some great tours!',-->
-<!--			},-->
-<!--			{-->
-<!--			  target: 'page-numbers',-->
-<!--			  placement: 'top',-->
-<!--			  title: 'This tour\'s code',-->
-<!--			  content: 'This is the JSON for the current tour! Pretty simple, right?',-->
-<!--			},-->
-<!--			{-->
-<!--			  target: 'font-family',-->
-<!--			  placement: 'top',-->
-<!--			  title: 'You\'re all set!',-->
-<!--			  content: 'Now go and build some great tours!',-->
-<!--			},-->
-<!--			{-->
-<!--			  target: 'color-blindness',-->
-<!--			  placement: 'top',-->
-<!--			  title: 'You\'re all set!',-->
-<!--			  content: 'Now go and build some great tours!',-->
-<!--			},-->
-<!--			{-->
-<!--			  target: 'table-caption',-->
-<!--			  placement: 'top',-->
-<!--			  title: 'This tour\'s code',-->
-<!--			  content: 'This is the JSON for the current tour! Pretty simple, right?',-->
-<!--			},-->
-<!--			{-->
-<!--			  target: 'dyslexia',-->
-<!--			  placement: 'top',-->
-<!--			  title: 'You\'re all set!',-->
-<!--			  content: 'Now go and build some great tours!',-->
-<!--			}-->
 		  ],
 		  showPrevButton: true,
 		  scrollTopMargin: 100,
@@ -2914,15 +3039,15 @@
 
 		init = function() {
 
-			  mgr = hopscotch.getCalloutManager(),
-			  state = hopscotch.getState();
-		 if (!hasTourStarted()) {
-			if (!hopscotch.isActive) {
-			  mgr.removeAllCallouts();
-			  hopscotch.startTour(tour);
-			   markTourStarted();
-			}
-		 }
+			 mgr = hopscotch.getCalloutManager(),
+			 state = hopscotch.getState();
+			 if (!hasTourStarted()) {
+				if (!hopscotch.isActive) {
+				  mgr.removeAllCallouts();
+				  hopscotch.startTour(tour);
+				   markTourStarted();
+				}
+			 }
 		};
 		init();
 </script>
@@ -2934,27 +3059,70 @@ const themeToggler = document.querySelector('.theme-toggle');
 const lightModeIcon = themeToggler.querySelector('span:nth-child(1)');
 const darkModeIcon = themeToggler.querySelector('span:nth-child(2)');
 
+// Function to set dark mode preference
+function setDarkModePreference(isDark) {
+    localStorage.setItem('darkMode', isDark);
+}
+
+// Function to get dark mode preference
+function getDarkModePreference() {
+    return JSON.parse(localStorage.getItem('darkMode'));
+}
+
+
 themeToggler.addEventListener('click', () => {
+	const isDark = !document.body.classList.contains('dark-theme-variables');
+    toggleDarkMode(isDark);
+});
+
+
+// Check dark mode preference on page load
+document.addEventListener('DOMContentLoaded', () => {
+    const storedPreference = getDarkModePreference();
+    const isDarkMode = storedPreference === null ? false : storedPreference;
+    toggleDarkMode(isDarkMode);
+});
+
+
+function toggleDarkMode(isDark) {
+	setDarkModePreference(isDark);
+
     // Toggle the theme on the body
-    document.body.classList.toggle('dark-theme-variables');
+    document.body.classList.toggle('dark-theme-variables', isDark);
 
     // Check the new state and apply the 'active' class accordingly
-    if (document.body.classList.contains('dark-theme-variables')) {
+    if (isDark) {
         // If the body now has the dark theme, it means we've just switched to dark mode
         darkModeIcon.classList.add('active'); // Mark the dark mode icon as active
         lightModeIcon.classList.remove('active'); // Ensure the light mode icon is not marked as active
         toggleDarkMode1(true);
-<!--        toggleDarkMode2(true);-->
+        //toggleDarkMode2(true);
         toggleDarkMode3(true);
+        toggleDarkMode4(true);
+        toggleDarkMode5(true);
+        toggleDarkMode6(true);
+        toggleDarkMode7(true);
+        toggleDarkMode8(true);
+        toggleDarkMode9(true);
+        toggleDarkMode10(true);
+        toggleDarkMode11(true);
     } else {
         // If the body does not have the dark theme, it means we've just switched to light mode
         lightModeIcon.classList.add('active'); // Mark the light mode icon as active
         darkModeIcon.classList.remove('active'); // Ensure the dark mode icon is not marked as active
         toggleDarkMode1(false);
-<!--        toggleDarkMode2(false);-->
+        //toggleDarkMode2(false);
         toggleDarkMode3(false);
+        toggleDarkMode4(false);
+        toggleDarkMode5(false);
+        toggleDarkMode6(false);
+        toggleDarkMode7(false);
+        toggleDarkMode8(false);
+        toggleDarkMode9(false);
+        toggleDarkMode10(false);
+        toggleDarkMode11(false);
     }
-});
+}
 
 </script>
 </body>
