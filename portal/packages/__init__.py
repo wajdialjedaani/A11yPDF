@@ -17,6 +17,7 @@ import fitz
 from collections import Counter
 import threading
 from concurrent import futures
+from ..packages.urlaccessbility import count_custom_urls_in_pdf
 
 ALLOWED_IMAGE_EXTENSIONS = ['.jpg', '.jpeg', '.png', '.gif']
 DIMENSION_THRESHOLD = 1000
@@ -58,74 +59,72 @@ def extract_urls_from_pdf(pdf_path):
     return links_list
 
 
-def check_url_access(url):
-    temp = {}
-    try:
-        response = requests.get(url)
-        temp['url_acc'] = "Yes" if response.ok else "No"
-        temp['status_code'] = response.status_code
-    except requests.RequestException:
-        temp['url_acc'] = "No"
-        temp['status_code'] = 400
+# def check_url_access(url):
+#     temp = {}
+#     try:
+#         response = requests.get(url)
+#
+#         temp['url_acc'] = "Yes" if response.ok else "No"
+#         temp['status_code'] = response.status_code
+#     except requests.RequestException:
+#         temp['url_acc'] = "No"
+#         temp['status_code'] = 400
+#
+#     return temp
 
-    return temp
-
-
-import fitz  # PyMuPDF
-
-
-def extract_urls_from_pdf_to_dict(pdf_path):
-    links_dict = {}
-    try:
-        with fitz.open(pdf_path) as doc:
-            for page_num, page in enumerate(doc, start=1):  # Start page numbering at 1
-                try:
-                    links = page.get_links()
-                    for link in links:
-                        if 'uri' in link:  # Ensure the block has a URI
-                            if page_num not in links_dict:
-                                links_dict[page_num] = []
-                            links_dict[page_num].append(link['uri'])
-                except:
-                    pass
-    except Exception as e:
-        print(f"An error occurred: {e}")
-    return links_dict
-
-
-def count_custom_urls_in_pdf(pdf_path):
-    links_dict = extract_urls_from_pdf_to_dict(pdf_path)
-
-    final_result = {}
-    yes_count = 0
-    no_count = 0
-    url_access_list = {}
-
-    link_index = 0  # Initialize link index to enumerate all links across pages
-    for page, links in links_dict.items():
-        for link in links:
-            temp_result = check_url_access(link)
-            temp_result['url'] = link
-            final_result[link_index] = temp_result
-
-            if temp_result['url_acc'] == "Yes":
-                yes_count += 1
-                url_access_list[link_index] = [link, "Accessible", page]
-            else:
-                no_count += 1
-                url_access_list[link_index] = [link, "Not Accessible", page]
-
-            link_index += 1  # Increment link index for a flat enumeration
-
-    count_urls = sum(len(links) for links in links_dict.values())
-
-    return {
-        "count_urls_": count_urls,
-        "final_": final_result,
-        "yes_count_": yes_count,
-        "no_count_": no_count,
-        "url_access_list": url_access_list
-    }
+#
+# def extract_urls_from_pdf_to_dict(pdf_path):
+#     links_dict = {}
+#     try:
+#         with fitz.open(pdf_path) as doc:
+#             for page_num, page in enumerate(doc, start=1):  # Start page numbering at 1
+#                 try:
+#                     links = page.get_links()
+#                     for link in links:
+#                         if 'uri' in link:  # Ensure the block has a URI
+#                             if page_num not in links_dict:
+#                                 links_dict[page_num] = []
+#                             links_dict[page_num].append(link['uri'])
+#                 except:
+#                     pass
+#     except Exception as e:
+#         print(f"An error occurred: {e}")
+#     return links_dict
+#
+#
+# def count_custom_urls_in_pdf(pdf_path):
+#     links_dict = extract_urls_from_pdf_to_dict(pdf_path)
+#
+#     final_result = {}
+#     yes_count = 0
+#     no_count = 0
+#     url_access_list = {}
+#
+#     link_index = 0  # Initialize link index to enumerate all links across pages
+#     for page, links in links_dict.items():
+#         for link in links:
+#             temp_result = check_url_access(link)
+#             temp_result['url'] = link
+#             final_result[link_index] = temp_result
+#
+#             if temp_result['url_acc'] == "Yes":
+#                 yes_count += 1
+#                 url_access_list[link_index] = [link, "Accessible", page]
+#             else:
+#                 no_count += 1
+#                 url_access_list[link_index] = [link, "Not Accessible", page]
+#
+#             link_index += 1  # Increment link index for a flat enumeration
+#
+#     count_urls = sum(len(links) for links in links_dict.values())
+#
+#     return {
+#         "count_urls_": count_urls,
+#         "final_": final_result,
+#         "yes_count_": yes_count,
+#         "no_count_": no_count,
+#         "url_access_list": url_access_list
+#     }
 
 
 def save_image(image_data, image_name, process_id):
@@ -163,6 +162,7 @@ def get_font_size(page, counYimg_fr_pdf_, process_id='', page_number_=1):
                 line_total_text_ = ''
                 line_font_ = []
                 line_size = []
+                accessable_font_list_size = []
                 line_diff_text_ = []
                 text_2 = text_1[i]["spans"]
                 for jk in range(len(text_2)):
@@ -179,10 +179,18 @@ def get_font_size(page, counYimg_fr_pdf_, process_id='', page_number_=1):
                             if str(text_2[jk]["font"]) not in line_font_:
                                 line_font_.append(str(text_2[jk]["font"]).strip().replace('    ', ''))
                             if str(text_2[jk]["size"]) not in line_size:
-                                line_size.append(str(round(text_2[jk]["size"], 2)).strip().replace('    ', ''))
+                                num_size_=round(text_2[jk]["size"])
+                                line_size.append(str(num_size_).strip().replace('    ', ''))
+                                if num_size_>= 14:
+                                    val_access_="Accessible"
+                                else:
+                                    val_access_ = "Not Accessible"
+                                accessable_font_list_size.append(val_access_)
+
                 if line_total_text_ != '':
                     temp_dic_[str(data_1)][str(i)] = {"font_line": line_total_text_, "font_font_type": line_font_,
-                                                      "font_sizes": line_size, "font_diff_text": line_diff_text_}
+                                                      "font_sizes": line_size, "font_diff_text": line_diff_text_,
+                                                      "font_size_Accessible_status":accessable_font_list_size}
                     line_total_text_ = ''
                     line_font_ = []
                     line_size = []

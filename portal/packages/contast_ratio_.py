@@ -24,6 +24,7 @@ def check_contrast(image):
     pixel1 = image.getpixel((0, 0))
     pixel2 = image.getpixel((image.width - 1, image.height - 1))
 
+
     # Calculate contrast ratio
     contrast_ratio = get_contrast_ratio(pixel1, pixel2)
 
@@ -32,13 +33,13 @@ def check_contrast(image):
     # Determine if the contrast meets accessibility standards (WCAG)
     if contrast_ratio >= 4.5:
         # print("Contrast meets WCAG AA standards for normal text.")
-        return True
+        return True,contrast_ratio
     elif contrast_ratio >= 3:
         # print("Contrast meets WCAG AA standards for large text.")
-        return True
+        return True,contrast_ratio
     else:
         # print("Contrast does not meet WCAG AA standards.")
-        return False
+        return False,contrast_ratio
 
 
 def analyze_pdf(pdf_path):
@@ -50,6 +51,7 @@ def analyze_pdf(pdf_path):
     does_not_meet_wcag_count = 0
     meets_wcag_pages = []  # To store page numbers of images meeting WCAG standards
     image_accessibility = {}
+    image_ratio_of_accessibility = {}
     # Loop through each page in the PDF
     for page_num in range(total_pages):
         page = pdf_document.load_page(page_num)
@@ -60,6 +62,7 @@ def analyze_pdf(pdf_path):
         if not image_list:  # If there are no images on the page, consider it as "Access"
             key2 = f"{page_num+1}_{0}"
             image_accessibility[key2] = "No Images"
+            image_ratio_of_accessibility[key2]="none"
             continue
         for img_index, img_info in enumerate(image_list):
             xref = img_info[0]
@@ -67,7 +70,8 @@ def analyze_pdf(pdf_path):
             image_bytes = base_image["image"]
             image = Image.open(io.BytesIO(image_bytes))
             # Calculate contrast for the image
-            if check_contrast(image):
+            status_,ratio_of_image=check_contrast(image)
+            if status_:
                 meets_wcag_count += 1
                 # page_meets_wcag = True
                 image_status = "Accessible"
@@ -77,6 +81,7 @@ def analyze_pdf(pdf_path):
                 # page_does_not_meet_wcag = True
             key = f"{page_num + 1}_{img_index + 1}"
             image_accessibility[key] = image_status
+            image_ratio_of_accessibility[key]=ratio_of_image
         # if page_meets_wcag:
         #     meets_wcag_pages.append(page_num + 1)  # Pages are 0-indexed, adding 1 for human-readable format
         # if page_does_not_meet_wcag:
@@ -91,7 +96,7 @@ def analyze_pdf(pdf_path):
     print(f"Pages not meeting WCAG AA standards: {does_not_meet_wcag_count} ({does_not_meet_wcag_percentage:.2f}%)")
 
     pdf_document.close()
-    return meets_wcag_count, does_not_meet_wcag_count, meets_wcag_percentage, does_not_meet_wcag_percentage,image_accessibility
+    return meets_wcag_count, does_not_meet_wcag_count, meets_wcag_percentage, does_not_meet_wcag_percentage,image_accessibility,image_ratio_of_accessibility
 
 
 def check_page_number(pdf_file_path):

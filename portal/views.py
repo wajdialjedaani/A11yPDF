@@ -11,6 +11,7 @@ from werkzeug.utils import secure_filename
 from .packages import get_final_result, extract_headers, extract_foter, get_tables_count, \
     get_image_resolution_aspect_ratio, assess_pdf_quality, get_top_colors, analyze_figure_captions, get_tables_count
 import pandas as pd
+from .packages.image_caption_analysis import analyze_figure_captions_parallel
 from .packages.contast_ratio_ import analyze_pdf, check_page_number
 from .packages.extract_and_summarize import *
 from .packages.colorblind import *
@@ -727,13 +728,24 @@ def prepare_data_for_excel(combined_data):
         for analysis_type in combined_data:
             if analysis_type != 'page number':  # Exclude the 'page number' list
                 # Ensure there is data for the current page; if not, append None or an appropriate placeholder
-                page_data[analysis_type] = combined_data[analysis_type][i] if i < len(combined_data[analysis_type]) else None
+                page_data[analysis_type] = combined_data[analysis_type][i] if i < len(
+                    combined_data[analysis_type]) else None
         pages_data.append(page_data)
 
     # Sort the list of dictionaries by 'page number'
     sorted_pages_data = sorted(pages_data, key=lambda x: x['page number'])
 
     return sorted_pages_data
+
+
+def clean_string(s):
+    # Remove non-printable characters
+    printable = set(string.printable)
+    clean = "".join(filter(lambda x: x in printable, s))
+    # Replace any other known problematic characters here
+    # For example, to replace '¼' with '1/4', uncomment the next line
+    # clean = clean.replace('¼', '1/4')
+    return clean
 
 
 @bp.route('/generate_report/<string:type_>/<string:process_id>', methods=["GET", "POST"])
@@ -766,12 +778,20 @@ def generate_report_pdf(type_, process_id):
                                 row = {
                                     "Page": page,
                                     # "Section": section,
-                                    "Font Line": text_data.get("font_line", ""),
+                                    "Font Line": clean_string(text_data.get("font_line", "")),
                                     "Font Type": ", ".join(text_data.get("font_font_type", [])),
-                                    "Font Sizes": ", ".join(text_data.get("font_sizes", []))
+                                    "Font Sizes": ", ".join(text_data.get("font_sizes", [])),
+                                    "Accessible/Not Accessible":", ".join(text_data.get("font_size_Accessible_status", []))
                                 }
                             except:
-                                row = {}
+                                row = {
+                                    "Page": page,
+                                    # "Section": section,
+                                    "Font Line": "",
+                                    "Font Type": "",
+                                    "Font Sizes": "",
+                                    "Accessible/Not Accessible": "Not Accessible"
+                                }
                                 pass
                             rows.append(row)
 
@@ -800,9 +820,12 @@ def generate_report_pdf(type_, process_id):
             for item in image_data:
                 try:
                     row = {
-                        "Caption Text": item.get("caption_text", ""),
-                        "Image Index": item.get("image_info", {}).get("image_index", ""),
-                        "Page Number": item.get("page_number", "")
+                        "Caption Text": clean_string(item.get("caption_text", "")),
+                        # "Image Index": item.get("image_info", {}).get("image_index", ""),
+                        "Page Number": item.get("page_number", ""),
+                        "image Index In Pdf":item.get("image Index In Pdf", ""),
+                        "image Index In Page": item.get("image Index In Page", ""),
+                        "Accessibility": item.get("Accessibility", "")
                     }
                 except:
                     row = {}
@@ -810,9 +833,12 @@ def generate_report_pdf(type_, process_id):
                 image_rows.append(row)
             if not image_rows:
                 image_rows.append({
-                    "Caption Text": "No Data",
-                    "Image Index": "No Data",
-                    "Page Number": "No Data"
+                    "Caption Text":"No Data" ,
+                        # "Image Index": item.get("image_info", {}).get("image_index", ""),
+                        "Page Number": "No Data",
+                        "image Index In Pdf":"No Data",
+                        "image Index In Page": "No Data",
+                        "Accessibility": "Not Accessible"
                 })
 
             image_df = pd.DataFrame(image_rows)
@@ -872,7 +898,7 @@ def generate_report_pdf(type_, process_id):
                 try:
                     row = {
                         "Page Number": item,
-                        "Page Header": pdf_titles_data[item]
+                        "Page Header": clean_string(pdf_titles_data[item])
                     }
                 except:
                     row = {}
@@ -905,7 +931,7 @@ def generate_report_pdf(type_, process_id):
             for item in pdf_footer_data:
                 row = {
                     "Page Number": item,
-                    "Page Footer": pdf_footer_data[item]
+                    "Page Footer": clean_string(pdf_footer_data[item])
                 }
                 pdf_titles_rows.append(row)
 
@@ -965,20 +991,31 @@ def generate_report_pdf(type_, process_id):
     elif type_ == "Page_Contrast":
         try:
             image_accessibility = finl_dd['image_accessibility']
+            image_ratio_of_accessibility=finl_dd["image_ratio_of_accessibility"]
             # Create a DataFrame from the new JSON data
             image_rows = []
             for key, accessibility in image_accessibility.items():
                 page_number, index = key.split('_')
-                row = {
-                    "Page Number": page_number,
-                    "Index": index,
-                    "Accessible/Not": accessibility
-                }
+                try:
+                    row = {
+                        "Page Number": page_number,
+                        "Index": index,
+                        "Ratio":image_ratio_of_accessibility[key],
+                        "Accessible/Not": accessibility
+                    }
+                except:
+                    row = {
+                        "Page Number": page_number,
+                        "Index": index,
+                        "Ratio": "none",
+                        "Accessible/Not": accessibility
+                    }
                 image_rows.append(row)
             if not image_rows:
                 image_rows.append({
                     "Page Numbe": "No Data",
                     "Image Index": "No Data",
+                    "Ratio":"none",
                     "Accessible/Not": "No Data"
                 })
             image_df = pd.DataFrame(image_rows)
@@ -1001,7 +1038,7 @@ def generate_report_pdf(type_, process_id):
             image_rows = []
             for key, accessibility in image_page_number_accessibility.items():
                 row = {
-                    "Page Number": key,
+                    "Page Number": clean_string(key),
                     "Accessible/Not": accessibility
                 }
                 image_rows.append(row)
@@ -1027,7 +1064,7 @@ def generate_report_pdf(type_, process_id):
     elif type_ == "color_blindness":
         try:
             combined_data_analyze_pdf_colorblind = finl_dd['combined_data_analyze_pdf_colorblind']
-            combined_data_analyze_pdf_colorblind=prepare_data_for_excel(combined_data_analyze_pdf_colorblind)
+            combined_data_analyze_pdf_colorblind = prepare_data_for_excel(combined_data_analyze_pdf_colorblind)
             image_df = pd.DataFrame(combined_data_analyze_pdf_colorblind)
             image_df.to_excel(excel_file, sheet_name="Color Blindness", index=False)
             file_name1 = "Report_" + str(process_id) + "_" + str(type_) + ".xlsx"
@@ -1210,7 +1247,7 @@ def final_result(process_id):
                     titles_for_footers_, count_of_footers_ = extract_foter(os.path.join(pdf_docs, process_id, filename))
                     table_count_ = get_tables_count(os.path.join(pdf_docs, process_id, filename))
 
-                    image_info_dict, final_list_of_rsa={},[]
+                    image_info_dict, final_list_of_rsa = {}, []
                     # image_info_dict, final_list_of_rsa = get_image_resolution_aspect_ratio(
                     #     os.path.join(images_path_of_pdf, process_id))
 
@@ -1232,9 +1269,9 @@ def final_result(process_id):
                                   "Number Of Not Urls Accessible": round(count_urls_['no_count_'])}
                     url_access_list = count_urls_['url_access_list']
 
-                    percentage_with_captions, percentage_without_captions, captions_with_images = analyze_figure_captions(
+                    percentage_with_captions, percentage_without_captions, captions_with_images = analyze_figure_captions_parallel(
                         os.path.join(pdf_docs, process_id, filename))
-                    meets_wcag_count, does_not_meet_wcag_count, meets_wcag_percentage, does_not_meet_wcag_percentage, image_accessibility = analyze_pdf(
+                    meets_wcag_count, does_not_meet_wcag_count, meets_wcag_percentage, does_not_meet_wcag_percentage, image_accessibility,image_ratio_of_accessibility = analyze_pdf(
                         os.path.join(pdf_docs, process_id, filename))
                     meets_wcag_count, does_not_meet_wcag_count, meets_wcag_percentage, does_not_meet_wcag_percentage = meets_wcag_count, does_not_meet_wcag_count, round(
                         meets_wcag_percentage), round(does_not_meet_wcag_percentage)
@@ -1271,7 +1308,8 @@ def final_result(process_id):
                                    "url_access_list": url_access_list,
                                    "percentage_with_caption_table": percentage_with_caption_table,
                                    "percentage_without_caption_table": percentage_without_caption_table,
-                                   "captions_with_tables": captions_with_tables}
+                                   "captions_with_tables": captions_with_tables,
+                                   "image_ratio_of_accessibility":image_ratio_of_accessibility}
 
                     fina_header_count_ = [[round(percentage_with_headers), yes_headers_pages],
                                           [round(percentage_without_headers), No_headers_Pages]]
@@ -1285,8 +1323,7 @@ def final_result(process_id):
                         for j in dict_final_[i]:
                             for k in dict_final_[i][j]:
                                 # print(dict_final_[i][j][k]['font_line'])
-                                if str(dict_final_[i][j][k]['font_line']).strip() == '' or dict_final_[i][j][k][
-                                    'font_line'] == '':
+                                if str(dict_final_[i][j][k]['font_line']).strip() == '' or dict_final_[i][j][k]['font_line'] == '':
                                     pass
                                 else:
                                     count_ = count_ + 1
@@ -1303,6 +1340,7 @@ def final_result(process_id):
                     # print('total_counts_types', total_counts_types)
                     # print('count',top_4_fonts_types)
                     # exit()
+                    print('font_size_dict_',font_size_dict_)
                     percentage_dict_types = {font: round((count / total_counts_types) * 100) for font, count in
                                              top_4_fonts_types.items()}
                     length_of_percentage_dict_types = len(percentage_dict_types)
@@ -1529,6 +1567,7 @@ def final_result(process_id):
                 summarized_text = finl_dd['summarized_text']
                 filename = finl_dd['filename']
                 image_accessibility = finl_dd["image_accessibility"]
+                image_ratio_of_accessibility = finl_dd["image_ratio_of_accessibility"]
                 image_page_number_accessibility = finl_dd["image_page_number_accessibility"]
                 combined_data_analyze_pdf_colorblind = finl_dd["combined_data_analyze_pdf_colorblind"]
 
@@ -1579,7 +1618,8 @@ def final_result(process_id):
                                "percentage_without_caption_table": percentage_without_caption_table,
                                "captions_with_tables": captions_with_tables,
                                "matching_fonts_analyze_dylexia": matching_fonts_analyze_dylexia,
-                               "non_matching_fonts_analyze_dylexia": non_matching_fonts_analyze_dylexia}
+                               "non_matching_fonts_analyze_dylexia": non_matching_fonts_analyze_dylexia,
+                               "image_ratio_of_accessibility":image_ratio_of_accessibility}
                 pdf_docs_json = APP.config["PDF_RESULT_JSON"]
                 if not os.path.exists(os.path.join(pdf_docs_json, process_id)):
                     os.mkdir(os.path.join(pdf_docs_json, process_id))
