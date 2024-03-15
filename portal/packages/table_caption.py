@@ -7,6 +7,7 @@ from pdfminer.high_level import extract_pages
 def find_table_captions(pdf_path):
     tables = camelot.read_pdf(pdf_path, flavor='stream', pages='all')
     print('Number of tables found:', len(tables))
+    print("tables",tables[1].df)
     captions_with_tables = []
     tables_with_captions = set()  # To track tables that have captions
 
@@ -64,3 +65,6 @@ def analyze_table_caption(pdf_file):
     captions_with_tables = find_table_captions(pdf_file)
     percentage_with_caption, percentage_without_caption =calculate_percentage(captions_with_tables)
     return percentage_with_caption, percentage_without_caption, captions_with_tables
+
+
+# analyze_table_caption("/Users/sandeepkumarrudhravaram/WorkSpace/UntProjects/A11yPDF/pdf_docs/1403202408551189600/bioinformatics_35_21_4381.pdf")

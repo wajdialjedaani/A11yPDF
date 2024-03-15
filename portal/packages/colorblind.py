@@ -185,7 +185,7 @@ def process_page_image(image):
 def categorize_values(data):
     categorized_data = {}
     for key, values in data.items():
-        categories = {'0-0.5': 0, '0.5-1': 0, '1+': 0}
+        categories = {'0-0.5': 0, '0.5-1': 0}
         for value in values:
             # if value == 0:
             #     categories['0'] += 1
@@ -193,8 +193,8 @@ def categorize_values(data):
                 categories['0-0.5'] += 1
             elif 0.5 < value <= 1:
                 categories['0.5-1'] += 1
-            else:
-                categories['1+'] += 1
+            # else:
+            #     categories['1+'] += 1
         categorized_data[key] = categories
     return categorized_data
 
@@ -218,6 +218,7 @@ def quantise(img, K=8):
     res = center[labels.flatten()]
     img = res.reshape((img.shape))
     return img
+
 def analyze_pdf_colorblind(pdf_path, zoom=2):
     doc = fitz.open(pdf_path)
     combined_data = {
@@ -244,4 +245,21 @@ def analyze_pdf_colorblind(pdf_path, zoom=2):
                 print(f'Page {page_number} generated an exception: {exc}')
     doc.close()
     final_data_=categorize_values(combined_data)
+
+    zipped_data = zip(combined_data["page number"], combined_data["Monochromacy"], combined_data["Protonopia/Deuteranopia"], combined_data["Tritanopia"])
+
+    # Sort the zipped data by the first element of each tuple (the page number)
+    sorted_zipped_data = sorted(zipped_data)
+
+    # print(sorted_zipped_data)
+
+    # Unzip the sorted data back into lists
+    sorted_page_numbers, sorted_monochromacy, sorted_protonopia_deuteranopia, sorted_tritanopia = zip(
+        *sorted_zipped_data)
+
+    # Update the original dictionary with the sorted lists
+    combined_data["page number"] = list(sorted_page_numbers)
+    combined_data["Monochromacy"] = list(sorted_monochromacy)
+    combined_data["Protonopia/Deuteranopia"] = list(sorted_protonopia_deuteranopia)
+    combined_data["Tritanopia"] = list(sorted_tritanopia)
     return final_data_,combined_data

@@ -1381,7 +1381,7 @@
 </script>
 	<script>
 		// Determine background color based on percentage
-    percentage = {{overall_percentages_colorblind['Monochromacy']['Actual']}};
+    percentage = {{overall_percentages_colorblind['Monochromacy']['Accessible']}};
     var backgroundColor16 = '';
     if (percentage >= 70) {
         backgroundColor16 = 'green'; // Red background
@@ -1400,9 +1400,9 @@
 <!--	h5Element.textContent = content;-->
 
 
-	var monochromacy_remaining = {{overall_percentages_colorblind['Monochromacy']['Remaining']}};
+	var monochromacy_remaining = {{overall_percentages_colorblind['Monochromacy']['Colorblind_Issues']}};
 	//check if both the values are zero
-	if({{overall_percentages_colorblind['Monochromacy']['Actual']}} == 0 && {{overall_percentages_colorblind['Monochromacy']['Remaining']}} == 0){
+	if({{overall_percentages_colorblind['Monochromacy']['Accessible']}} == 0 && {{overall_percentages_colorblind['Monochromacy']['Colorblind_Issues']}} == 0){
 		monochromacy_remaining = 100;
 	}
 		const CardDataLabels11 = {
@@ -1423,7 +1423,7 @@
 				ctx.fillStyle = backgroundColor16;
 				ctx.textAlign = 'center';
 <!--				ctx.fillText('{{overall_percentages_colorblind['Monochromacy']['Actual']}}%', 100, 115);-->
-				ctx.fillText('{{overall_percentages_colorblind['Monochromacy']['Actual']}}%', x, y);
+				ctx.fillText('{{overall_percentages_colorblind['Monochromacy']['Accessible']}}%', x, y);
 			}
 		};
 
@@ -1433,7 +1433,7 @@
 			data: {
 				labels: [''], // No labels needed for a single segment
 				datasets: [{
-					data: [{{overall_percentages_colorblind['Monochromacy']['Actual']}}, monochromacy_remaining], // 84% filled, 16% empty
+					data: [{{overall_percentages_colorblind['Monochromacy']['Accessible']}}, {{overall_percentages_colorblind['Monochromacy']['Colorblind_Issues']}}], // 84% filled, 16% empty
 					weight: 10,
 					backgroundColor: [backgroundColor16, '#d7d9db'],
 					borderColor: 'white',
@@ -1459,7 +1459,7 @@
 	<script>
 		// Determine background color based on percentage
 
-	percentage = {{overall_percentages_colorblind['Protonopia/Deuteranopia']['Actual']}};
+	percentage = {{overall_percentages_colorblind['Protonopia/Deuteranopia']['Accessible']}};
 	var backgroundColor17 = '';
 	if (percentage >= 70) {
 		backgroundColor17 = 'green'; // Red background
@@ -1477,9 +1477,9 @@
 <!--	h5Element.style.color = backgroundColor17;-->
 <!--	h5Element.textContent = content;-->
 
-	var Protonopia_Remaining = {{overall_percentages_colorblind['Protonopia/Deuteranopia']['Remaining']}};
+	var Protonopia_Remaining = {{overall_percentages_colorblind['Protonopia/Deuteranopia']['Colorblind_Issues']}};
 	//check if both the values are zero
-	if({{overall_percentages_colorblind['Protonopia/Deuteranopia']['Actual']}} == 0 && {{overall_percentages_colorblind['Protonopia/Deuteranopia']['Remaining']}} == 0){
+	if({{overall_percentages_colorblind['Protonopia/Deuteranopia']['Accessible']}} == 0 && {{overall_percentages_colorblind['Protonopia/Deuteranopia']['Colorblind_Issues']}} == 0){
 		Protonopia_Remaining = 100;
 	}
 		const CardDataLabels12 = {
@@ -1500,7 +1500,7 @@
 				ctx.fillStyle = backgroundColor17;
 				ctx.textAlign = 'center';
 <!--				ctx.fillText('{{overall_percentages_colorblind['Protonopia/Deuteranopia']['Actual']}}%', 100, 115);-->
-				ctx.fillText('{{overall_percentages_colorblind['Protonopia/Deuteranopia']['Actual']}}%', x, y);
+				ctx.fillText('{{overall_percentages_colorblind['Protonopia/Deuteranopia']['Accessible']}}%', x, y);
 			}
 		};
 
@@ -1512,7 +1512,7 @@
 			data: {
 				labels: [''], // No labels needed for a single segment
 				datasets: [{
-					data: [{{overall_percentages_colorblind['Protonopia/Deuteranopia']['Actual']}}, Protonopia_Remaining], // 84% filled, 16% empty
+					data: [{{overall_percentages_colorblind['Protonopia/Deuteranopia']['Accessible']}}, Protonopia_Remaining], // 84% filled, 16% empty
 					weight: 10,
 					backgroundColor: [backgroundColor17, '#d7d9db'],
 					borderColor: 'white',
@@ -1535,7 +1535,7 @@
 	<script>
 		// Determine background color based on percentage
 
-		percentage = {{overall_percentages_colorblind['Tritanopia']['Actual']}};
+		percentage = {{overall_percentages_colorblind['Tritanopia']['Accessible']}};
 		var backgroundColor18 = '';
 		if (percentage >= 70) {
 		backgroundColor18 = 'green'; // Red background
@@ -1553,9 +1553,9 @@
 <!--	h5Element.textContent = content;-->
 
 
-	var Tritanopia_Remaining = {{overall_percentages_colorblind['Tritanopia']['Remaining']}};
+	var Tritanopia_Remaining = {{overall_percentages_colorblind['Tritanopia']['Colorblind_Issues']}};
 	//check if both the values are zero
-	if({{overall_percentages_colorblind['Tritanopia']['Actual']}} == 0 && {{overall_percentages_colorblind['Tritanopia']['Remaining']}} == 0){
+	if({{overall_percentages_colorblind['Tritanopia']['Accessible']}} == 0 && {{overall_percentages_colorblind['Tritanopia']['Colorblind_Issues']}} == 0){
 		Tritanopia_Remaining = 100;
 	}
 		const CardDataLabels13 = {
@@ -1576,8 +1576,8 @@
 				ctx.font = 'bolder 25px Arial';
 				ctx.fillStyle = backgroundColor18;
 				ctx.textAlign = 'center';
-<!--				ctx.fillText('{{overall_percentages_colorblind['Tritanopia']['Actual']}}%', 100, 115);-->
-				ctx.fillText('{{overall_percentages_colorblind['Tritanopia']['Actual']}}%', x, y);
+<!--				ctx.fillText('{{overall_percentages_colorblind['Tritanopia']['Accessible']}}%', 100, 115);-->
+				ctx.fillText('{{overall_percentages_colorblind['Tritanopia']['Accessible']}}%', x, y);
 			}
 		};
 		var ctxDough = document.getElementById('doughnut13').getContext('2d');
@@ -1586,7 +1586,7 @@
 			data: {
 				labels: [''], // No labels needed for a single segment
 				datasets: [{
-					data: [{{overall_percentages_colorblind['Tritanopia']['Actual']}},Tritanopia_Remaining], // 84% filled, 16% empty
+					data: [{{overall_percentages_colorblind['Tritanopia']['Accessible']}},Tritanopia_Remaining], // 84% filled, 16% empty
 					weight: 10,
 					backgroundColor: [backgroundColor18, '#d7d9db'],
 					borderColor: 'white',
@@ -1608,7 +1608,7 @@
 	</script>
 	<script>
    // Determine background color based on percentage
-    percentage = {{overall_percentages_colorblind['Monochromacy']['Actual']}};
+    percentage = {{overall_percentages_colorblind['Monochromacy']['Accessible']}};
     var backgroundColor1 = '';
     if (percentage >= 70) {
         backgroundColor1 = 'green'; // Red background
@@ -1627,9 +1627,9 @@
 	h5Element.textContent = content;
 
 
-	var monochromacy_remaining = {{overall_percentages_colorblind['Monochromacy']['Remaining']}};
+	var monochromacy_remaining = {{overall_percentages_colorblind['Monochromacy']['Colorblind_Issues']}};
 	//check if both the values are zero
-	if({{overall_percentages_colorblind['Monochromacy']['Actual']}} == 0 && {{overall_percentages_colorblind['Monochromacy']['Remaining']}} == 0){
+	if({{overall_percentages_colorblind['Monochromacy']['Accessible']}} == 0 && {{overall_percentages_colorblind['Monochromacy']['Colorblind_Issues']}} == 0){
 		monochromacy_remaining = 100;
 	}
 		const CardDataLabels1 = {
@@ -1650,7 +1650,7 @@
 				ctx.fillStyle = backgroundColor1;
 				ctx.textAlign = 'center';
 <!--				ctx.fillText('{{overall_percentages_colorblind['Monochromacy']['Actual']}}%', 100, 115);-->
-				ctx.fillText('{{overall_percentages_colorblind['Monochromacy']['Actual']}}%', x, y);
+				ctx.fillText('{{overall_percentages_colorblind['Monochromacy']['Accessible']}}%', x, y);
 			}
 		};
 
@@ -1660,7 +1660,7 @@
 			data: {
 				labels: [''], // No labels needed for a single segment
 				datasets: [{
-					data: [{{overall_percentages_colorblind['Monochromacy']['Actual']}}, monochromacy_remaining], // 84% filled, 16% empty
+					data: [{{overall_percentages_colorblind['Monochromacy']['Accessible']}}, {{overall_percentages_colorblind['Monochromacy']['Colorblind_Issues']}}], // 84% filled, 16% empty
 					weight: 10,
 					backgroundColor: [backgroundColor1, '#d7d9db'],
 					borderColor: 'white',
@@ -1683,7 +1683,7 @@
 	<script>
 	// Determine background color based on percentage
 
-	percentage = {{overall_percentages_colorblind['Protonopia/Deuteranopia']['Actual']}};
+	percentage = {{overall_percentages_colorblind['Protonopia/Deuteranopia']['Accessible']}};
 	var backgroundColor2 = '';
 	if (percentage >= 70) {
 		backgroundColor2 = 'green'; // Red background
@@ -1701,9 +1701,9 @@
 	h5Element.style.color = backgroundColor2;
 	h5Element.textContent = content;
 
-	var Protonopia_Remaining = {{overall_percentages_colorblind['Protonopia/Deuteranopia']['Remaining']}};
+	var Protonopia_Remaining = {{overall_percentages_colorblind['Protonopia/Deuteranopia']['Colorblind_Issues']}};
 	//check if both the values are zero
-	if({{overall_percentages_colorblind['Protonopia/Deuteranopia']['Actual']}} == 0 && {{overall_percentages_colorblind['Protonopia/Deuteranopia']['Remaining']}} == 0){
+	if({{overall_percentages_colorblind['Protonopia/Deuteranopia']['Accessible']}} == 0 && {{overall_percentages_colorblind['Protonopia/Deuteranopia']['Colorblind_Issues']}} == 0){
 		Protonopia_Remaining = 100;
 	}
 		const CardDataLabels2 = {
@@ -1724,7 +1724,7 @@
 				ctx.fillStyle = backgroundColor2;
 				ctx.textAlign = 'center';
 <!--				ctx.fillText('{{overall_percentages_colorblind['Protonopia/Deuteranopia']['Actual']}}%', 100, 115);-->
-				ctx.fillText('{{overall_percentages_colorblind['Protonopia/Deuteranopia']['Actual']}}%', x, y);
+				ctx.fillText('{{overall_percentages_colorblind['Protonopia/Deuteranopia']['Accessible']}}%', x, y);
 			}
 		};
 
@@ -1736,7 +1736,7 @@
 			data: {
 				labels: [''], // No labels needed for a single segment
 				datasets: [{
-					data: [{{overall_percentages_colorblind['Protonopia/Deuteranopia']['Actual']}}, Protonopia_Remaining], // 84% filled, 16% empty
+					data: [{{overall_percentages_colorblind['Protonopia/Deuteranopia']['Accessible']}}, {{overall_percentages_colorblind['Protonopia/Deuteranopia']['Colorblind_Issues']}}], // 84% filled, 16% empty
 					weight: 10,
 					backgroundColor: [backgroundColor2, '#d7d9db'],
 					borderColor: 'white',
@@ -1980,7 +1980,7 @@
 	<script>
 		// Determine background color based on percentage
 
-		percentage = {{overall_percentages_colorblind['Tritanopia']['Actual']}};
+		percentage = {{overall_percentages_colorblind['Tritanopia']['Accessible']}};
 		var backgroundColor6 = '';
 		if (percentage >= 70) {
 		backgroundColor6 = 'green'; // Red background
@@ -1998,9 +1998,9 @@
 	h5Element.textContent = content;
 
 
-	var Tritanopia_Remaining = {{overall_percentages_colorblind['Tritanopia']['Remaining']}};
+	var Tritanopia_Remaining = {{overall_percentages_colorblind['Tritanopia']['Colorblind_Issues']}};
 	//check if both the values are zero
-	if({{overall_percentages_colorblind['Tritanopia']['Actual']}} == 0 && {{overall_percentages_colorblind['Tritanopia']['Remaining']}} == 0){
+	if({{overall_percentages_colorblind['Tritanopia']['Accessible']}} == 0 && {{overall_percentages_colorblind['Tritanopia']['Colorblind_Issues']}} == 0){
 		Tritanopia_Remaining = 100;
 	}
 		const CardDataLabels6 = {
@@ -2022,7 +2022,7 @@
 				ctx.fillStyle = backgroundColor6;
 				ctx.textAlign = 'center';
 <!--				ctx.fillText('{{overall_percentages_colorblind['Tritanopia']['Actual']}}%', 100, 115);-->
-				ctx.fillText('{{overall_percentages_colorblind['Tritanopia']['Actual']}}%', x, y);
+				ctx.fillText('{{overall_percentages_colorblind['Tritanopia']['Accessible']}}%', x, y);
 			}
 		};
 
@@ -2032,7 +2032,7 @@
 			data: {
 				labels: [''], // No labels needed for a single segment
 				datasets: [{
-					data: [{{overall_percentages_colorblind['Tritanopia']['Actual']}},Tritanopia_Remaining], // 84% filled, 16% empty
+					data: [{{overall_percentages_colorblind['Tritanopia']['Accessible']}},{{overall_percentages_colorblind['Tritanopia']['Colorblind_Issues']}}], // 84% filled, 16% empty
 					weight: 10,
 					backgroundColor: [backgroundColor6, '#d7d9db'],
 					borderColor: 'white',
@@ -2620,13 +2620,13 @@
 		});
 	});
 <!--	console.log(consolidatedData['0'][0][0])-->
-	const data_1_2=[consolidatedData['0-0.5'][1][0],consolidatedData['0.5-1'][1][0],consolidatedData['1+'][1][0]];
+	const data_1_2=[consolidatedData['0-0.5'][1][0],consolidatedData['0.5-1'][1][0]];
     const labels_data_for_myChartBarSection7 = ['Category A', 'Category B', 'Category C', 'Category D', 'Category E'];
     const datasets_for_myChartBarSection7 = [300, 200, 400, 150, 250];
     var myChart10 = new Chart(ctx8, {
         type: 'bar',
         data: {
-            labels: ['0-0.5','0.5-1','1+'],
+            labels: ['0-0.5','0.5-1'],
             datasets: [{
                 label: 'Monochromacy',
                 backgroundColor:'#0282c1',
@@ -2638,7 +2638,7 @@
             {
                 label: 'Protonopia/Deuteranopia',
                 backgroundColor: '#df2488',
-                data: [consolidatedData['0-0.5'][1][1],consolidatedData['0.5-1'][1][1],consolidatedData['1+'][1][1]],
+                data: [consolidatedData['0-0.5'][1][1],consolidatedData['0.5-1'][1][1]],
                 borderWidth: 1,
 				categoryPercentage: 0.6,
     			barPercentage: 0.8,
@@ -2646,7 +2646,7 @@
             {
                 label: 'Tritanopia',
                 backgroundColor: '#e34c19',
-                data: [consolidatedData['0-0.5'][1][2],consolidatedData['0.5-1'][1][2],consolidatedData['1+'][1][2]],
+                data: [consolidatedData['0-0.5'][1][2],consolidatedData['0.5-1'][1][2]],
                 borderWidth: 1,
 				categoryPercentage: 0.6,
     			barPercentage: 0.8,

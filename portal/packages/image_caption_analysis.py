@@ -2,7 +2,7 @@ import fitz
 from concurrent.futures import ThreadPoolExecutor
 
 
-def is_caption_near_image(caption_box, image_box, max_distance=400):
+def is_caption_near_image(caption_box, image_box, max_distance=50):
     """
     Determine if a caption is near an image using their bounding boxes.
 

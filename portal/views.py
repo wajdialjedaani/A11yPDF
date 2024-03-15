@@ -8,11 +8,11 @@ from flask import Blueprint, render_template, request, redirect, url_for, sessio
 import threading
 from . import APP, LOG
 from werkzeug.utils import secure_filename
-from .packages import get_final_result, extract_headers, extract_foter, get_tables_count, \
+from .packages import get_final_result, get_tables_count, \
     get_image_resolution_aspect_ratio, assess_pdf_quality, get_top_colors, analyze_figure_captions, get_tables_count
 import pandas as pd
 from .packages.image_caption_analysis import analyze_figure_captions_parallel
-from .packages.contast_ratio_ import analyze_pdf, check_page_number
+from .packages.contast_ratio_ import analyze_pdf
 from .packages.extract_and_summarize import *
 from .packages.colorblind import *
 import time
@@ -24,6 +24,8 @@ import PyPDF2
 import re
 from .packages.table_caption import *
 from .packages.dylexia import *
+from .packages.footeranalysis import extract_foter,check_page_number
+from .packages.headeranalysis import extract_headers
 
 bp = Blueprint('view', __name__, url_prefix='/PDFAnalyzerX', template_folder="./templates", static_folder="./static")
 
@@ -748,6 +750,22 @@ def clean_string(s):
     return clean
 
 
+def create_excel_from_data(data):
+    # Transform data to match expected DataFrame structure
+    pages = data.pop("page number")
+    rows = []
+    for idx, page in enumerate(pages):
+        row = {"page number": page}
+        for condition, scores in data.items():
+            # Calculate the percentage of good accessibility
+            score = scores[idx]  # Get the score for the current page
+            accessible = "Yes" if score <= 0.5 else "No"  # Determine accessibility
+            row[f"{condition}"] = score
+            row[f"{condition}_Accessible"] = accessible
+        rows.append(row)
+
+    return rows
+
 @bp.route('/generate_report/<string:type_>/<string:process_id>', methods=["GET", "POST"])
 def generate_report_pdf(type_, process_id):
     pdf_docs_json = APP.config["PDF_RESULT_JSON"]
@@ -995,19 +1013,26 @@ def generate_report_pdf(type_, process_id):
             # Create a DataFrame from the new JSON data
             image_rows = []
             for key, accessibility in image_accessibility.items():
+                recommended = "none"
                 page_number, index = key.split('_')
                 try:
+                    if accessibility=="Accessible":
+                        recommended="none"
+                    else:
+                        recommended = "For Normal Text ratio of 4.5:1 and for Large Text ratio of 3:1 is required"
                     row = {
                         "Page Number": page_number,
-                        "Index": index,
+                        "Image Index": index,
                         "Ratio":image_ratio_of_accessibility[key],
+                        "recommended":recommended,
                         "Accessible/Not": accessibility
                     }
                 except:
                     row = {
                         "Page Number": page_number,
-                        "Index": index,
+                        "Image Index": index,
                         "Ratio": "none",
+                        "recommended": recommended,
                         "Accessible/Not": accessibility
                     }
                 image_rows.append(row)
@@ -1016,6 +1041,7 @@ def generate_report_pdf(type_, process_id):
                     "Page Numbe": "No Data",
                     "Image Index": "No Data",
                     "Ratio":"none",
+                    "recommended" : "none",
                     "Accessible/Not": "No Data"
                 })
             image_df = pd.DataFrame(image_rows)
@@ -1064,7 +1090,8 @@ def generate_report_pdf(type_, process_id):
     elif type_ == "color_blindness":
         try:
             combined_data_analyze_pdf_colorblind = finl_dd['combined_data_analyze_pdf_colorblind']
-            combined_data_analyze_pdf_colorblind = prepare_data_for_excel(combined_data_analyze_pdf_colorblind)
+            combined_data_analyze_pdf_colorblind=create_excel_from_data(combined_data_analyze_pdf_colorblind)
+            # combined_data_analyze_pdf_colorblind = prepare_data_for_excel(combined_data_analyze_pdf_colorblind)
             image_df = pd.DataFrame(combined_data_analyze_pdf_colorblind)
             image_df.to_excel(excel_file, sheet_name="Color Blindness", index=False)
             file_name1 = "Report_" + str(process_id) + "_" + str(type_) + ".xlsx"
@@ -1196,6 +1223,37 @@ def generate_download(filename, process_id):
                 return send_file(filepath, download_name=filename, as_attachment=True)
             except:
                 return send_file(filepath, attachment_filename=filename, as_attachment=True)
+
+
+def calculate_colorblind_accessibility(data):
+    results = {}
+    for key, values in data.items():
+        # Ensure we are only adjusting relevant keys and avoid the 'page number' entry
+        if key != 'page number':
+            # Adjust values based on the new criteria
+            adjusted_values = [1 if val >= 0.5 else 0 for val in values]
+        else:
+            # Skip 'page number' or handle it differently if needed
+            continue
+
+        # Counting the occurrences of 0 and 1
+        count_good = adjusted_values.count(0)
+        count_bad = adjusted_values.count(1)
+
+        # Calculating percentages
+        total_counts = len(adjusted_values)
+        if total_counts > 0:
+            percentage_good = round((count_good / total_counts) * 100, 2)
+            percentage_bad = round((count_bad / total_counts) * 100, 2)
+        else:
+            # Handling the case where there are no data points
+            percentage_good = 0  # or any other default or indicative value
+            percentage_bad = 0  # or any other default or indicative value
+
+        # Storing the result in the dictionary
+        results[key] = {"Accessible": round(percentage_good), "Colorblind_Issues": round(percentage_bad)}
+    return results
+
 
 
 @bp.route('/result/<string:process_id>/', methods=['GET', "POST"])
@@ -1439,7 +1497,14 @@ def final_result(process_id):
                     remaining_percentage_dylexia = round(100 - percentage_analyze_dylexia)
 
                     final_data_analyze_pdf_colorblind, combined_data_analyze_pdf_colorblind = future.result()
-                    overall_percentages_colorblind = calculate_overall_percentage(combined_data_analyze_pdf_colorblind)
+
+                    adjusted_data_combined_data_analyze_pdf_colorblind = {key: [1 if val >= 0.5 else 0 for val in values if key != 'page number'] for
+                                     key, values in
+                                     combined_data_analyze_pdf_colorblind.items()}
+
+                    overall_percentages_colorblind = calculate_colorblind_accessibility(adjusted_data_combined_data_analyze_pdf_colorblind)
+
+                    # overall_percentages_colorblind = calculate_overall_percentage(combined_data_analyze_pdf_colorblind)
 
                     with open(os.path.join(pdf_docs_json, process_id, "result_colorblind.json"), "w") as file:
                         json.dump(final_data_analyze_pdf_colorblind, file)
