@@ -1,6 +1,7 @@
 import fitz
 import re
 
+
 def extract_foter(pdf_path):
     doc = fitz.open(pdf_path)
     titles = {}
@@ -16,10 +17,19 @@ def extract_foter(pdf_path):
                 text_found_ = False
                 for line in block["lines"]:
                     for span in line["spans"]:
+                        if count_ == 20:
+                            print('height_', height_, "width_", width_)
+                            print("span['bbox']", span['bbox'])
+                            print("span['text']", span['text'])
+                            print("(span['bbox'][1] > 740 and span['bbox'][0] > 500",(span['bbox'][1] > 740 and span['bbox'][0] > 500))
                         if str(span['text']).strip() == '':
                             pass
-                        elif ((span['bbox'][1] > 740 and span['bbox'][0] > 500) or (
-                                span['bbox'][1] > 732 and span['bbox'][0] > 74)) and (height_ > 785 and width_ > 585):
+                        elif ((span['bbox'][1] > 740 and span['bbox'][0] > 500) or (span['bbox'][1] > 731 and span['bbox'][0] > 74)) and (height_ > 785 and width_ > 585):
+                            titles[count_] = span['text'].replace('\t', '')
+                            text_found_ = True
+                            Final_text_found = True
+                            break
+                        elif (span['bbox'][1] > 740 and span['bbox'][0] > 47) and (height_ > 790 and width_ > 610):
                             titles[count_] = span['text'].replace('\t', '')
                             text_found_ = True
                             Final_text_found = True
@@ -74,11 +84,12 @@ def extract_footer_backup(pdf_path):
                     for span in line["spans"]:
                         if str(span['text']).strip() == '':
                             pass
-                        elif ((span['bbox'][1] > 740 and span['bbox'][0] > 500) or (span['bbox'][1] > 732 and span['bbox'][0] > 74)) and (height_ > 785 and width_ > 585):
+                        elif ((span['bbox'][1] > 740 and span['bbox'][0] > 500) or (
+                                span['bbox'][1] > 732 and span['bbox'][0] > 74)) and (height_ > 785 and width_ > 585):
                             titles[count_] = span['text'].replace('\t', '')
                             print('~~~~~~~~~~~~~~~~~start 1~~~~~~~~~~~~~~~~')
                             print(span['bbox'])
-                            print('count_',count_)
+                            print('count_', count_)
                             print('text', span['text'].replace('\t', ''))
                             print('~~~~~~~~~~~~~~~~~start~~~~~~~~~~~~~~~~')
                             text_found_ = True
@@ -134,16 +145,25 @@ def check_page_number(pdf_file_path):
                 for line in block["lines"]:
                     for span in line["spans"]:
                         # Check if the text is within specified areas where page numbers might be located
-                        if ((span['bbox'][1] > 740 and span['bbox'][0] > 500) or (span['bbox'][1] > 732 and span['bbox'][0] > 74)) and (height_ > 785 and width_ > 585):
+                        # if ((span['bbox'][1] > 740 and span['bbox'][0] > 500) or (span['bbox'][1] > 731 and span['bbox'][0] > 74)) and (height_ > 785 and width_ > 585):
+                        if ((span['bbox'][1] > 740 and span['bbox'][0] > 500) or (
+                                span['bbox'][1] > 731 and span['bbox'][0] > 74)) and (
+                                height_ > 785 and width_ > 585):
                             # Use regex to identify if the text matches the pattern of a page number
-                            page_number_pattern = r"\b\d{1,3}\b"
+                            page_number_pattern = r"\b\d{1,5}\b"
                             match = re.search(page_number_pattern, span['text'].replace('\t', ''))
-
                             # If a match is found, set text_found flag to True
                             if match:
                                 text_found = True
                                 break
-                        elif (span['bbox'][1] > 579 or (span['bbox'][0] > 740 and span['bbox'][1] > 530)) and (width_ > 785 and height_ > 585):
+                        elif (span['bbox'][1] > 740 and span['bbox'][0] > 47) and (height_ > 790 and width_ > 610):
+                            page_number_pattern = r"\b\d{1,5}\b"
+                            match = re.search(page_number_pattern, span['text'].replace('\t', ''))
+                            if match:
+                                text_found = True
+                                break
+                        elif (span['bbox'][1] > 579 or (span['bbox'][0] > 740 and span['bbox'][1] > 530)) and (
+                                width_ > 785 and height_ > 585):
                             page_number_pattern = r"\b\d{1,3}\b"
                             match = re.search(page_number_pattern, span['text'].replace('\t', ''))
 
@@ -160,7 +180,7 @@ def check_page_number(pdf_file_path):
         # Based on whether page number text is found, append page number to respective list
         if text_found:
             pages_with_page_number.append(page_number)
-            image_page_number_accessibility[page_number]='Accessible'
+            image_page_number_accessibility[page_number] = 'Accessible'
         else:
             pages_without_page_number.append(page_number)
             image_page_number_accessibility[page_number] = 'Not Accessible'
@@ -169,9 +189,10 @@ def check_page_number(pdf_file_path):
     percentage_with_page_number = (len(pages_with_page_number) / total_pages) * 100
     percentage_without_page_number = (len(pages_without_page_number) / total_pages) * 100
 
-    return pages_with_page_number, pages_without_page_number, round(percentage_with_page_number,1), round(percentage_without_page_number,1),image_page_number_accessibility
+    return pages_with_page_number, pages_without_page_number, round(percentage_with_page_number, 1), round(
+        percentage_without_page_number, 1), image_page_number_accessibility
 
-
-
-# pages_with_page_number, pages_without_page_number, percentage_with_page_number,percentage_without_page_number,image_page_number_accessibility=check_page_number("/Users/sandeepkumarrudhravaram/WorkSpace/UntProjects/A11yPDF/pdf_docs/1403202420460279237/bioinformatics_35_21_4381.pdf")
-# print('percentage_with_page_number',percentage_with_page_number,"percentage_without_page_number",percentage_without_page_number)
+#
+# titles, count_of_footers_ = extract_foter(
+#     "/Users/sandeepkumarrudhravaram/WorkSpace/UntProjects/A11yPDF/pdf_docs/1503202413293439887/Team16_Sprint_2.pdf")
+# print('titles', titles, "count_of_footers_", count_of_footers_)
