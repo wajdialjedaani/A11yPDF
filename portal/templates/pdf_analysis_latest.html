@@ -55,6 +55,7 @@
 						</span>
 				</div>
 				<a href="/PDFAnalyzerX/about"><svg width="25" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" style="cursor: pointer;">
+					<title>About</title>
 					<path fill-rule="evenodd" clip-rule="evenodd"
 						d="M22 3.4375C11.7482 3.4375 3.4375 11.7482 3.4375 22C3.4375 32.2517 11.7482 40.5625 22 40.5625C32.2517 40.5625 40.5625 32.2517 40.5625 22C40.5625 11.7482 32.2517 3.4375 22 3.4375ZM0.0625 22C0.0625 9.88425 9.88425 0.0625 22 0.0625C34.1158 0.0625 43.9375 9.88425 43.9375 22C43.9375 34.1158 34.1158 43.9375 22 43.9375C9.88425 43.9375 0.0625 34.1158 0.0625 22ZM22 20.3125C22.932 20.3125 23.6875 21.068 23.6875 22V29.875C23.6875 30.807 22.932 31.5625 22 31.5625C21.068 31.5625 20.3125 30.807 20.3125 29.875V22C20.3125 21.068 21.068 20.3125 22 20.3125ZM22 13C20.7573 13 19.75 14.0074 19.75 15.25C19.75 16.4926 20.7573 17.5 22 17.5H22.0225C23.2652 17.5 24.2725 16.4926 24.2725 15.25C24.2725 14.0074 23.2652 13 22.0225 13H22Z"
 						fill="white" />
@@ -171,7 +172,7 @@
 				  <!-- <h2>Blanche Pearson</h2>
 				  <span>Sales Manager</span> -->
 				</li>
-				  <li class="card">
+				<li class="card">
 					<h4 class="acc-score-title">Protonopia</h4>
 					<canvas id="card_chart2" class="acc_chart1"></canvas>
 					<h5 id="image_score" class="acc-grade">Good</h5>
@@ -206,9 +207,39 @@
 				  <!-- <h2>Kristina Zasiadko</h2>
 				  <span>Bank Manager</span> -->
 				</li>
+				<li class="card">
+					<h4 class="acc-score-title">Font Size</h4>
+					<canvas id="card_chart7" class="acc_chart1"></canvas>
+					<h5 id="font_size_score" class="acc-grade">Good</h5>
+				</li>
+				<li class="card">
+					<h4 class="acc-score-title">Links</h4>
+					<canvas id="card_chart8" class="acc_chart1"></canvas>
+					<h5 id="links_score" class="acc-grade">Good</h5>
+				</li>
+				<li class="card">
+					<h4 class="acc-score-title">Image Caption</h4>
+					<canvas id="card_chart9" class="acc_chart1"></canvas>
+					<h5 id="img_caption_score" class="acc-grade">Good</h5>
+				</li>
+				<li class="card">
+					<h4 class="acc-score-title">Page Numbers</h4>
+					<canvas id="card_chart10" class="acc_chart1"></canvas>
+					<h5 id="page_num_score" class="acc-grade">Good</h5>
+				</li>
+				<li class="card">
+					<h4 class="acc-score-title">Table Caption</h4>
+					<canvas id="card_chart11" class="acc_chart1"></canvas>
+					<h5 id="table_cap_score" class="acc-grade">Good</h5>
+				</li>
+<!--				  <li class="card">-->
+<!--					<h4 class="acc-score-title">Table Caption</h4>-->
+<!--					<canvas id="card_chart12" class="acc_chart1"></canvas>-->
+<!--					<h5 id="_score" class="acc-grade">Good</h5>-->
+<!--				</li>-->
 			  </ul>
 			  <i id="right" class="fa-solid fa-angle-right"></i>
-			</div>
+		</div>
 
 		<h2 class="overall-title">Individual Analysis</h2>
 		<div class="indivudual-charts">
@@ -286,7 +317,7 @@
 						</div>
 						{% else %}
 						<div>
-							<p style="color: black;">No data :(</p>
+							<p class="no_links">No data :(</p>
 						</div>
 						{% endif %}
 					</div>
@@ -296,7 +327,7 @@
 					</div>
 					{% else %}
 					<div class="col-md-12" style="height: 55%;">
-						<p style="color: black;text-align: center;padding-top: 120px;">No links found in pdf :(</p>
+						<p class="no_links" style="ext-align: center;padding-top: 120px;">No links found in pdf :(</p>
 					</div>
 					{% endif %}
 					<div class="button-con">
@@ -706,6 +737,8 @@
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.2.0/chartjs-plugin-datalabels.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/hopscotch/0.3.1/js/hopscotch.js"></script>
+
+<!--	overrall accessibility score doughnut chart #access_chart-->
 	<script>
 		// Determine background color based on percentage
 
@@ -775,10 +808,9 @@
 			plugins: [ChartDataLabels_acc],
 		});
 	</script>
-
+<!--	font size acessibility score chart #doughnut1-->
 	<script>
 		// Determine background color based on percentage
-
 		percentage = {{percentage_greater_than_16}};
 		var backgroundColor7 = '';
 		if (percentage > 60) {
@@ -800,7 +832,6 @@
 			afterDatasetsDraw(chart, args, options) {
 				const { ctx, chartArea: { left, right, top, bottom, width, height } } = chart;
 				ctx.save();
-<!--				console.log(top);-->
 
 				// Calculate the position relative to the chart area
 				const x = (left + width / 2) + 2; // Center horizontally
@@ -812,7 +843,6 @@
 				ctx.font = 'bolder 22px Arial';
 				ctx.fillStyle = backgroundColor7;
 				ctx.textAlign = 'center';
-<!--				ctx.fillText('{{percentage_greater_than_16}}%', 55, 60);-->
 				ctx.fillText('{{percentage_greater_than_16}}%', x, y);
 			}
 		};
@@ -843,6 +873,7 @@
 			plugins: [ChartDataLabels1],
 		});
 	</script>
+<!--	links acessibility score chart #doughnut2-->
 	<script>
 		// Determine background color based on percentage
 
@@ -866,7 +897,6 @@
 			afterDatasetsDraw(chart, args, options) {
 				const { ctx, chartArea: { left, right, top, bottom, width, height } } = chart;
 				ctx.save();
-<!--				console.log(top);-->
 
 				// Calculate the position relative to the chart area
 				const x = (left + width / 2) + 2; // Center horizontally
@@ -878,7 +908,6 @@
 				ctx.font = 'bolder 22px Arial';
 				ctx.fillStyle = backgroundColor8;
 				ctx.textAlign = 'center';
-<!--				ctx.fillText('{{no_of_work['Number Of Urls Accessible']}}%', 55, 60);-->
 				ctx.fillText('{{no_of_work['Number Of Urls Accessible']}}%', x, y);
 			}
 		};
@@ -909,6 +938,7 @@
 			plugins: [ChartDataLabels2],
 		});
 	</script>
+<!--	image captions acessibility score chart #doughnut3-->
 	<script>
 		// Determine background color based on percentage
 
@@ -976,6 +1006,7 @@
 			plugins: [ChartDataLabels3],
 		});
 	</script>
+<!--	header count acessibility score chart #doughnut4-->
 	<script>
 		// Determine background color based on percentage
 
@@ -1043,6 +1074,7 @@
 			plugins: [ChartDataLabels4],
 		});
 	</script>
+<!--	footer count acessibility score chart #doughnut5-->
 	<script>
 		// Determine background color based on percentage
 
@@ -1111,6 +1143,7 @@
 			plugins: [ChartDataLabels5],
 		});
 	</script>
+<!--	page numbers acessibility score chart #doughnut7-->
 	<script>
 		// Determine background color based on percentage
 
@@ -1178,7 +1211,8 @@
 			plugins: [ChartDataLabels7],
 		});
 	</script>
-<script>
+<!--	page contrast acessibility score chart #doughnut6-->
+	<script>
 	// Determine background color based on percentage
 
 		percentage = {{meets_wcag_percentage}};
@@ -1245,6 +1279,7 @@
 		plugins: [ChartDataLabels6],
 	});
 </script>
+<!--	table caption acessibility score chart #doughnut8-->
 	<script>
 	// Determine background color based on percentage
 
@@ -1312,6 +1347,7 @@
 		plugins: [ChartDataLabels8],
 	});
 </script>
+<!--	dyslexia acessibility score chart #doughnut9-->
 	<script>
 	// Determine background color based on percentage
 
@@ -1379,6 +1415,7 @@
 		plugins: [ChartDataLabels9],
 	});
 </script>
+<!--	color blindness - Monochromacy acessibility score chart #doughnut11-->
 	<script>
 		// Determine background color based on percentage
     percentage = {{overall_percentages_colorblind['Monochromacy']['Accessible']}};
@@ -1441,7 +1478,7 @@
 				}]
 			},
 			options: {
-				cutout: 45, // Adjust cutout size as needed
+				cutout: 40, // Adjust cutout size as needed
 				rotation: -90, // Start at the top
 				circumference: 360, // Adjust to match image proportions
 				plugins: {
@@ -1456,6 +1493,7 @@
 
 
 	</script>
+<!--	color blindness - Protonopia acessibility score chart #doughnut12-->
 	<script>
 		// Determine background color based on percentage
 
@@ -1520,7 +1558,7 @@
 				}]
 			},
 			options: {
-				cutout: 35, // Adjust cutout size as needed
+				cutout: 30, // Adjust cutout size as needed
 				rotation: -90, // Start at the top
 				circumference: 360, // Adjust to match image proportions
 				plugins: {
@@ -1532,6 +1570,7 @@
 			plugins: [CardDataLabels12],
 		});
 	</script>
+<!--	color blindness - Tritanopia acessibility score chart #doughnut13-->
 	<script>
 		// Determine background color based on percentage
 
@@ -1594,7 +1633,7 @@
 				}]
 			},
 			options: {
-				cutout: 35, // Adjust cutout size as needed
+				cutout: 30, // Adjust cutout size as needed
 				rotation: -90, // Start at the top
 				circumference: 360, // Adjust to match image proportions
 				plugins: {
@@ -1606,6 +1645,7 @@
 			plugins: [CardDataLabels13],
 		});
 	</script>
+<!--	Monochromacy acessibility score chart #card_chart1-->
 	<script>
    // Determine background color based on percentage
     percentage = {{overall_percentages_colorblind['Monochromacy']['Accessible']}};
@@ -1680,6 +1720,7 @@
 			plugins: [CardDataLabels1],
 		});
 	</script>
+<!--	Protonopia acessibility score chart #card_chart2-->
 	<script>
 	// Determine background color based on percentage
 
@@ -1756,7 +1797,7 @@
 			plugins: [CardDataLabels2],
 		});
 	</script>
-
+<!--	header acessibility score chart #card_chart3-->
 	<script>
 			// Determine background color based on percentage
 		percentage = {{ fina_header_count_[0][0] }};
@@ -1829,6 +1870,7 @@
 			plugins: [CardDataLabels3],
 		});
 	</script>
+<!--	footer acessibility score chart #card_chart4-->
 	<script>
 		// Determine background color based on percentage
 
@@ -1903,6 +1945,7 @@
 			plugins: [CardDataLabels4],
 		});
 	</script>
+<!--	contrast acessibility score chart #card_chart5-->
 	<script>
 		// Determine background color based on percentage
 
@@ -1977,6 +2020,7 @@
 			plugins: [CardDataLabels5],
 		});
 	</script>
+<!--	Tritanopia acessibility score chart #card_chart6-->
 	<script>
 		// Determine background color based on percentage
 
@@ -2052,9 +2096,373 @@
 			plugins: [CardDataLabels6],
 		});
 	</script>
-
+<!--	font size acessibility score chart #card_chart7-->
 	<script>
+ 		// Determine background color based on percentage
+		percentage = {{percentage_greater_than_16}};
+		var backgroundColor19 = '';
+		if (percentage > 60) {
+			backgroundColor19 = 'green'; // Red background
+			content = 'Good';
+		} else if (percentage >= 40 && percentage <= 60) {
+			backgroundColor19 = '#e3700e'; // Orange background
+			content = 'Average';
+		} else {
+			backgroundColor19 = '#E33147'; // Green background
+			content = 'Poor';
+		}
 
+		// Set the background color and content for the h5 element
+		var h5Element = document.getElementById('font_size_score'); // Replace 'your_h5_element_id' with the actual ID of your h5 element
+		h5Element.style.color = backgroundColor19;
+		h5Element.textContent = content;
+
+		var percentage_less_than_16 = {{percentage_less_than_16}};
+		//check if both the values are zero
+		if({{percentage_greater_than_16}} == 0 && {{percentage_less_than_16}} == 0){
+			percentage_less_than_16 = 100;
+		}
+
+		const CardDataLabels7 = {
+			id: 'CardDataLabels7',
+			afterDatasetsDraw(chart, args, options) {
+				const { ctx, chartArea: { left, right, top, bottom, width, height } } = chart;
+				ctx.save();
+
+				// Calculate the position relative to the chart area
+				const x = (left + width / 2) + 2; // Center horizontally
+				const y = (top + height / 2) + 10; // Center vertically
+
+				// Determine the font size dynamically based on the chart size
+				const fontSize = Math.min(width, height) * 0.2; // Adjust 0.2 as needed for font size scaling
+
+				ctx.font = 'bolder 45px Arial';
+				ctx.fillStyle = backgroundColor19;
+				ctx.textAlign = 'center';
+				ctx.fillText('{{percentage_greater_than_16}}%', x, y);
+			}
+		};
+
+		var ctxDough = document.getElementById('card_chart7').getContext('2d');
+		var myChart = new Chart(ctxDough, {
+			type: 'doughnut',
+			data: {
+				labels: [''], // No labels needed for a single segment
+				datasets: [{
+					data: [{{percentage_greater_than_16}}, percentage_less_than_16], // 84% filled, 16% empty
+					weight: 10,
+					backgroundColor: [backgroundColor19, '#d7d9db'],
+					borderColor: 'white',
+					borderWidth: 0
+				}]
+			},
+			options: {
+				cutout: 70, // Adjust cutout size as needed
+				rotation: -90, // Start at the top
+				circumference: 360, // Adjust to match image proportions
+				plugins: {
+					legend: {
+						display: false,
+					}
+				},
+			}, // Add a comma here
+			plugins: [CardDataLabels7],
+		});
+	</script>
+<!--	links acessibility score chart #card_chart8-->
+	<script>
+ 		// Determine background color based on percentage
+		percentage = {{no_of_work['Number Of Urls Accessible']}};
+		var backgroundColor20 = '';
+		if (percentage > 60) {
+			backgroundColor20 = 'green'; // Red background
+			content = 'Good';
+		} else if (percentage >= 40 && percentage <= 60) {
+			backgroundColor20 = '#e3700e'; // Orange background
+			content = 'Average';
+		} else {
+			backgroundColor20 = '#E33147'; // Green background
+			content = 'Poor';
+		}
+
+		// Set the background color and content for the h5 element
+		var h5Element = document.getElementById('links_score'); // Replace 'your_h5_element_id' with the actual ID of your h5 element
+		h5Element.style.color = backgroundColor20;
+		h5Element.textContent = content;
+
+		var Number_Of_Not_Urls_Accessible = {{no_of_work['Number Of Not Urls Accessible']}};
+		//check if both the values are zero
+		if({{no_of_work['Number Of Urls Accessible']}} == 0 && {{no_of_work['Number Of Not Urls Accessible']}} == 0){
+			Number_Of_Not_Urls_Accessible = 100;
+		}
+
+		const CardDataLabels8 = {
+			id: 'CardDataLabels8',
+			afterDatasetsDraw(chart, args, options) {
+				const { ctx, chartArea: { left, right, top, bottom, width, height } } = chart;
+				ctx.save();
+
+				// Calculate the position relative to the chart area
+				const x = (left + width / 2) + 2; // Center horizontally
+				const y = (top + height / 2) + 10; // Center vertically
+
+				// Determine the font size dynamically based on the chart size
+				const fontSize = Math.min(width, height) * 0.2; // Adjust 0.2 as needed for font size scaling
+
+				ctx.font = 'bolder 45px Arial';
+				ctx.fillStyle = backgroundColor20;
+				ctx.textAlign = 'center';
+				ctx.fillText('{{no_of_work['Number Of Urls Accessible']}}%', x, y);
+			}
+		};
+
+		var ctxDough = document.getElementById('card_chart8').getContext('2d');
+		var myChart = new Chart(ctxDough, {
+			type: 'doughnut',
+			data: {
+				labels: [''], // No labels needed for a single segment
+				datasets: [{
+					data: [{{no_of_work['Number Of Urls Accessible']}},Number_Of_Not_Urls_Accessible], // 84% filled, 16% empty
+					weight: 10,
+					backgroundColor: [backgroundColor20, '#d7d9db'],
+					borderColor: 'white',
+					borderWidth: 0
+				}]
+			},
+			options: {
+				cutout: 70, // Adjust cutout size as needed
+				rotation: -90, // Start at the top
+				circumference: 360, // Adjust to match image proportions
+				plugins: {
+					legend: {
+						display: false,
+					}
+				},
+			}, // Add a comma here
+			plugins: [CardDataLabels8],
+		});
+	</script>
+<!--	image caption acessibility score chart #card_chart9-->
+	<script>
+ 		// Determine background color based on percentage
+		percentage = {{percentage_with_captions}};
+		var backgroundColor21 = '';
+		if (percentage > 60) {
+			backgroundColor21 = 'green'; // Red background
+			content = 'Good';
+		} else if (percentage >= 40 && percentage <= 60) {
+			backgroundColor21 = '#e3700e'; // Orange background
+			content = 'Average';
+		} else {
+			backgroundColor21 = '#E33147'; // Green background
+			content = 'Poor';
+		}
+
+		// Set the background color and content for the h5 element
+		var h5Element = document.getElementById('img_caption_score'); // Replace 'your_h5_element_id' with the actual ID of your h5 element
+		h5Element.style.color = backgroundColor21;
+		h5Element.textContent = content;
+
+		var percentage_without_captions = {{percentage_without_captions}};
+		//check if both the values are zero
+		if({{percentage_with_captions}} == 0 && {{percentage_without_captions}} == 0){
+			percentage_without_captions = 100;
+		}
+
+		const CardDataLabels9 = {
+			id: 'CardDataLabels9',
+			afterDatasetsDraw(chart, args, options) {
+				const { ctx, chartArea: { left, right, top, bottom, width, height } } = chart;
+				ctx.save();
+
+				// Calculate the position relative to the chart area
+				const x = (left + width / 2) + 2; // Center horizontally
+				const y = (top + height / 2) + 10; // Center vertically
+
+				// Determine the font size dynamically based on the chart size
+				const fontSize = Math.min(width, height) * 0.2; // Adjust 0.2 as needed for font size scaling
+
+				ctx.font = 'bolder 45px Arial';
+				ctx.fillStyle = backgroundColor21;
+				ctx.textAlign = 'center';
+				ctx.fillText('{{percentage_with_captions}}%', x, y);
+			}
+		};
+
+		var ctxDough = document.getElementById('card_chart9').getContext('2d');
+		var myChart = new Chart(ctxDough, {
+			type: 'doughnut',
+			data: {
+				labels: [''], // No labels needed for a single segment
+				datasets: [{
+					data: [{{percentage_with_captions}}, percentage_without_captions], // 84% filled, 16% empty
+					weight: 10,
+					backgroundColor: [backgroundColor21, '#d7d9db'],
+					borderColor: 'white',
+					borderWidth: 0
+				}]
+			},
+			options: {
+				cutout: 70, // Adjust cutout size as needed
+				rotation: -90, // Start at the top
+				circumference: 360, // Adjust to match image proportions
+				plugins: {
+					legend: {
+						display: false,
+					}
+				},
+			}, // Add a comma here
+			plugins: [CardDataLabels9],
+		});
+	</script>
+<!--	Page Numbers acessibility score chart #card_chart10-->
+	<script>
+ 		// Determine background color based on percentage
+		percentage = {{percentage_with_page_number}};
+		var backgroundColor22 = '';
+		if (percentage > 60) {
+			backgroundColor22 = 'green'; // Red background
+			content = 'Good';
+		} else if (percentage >= 40 && percentage <= 60) {
+			backgroundColor22 = '#e3700e'; // Orange background
+			content = 'Average';
+		} else {
+			backgroundColor22 = '#E33147'; // Green background
+			content = 'Poor';
+		}
+
+		// Set the background color and content for the h5 element
+		var h5Element = document.getElementById('page_num_score'); // Replace 'your_h5_element_id' with the actual ID of your h5 element
+		h5Element.style.color = backgroundColor22;
+		h5Element.textContent = content;
+
+		var percentage_without_page_number = {{percentage_without_page_number}};
+		//check if both the values are zero
+		if({{percentage_with_page_number}} == 0 && {{percentage_without_page_number}} == 0){
+			percentage_without_page_number = 100;
+		}
+
+		const CardDataLabels10 = {
+			id: 'CardDataLabels10',
+			afterDatasetsDraw(chart, args, options) {
+				const { ctx, chartArea: { left, right, top, bottom, width, height } } = chart;
+				ctx.save();
+
+				// Calculate the position relative to the chart area
+				const x = (left + width / 2) + 2; // Center horizontally
+				const y = (top + height / 2) + 10; // Center vertically
+
+				// Determine the font size dynamically based on the chart size
+				const fontSize = Math.min(width, height) * 0.2; // Adjust 0.2 as needed for font size scaling
+
+				ctx.font = 'bolder 45px Arial';
+				ctx.fillStyle = backgroundColor22;
+				ctx.textAlign = 'center';
+				ctx.fillText('{{percentage_with_page_number}}%', x, y);
+			}
+		};
+
+		var ctxDough = document.getElementById('card_chart10').getContext('2d');
+		var myChart = new Chart(ctxDough, {
+			type: 'doughnut',
+			data: {
+				labels: [''], // No labels needed for a single segment
+				datasets: [{
+					data: [{{percentage_with_page_number}},percentage_without_page_number], // 84% filled, 16% empty
+					weight: 10,
+					backgroundColor: [backgroundColor22, '#d7d9db'],
+					borderColor: 'white',
+					borderWidth: 0
+				}]
+			},
+			options: {
+				cutout: 70, // Adjust cutout size as needed
+				rotation: -90, // Start at the top
+				circumference: 360, // Adjust to match image proportions
+				plugins: {
+					legend: {
+						display: false,
+					}
+				},
+			}, // Add a comma here
+			plugins: [CardDataLabels10],
+		});
+	</script>
+<!--	table caption acessibility score chart #card_chart11-->
+	<script>
+ 		// Determine background color based on percentage
+		percentage = {{percentage_with_caption_table}};
+		var backgroundColor23 = '';
+		if (percentage > 60) {
+			backgroundColor23 = 'green'; // Red background
+			content = 'Good';
+		} else if (percentage >= 40 && percentage <= 60) {
+			backgroundColor23 = '#e3700e'; // Orange background
+			content = 'Average';
+		} else {
+			backgroundColor23 = '#E33147'; // Green background
+			content = 'Poor';
+		}
+
+		// Set the background color and content for the h5 element
+		var h5Element = document.getElementById('table_cap_score'); // Replace 'your_h5_element_id' with the actual ID of your h5 element
+		h5Element.style.color = backgroundColor23;
+		h5Element.textContent = content;
+
+		var does_not_meet_wcag_percentage = {{percentage_without_caption_table}};
+		//check if both the values are zero
+		if({{percentage_with_caption_table}} == 0 && {{percentage_without_caption_table}} == 0){
+			percentage_without_caption_table = 100;
+		}
+
+		const CardDataLabels14 = {
+			id: 'CardDataLabels14',
+			afterDatasetsDraw(chart, args, options) {
+				const { ctx, chartArea: { left, right, top, bottom, width, height } } = chart;
+				ctx.save();
+
+				// Calculate the position relative to the chart area
+				const x = (left + width / 2) + 2; // Center horizontally
+				const y = (top + height / 2) + 10; // Center vertically
+
+				// Determine the font size dynamically based on the chart size
+				const fontSize = Math.min(width, height) * 0.2; // Adjust 0.2 as needed for font size scaling
+
+				ctx.font = 'bolder 45px Arial';
+				ctx.fillStyle = backgroundColor22;
+				ctx.textAlign = 'center';
+				ctx.fillText('{{percentage_with_caption_table}}%', x, y);
+			}
+		};
+
+		var ctxDough = document.getElementById('card_chart11').getContext('2d');
+		var myChart = new Chart(ctxDough, {
+			type: 'doughnut',
+			data: {
+				labels: [''], // No labels needed for a single segment
+				datasets: [{
+					data: [{{percentage_with_caption_table}},{{percentage_without_caption_table}}], // 84% filled, 16% empty
+					weight: 10,
+					backgroundColor: [backgroundColor14, '#d7d9db'],
+					borderColor: 'white',
+					borderWidth: 0
+				}]
+			},
+			options: {
+				cutout: 70, // Adjust cutout size as needed
+				rotation: -90, // Start at the top
+				circumference: 360, // Adjust to match image proportions
+				plugins: {
+					legend: {
+						display: false,
+					}
+				},
+			}, // Add a comma here
+			plugins: [CardDataLabels14],
+		});
+	</script>
+<!--	font size pie chart #font_size-->
+	<script>
 		var data_top_4_font_size_ = {{ percentage_dict_size| tojson | safe}};
 		var datasets_top_4_font_size_ = [];
 		var labels_data_top_4_font_size_ = [];
@@ -2118,15 +2526,16 @@
 			myChart1.update(); // Apply changes
 		}
 	</script>
-	<script>
+<!--	links pie chart #links_chart-->
+ 	<script>
 		const ctx1 = document.getElementById('links_chart').getContext('2d');
 		var data_for_no_of_work = {{ no_of_work| tojson | safe}};
 		var datasets_for_no_of_work = [];
 		var labels_data_for_no_of_work = [];
 
 		for (var key in data_for_no_of_work) {
-        datasets_for_no_of_work.push(data_for_no_of_work[key])
-        labels_data_for_no_of_work.push(key)
+			datasets_for_no_of_work.push(data_for_no_of_work[key])
+			labels_data_for_no_of_work.push(key)
     	}
 
 		var myChart2 = new Chart(ctx1, {
@@ -2185,6 +2594,7 @@
 <!--			myChart2.update(); // Apply changes-->
 <!--		}-->
 	</script>
+<!--	image caption bar chart #image_cap-->
 	<script>
 		const ctx2 = document.getElementById('image_cap').getContext('2d');
 
@@ -2259,6 +2669,7 @@
 			myChart3.update(); // Apply changes
 		}
 	</script>
+<!--	header doughnut chart #header_chart-->
 	<script>
 		const ctx3 = document.getElementById('header_chart').getContext('2d');
 
@@ -2324,6 +2735,7 @@
 		}
 
 	</script>
+<!--	footer doughnut chart #footer_chart-->
 	<script>
 		const ctx4 = document.getElementById('footer_chart').getContext('2d');
 
@@ -2387,6 +2799,7 @@
 			myChart5.update(); // Apply changes
 		}
 	</script>
+<!--	page contrast bar chart #page_contrast-->
 	<script>
 		const ctx5 = document.getElementById('page_contrast').getContext('2d');
 
@@ -2463,6 +2876,7 @@
 		}
 
 	</script>
+<!--	page numbers pie chart #page_numbers-->
 	<script>
 		const ctx6 = document.getElementById('page_numbers').getContext('2d');
 
@@ -2471,7 +2885,8 @@
 		const hasZero = dataValues.some(value => value === 0);
 
 		// If any of the data values is 0, filter them out
-		const filteredData = dataValues.filter(value => value !== 0);
+<!--		const filteredData = dataValues.filter(value => value !== 0);-->
+		const filteredData = dataValues.map(value => value === 0 ? null : value);
 
 
 		var myChart7 = new Chart(ctx6, {
@@ -2524,6 +2939,7 @@
 			myChart7.update(); // Apply changes
 		}
 	</script>
+<!--	font family bar chart #color-->
 	<script>
 		const ctx7 = document.getElementById('color').getContext('2d');
 
@@ -2588,6 +3004,9 @@
 
 	function toggleDarkMode11(isDarkMode) {
 		if (isDarkMode) {
+			if (myChart11.options.plugins.legend) {
+				myChart11.options.plugins.legend.labels.color = 'white'; // Set font color for dark mode
+			}
 			if (myChart11.options.scales) {
 				myChart11.options.scales.x.ticks.color = 'white'; // Set x-axis label color for dark mode
 				myChart11.options.scales.y.ticks.color = 'white'; // Set y-axis label color for dark mode
@@ -2595,6 +3014,9 @@
 				myChart11.options.scales.y.grid.color = '#c1c1c1'
 			}
 		} else {
+			if (myChart11.options.plugins.legend) {
+				myChart11.options.plugins.legend.labels.color = 'black'; // Set font color for light mode
+			}
 			if (myChart11.options.scales) {
 				myChart11.options.scales.x.ticks.color = 'black'; // Set x-axis label color for light mode
 				myChart11.options.scales.y.ticks.color = 'black'; // Set y-axis label color for light mode
@@ -2605,6 +3027,7 @@
 		myChart11.update(); // Apply changes
 	}
 		</script>
+<!--	color blindness bar chart #color_blindness-->
 	<script>
     const ctx8 = document.getElementById('color_blindness').getContext('2d');
 
@@ -2693,6 +3116,9 @@
 
     function toggleDarkMode10(isDarkMode) {
 		if (isDarkMode) {
+			if (myChart10.options.plugins.legend) {
+				myChart10.options.plugins.legend.labels.color = 'white'; // Set font color for dark mode
+			}
 			if (myChart10.options.scales) {
 				myChart10.options.scales.x.ticks.color = 'white'; // Set x-axis label color for dark mode
 				myChart10.options.scales.y.ticks.color = 'white'; // Set y-axis label color for dark mode
@@ -2700,6 +3126,9 @@
 				myChart10.options.scales.y.grid.color = '#c1c1c1'
 			}
 		} else {
+			if (myChart10.options.plugins.legend) {
+				myChart10.options.plugins.legend.labels.color = 'black'; // Set font color for light mode
+			}
 			if (myChart10.options.scales) {
 				myChart10.options.scales.x.ticks.color = 'black'; // Set x-axis label color for light mode
 				myChart10.options.scales.y.ticks.color = 'black'; // Set y-axis label color for light mode
@@ -2710,6 +3139,7 @@
 		myChart10.update(); // Apply changes
 	}
 </script>
+<!--	table caption bar chart #table_caption-->
 	<script>
 		const ctx9 = document.getElementById('table_caption').getContext('2d');
 
@@ -2763,6 +3193,7 @@
 			myChart8.update(); // Apply changes
 		}
 	</script>
+<!--	dyslexia bar chart #dylexia-->
 	<script>
 		const ctx10 = document.getElementById('dylexia').getContext('2d');
 
@@ -2816,104 +3247,169 @@
 			myChart9.update(); // Apply changes
 		}
 	</script>
+<!--	carousel wrapper-->
 	<script>
-		const wrapper = document.querySelector(".wrapper");
-		const carousel = document.querySelector(".carousel");
-		const firstCardWidth = carousel.querySelector(".card").offsetWidth;
-		const arrowBtns = document.querySelectorAll(".wrapper i");
-		const carouselChildrens = [...carousel.children];
 
-		let isDragging = false, isAutoPlay = true, startX, startScrollLeft, timeoutId;
 
-		// Get the number of cards that can fit in the carousel at once
-		let cardPerView = Math.round(carousel.offsetWidth / firstCardWidth);
+	const wrapper = document.querySelector(".wrapper");
+    const carousel = document.querySelector(".carousel");
+    const firstCardWidth = carousel.querySelector(".card").offsetWidth;
+    const arrowBtns = document.querySelectorAll(".wrapper i");
 
-		// // Insert copies of the last few cards to beginning of carousel for infinite scrolling
-		// carouselChildrens.slice(-cardPerView).reverse().forEach(card => {
-		// 	carousel.insertAdjacentHTML("afterbegin", card.outerHTML);
-		// });
+    let isDragging = false;
+    let startX, startScrollLeft, timeoutId;
 
-		// // Insert copies of the first few cards to end of carousel for infinite scrolling
-		// carouselChildrens.slice(0, cardPerView).forEach(card => {
-		// 	carousel.insertAdjacentHTML("beforeend", card.outerHTML);
-		// });
+    // Get the number of cards that can fit in the carousel at once
+    const cardPerView = Math.round(carousel.offsetWidth / firstCardWidth);
 
-		// Scroll the carousel at appropriate postition to hide first few duplicate cards on Firefox
-		// carousel.classList.add("no-transition");
-		// carousel.scrollLeft = carousel.offsetWidth;
-		// carousel.classList.remove("no-transition");
+    // Add event listeners for the arrow buttons to scroll the carousel left and right
+    arrowBtns.forEach(btn => {
+        btn.addEventListener("click", () => {
+            carousel.scrollLeft += btn.id === "left" ? -firstCardWidth : firstCardWidth;
+        });
+    });
 
-		// Add event listeners for the arrow buttons to scroll the carousel left and right
-		arrowBtns.forEach(btn => {
-			btn.addEventListener("click", () => {
-				carousel.scrollLeft += btn.id == "left" ? -firstCardWidth : firstCardWidth;
-			});
-		});
+    const dragStart = (e) => {
+        isDragging = true;
+        carousel.classList.add("dragging");
+        // Records the initial cursor and scroll position of the carousel
+        startX = e.pageX;
+        startScrollLeft = carousel.scrollLeft;
+    };
 
-		const dragStart = (e) => {
-			isDragging = true;
-			carousel.classList.add("dragging");
-			// Records the initial cursor and scroll position of the carousel
-			startX = e.pageX;
-			startScrollLeft = carousel.scrollLeft;
-		}
+    const dragging = (e) => {
+        if (!isDragging) return; // if isDragging is false return from here
+        // Updates the scroll position of the carousel based on the cursor movement
+        carousel.scrollLeft = startScrollLeft - (e.pageX - startX);
+    };
 
-		const dragging = (e) => {
-			if(!isDragging) return; // if isDragging is false return from here
-			// Updates the scroll position of the carousel based on the cursor movement
-			carousel.scrollLeft = startScrollLeft - (e.pageX - startX);
-		}
+    const dragStop = () => {
+        isDragging = false;
+        carousel.classList.remove("dragging");
+    };
 
-		const dragStop = () => {
-			isDragging = false;
-			carousel.classList.remove("dragging");
-		}
-		const infiniteScroll = () => {
-			// If the carousel is at the beginning, scroll to the end
-			if(carousel.scrollLeft === 0) {
-				carousel.classList.add("no-transition");
-				carousel.scrollLeft = carousel.scrollWidth - (2 * carousel.offsetWidth);
-				carousel.classList.remove("no-transition");
-			}
-			// If the carousel is at the end, scroll to the beginning
-			else if(Math.ceil(carousel.scrollLeft) === carousel.scrollWidth - carousel.offsetWidth) {
-				carousel.classList.add("no-transition");
-				carousel.scrollLeft = carousel.offsetWidth;
-				carousel.classList.remove("no-transition");
-			}
+    const autoPlay = () => {
+        if (window.innerWidth < 800) return; // Return if window is smaller than 800
+        // Autoplay the carousel after every 2500 ms
+        timeoutId = setInterval(() => {
+            const maxScroll = carousel.scrollWidth - carousel.clientWidth;
+            if (carousel.scrollLeft >= maxScroll) {
+                carousel.scrollLeft = 0;
+            } else {
+                carousel.scrollLeft += firstCardWidth;
+            }
+        }, 3500);
+    };
 
-			// Clear existing timeout & start autoplay if mouse is not hovering over carousel
-			clearTimeout(timeoutId);
-			if(!wrapper.matches(":hover")) autoPlay();
-		}
+    carousel.addEventListener("mousedown", dragStart);
+    carousel.addEventListener("mousemove", dragging);
+    document.addEventListener("mouseup", dragStop);
+    wrapper.addEventListener("mouseenter", () => clearInterval(timeoutId));
+    wrapper.addEventListener("mouseleave", autoPlay);
+    autoPlay();
 
-		const autoPlay = () => {
-			if(window.innerWidth < 800 || !isAutoPlay) return; // Return if window is smaller than 800 or isAutoPlay is false
-			// Autoplay the carousel after every 2500 ms
-			//timeoutId = setTimeout(() => carousel.scrollLeft += firstCardWidth, 2500);
-			const maxScroll = carousel.scrollWidth - carousel.clientWidth;
-			// If at the beginning of the carousel, scroll right
-			if (carousel.scrollLeft === 0) {
-				timeoutId = setTimeout(() => carousel.scrollLeft += firstCardWidth, 2500);
-			}
-			// If at the end of the carousel, scroll left
-			else if (carousel.scrollLeft >= maxScroll) {
-				timeoutId = setTimeout(() => carousel.scrollLeft -= firstCardWidth, 2500);
-			}
-			// Otherwise, continue scrolling right
-			else {
-				timeoutId = setTimeout(() => carousel.scrollLeft += firstCardWidth, 2500);
-			}
-		}
-		autoPlay();
-		carousel.addEventListener("mousedown", dragStart);
-		carousel.addEventListener("mousemove", dragging);
-		document.addEventListener("mouseup", dragStop);
-		carousel.addEventListener("scroll", infiniteScroll);
-		wrapper.addEventListener("mouseenter", () => clearTimeout(timeoutId));
-		wrapper.addEventListener("mouseleave", autoPlay);
+
+
+
+<!--		const wrapper = document.querySelector(".wrapper");-->
+<!--		const carousel = document.querySelector(".carousel");-->
+<!--		const firstCardWidth = carousel.querySelector(".card").offsetWidth;-->
+<!--		const arrowBtns = document.querySelectorAll(".wrapper i");-->
+<!--		const carouselChildrens = [...carousel.children];-->
+
+<!--		let isDragging = false, isAutoPlay = true, startX, startScrollLeft, timeoutId;-->
+
+<!--		// Get the number of cards that can fit in the carousel at once-->
+<!--		let cardPerView = Math.round(carousel.offsetWidth / firstCardWidth);-->
+
+<!--		// // Insert copies of the last few cards to beginning of carousel for infinite scrolling-->
+<!--		// carouselChildrens.slice(-cardPerView).reverse().forEach(card => {-->
+<!--		// 	carousel.insertAdjacentHTML("afterbegin", card.outerHTML);-->
+<!--		// });-->
+
+<!--		// // Insert copies of the first few cards to end of carousel for infinite scrolling-->
+<!--		// carouselChildrens.slice(0, cardPerView).forEach(card => {-->
+<!--		// 	carousel.insertAdjacentHTML("beforeend", card.outerHTML);-->
+<!--		// });-->
+
+<!--		// Scroll the carousel at appropriate postition to hide first few duplicate cards on Firefox-->
+<!--		// carousel.classList.add("no-transition");-->
+<!--		// carousel.scrollLeft = carousel.offsetWidth;-->
+<!--		// carousel.classList.remove("no-transition");-->
+
+<!--		// Add event listeners for the arrow buttons to scroll the carousel left and right-->
+<!--		arrowBtns.forEach(btn => {-->
+<!--			btn.addEventListener("click", () => {-->
+<!--				carousel.scrollLeft += btn.id == "left" ? -firstCardWidth : firstCardWidth;-->
+<!--			});-->
+<!--		});-->
+
+<!--		const dragStart = (e) => {-->
+<!--			isDragging = true;-->
+<!--			carousel.classList.add("dragging");-->
+<!--			// Records the initial cursor and scroll position of the carousel-->
+<!--			startX = e.pageX;-->
+<!--			startScrollLeft = carousel.scrollLeft;-->
+<!--		}-->
+
+<!--		const dragging = (e) => {-->
+<!--			if(!isDragging) return; // if isDragging is false return from here-->
+<!--			// Updates the scroll position of the carousel based on the cursor movement-->
+<!--			carousel.scrollLeft = startScrollLeft - (e.pageX - startX);-->
+<!--		}-->
+
+<!--		const dragStop = () => {-->
+<!--			isDragging = false;-->
+<!--			carousel.classList.remove("dragging");-->
+<!--		}-->
+<!--		const infiniteScroll = () => {-->
+<!--			// If the carousel is at the beginning, scroll to the end-->
+<!--			if(carousel.scrollLeft === 0) {-->
+<!--				carousel.classList.add("no-transition");-->
+<!--				carousel.scrollLeft = carousel.scrollWidth - (2 * carousel.offsetWidth);-->
+<!--				carousel.classList.remove("no-transition");-->
+<!--			}-->
+<!--			// If the carousel is at the end, scroll to the beginning-->
+<!--			else if(Math.ceil(carousel.scrollLeft) === carousel.scrollWidth - carousel.offsetWidth) {-->
+<!--				carousel.classList.add("no-transition");-->
+<!--				carousel.scrollLeft = carousel.offsetWidth;-->
+<!--				carousel.classList.remove("no-transition");-->
+<!--			}-->
+
+<!--			// Clear existing timeout & start autoplay if mouse is not hovering over carousel-->
+<!--			clearTimeout(timeoutId);-->
+<!--			if(!wrapper.matches(":hover")) autoPlay();-->
+<!--		}-->
+
+<!--		const autoPlay = () => {-->
+<!--			if(window.innerWidth < 800 || !isAutoPlay) return; // Return if window is smaller than 800 or isAutoPlay is false-->
+<!--			// Autoplay the carousel after every 2500 ms-->
+<!--			//timeoutId = setTimeout(() => carousel.scrollLeft += firstCardWidth, 3500);-->
+<!--			const maxScroll = carousel.scrollWidth - carousel.clientWidth;-->
+<!--			// If at the beginning of the carousel, scroll right-->
+<!--			if (carousel.scrollLeft === 0) {-->
+<!--				timeoutId = setTimeout(() => carousel.scrollLeft += firstCardWidth, 3500);-->
+<!--			}-->
+<!--			// If at the end of the carousel, scroll left-->
+<!--			else if (carousel.scrollLeft >= maxScroll) {-->
+<!--				timeoutId = setTimeout(() => carousel.scrollLeft -= firstCardWidth, 3500);-->
+<!--			}-->
+<!--			// Otherwise, continue scrolling right-->
+<!--			else {-->
+<!--				timeoutId = setTimeout(() => carousel.scrollLeft += firstCardWidth, 3500);-->
+<!--			}-->
+<!--		}-->
+<!--		autoPlay();-->
+<!--		carousel.addEventListener("mousedown", dragStart);-->
+<!--		carousel.addEventListener("mousemove", dragging);-->
+<!--		document.addEventListener("mouseup", dragStop);-->
+<!--		carousel.addEventListener("scroll", infiniteScroll);-->
+<!--		wrapper.addEventListener("mouseenter", () => clearTimeout(timeoutId));-->
+<!--		wrapper.addEventListener("mouseleave", autoPlay);-->
+
 	</script>
-<script>
+<!--	tour guide-->
+	<script>
 		/* globals hopscotch: false */
 	function hasTourStarted() {
 	  return localStorage.getItem('tourStarted') === 'true';
@@ -3051,80 +3547,78 @@
 		};
 		init();
 </script>
+<!--	light mode/dark mode toggle-->
+	<script>
+	const themeToggler = document.querySelector('.theme-toggle');
+	const lightModeIcon = themeToggler.querySelector('span:nth-child(1)');
+	const darkModeIcon = themeToggler.querySelector('span:nth-child(2)');
 
-<script>
+	// Function to set dark mode preference
+	function setDarkModePreference(isDark) {
+		localStorage.setItem('darkMode', isDark);
+	}
 
-
-const themeToggler = document.querySelector('.theme-toggle');
-const lightModeIcon = themeToggler.querySelector('span:nth-child(1)');
-const darkModeIcon = themeToggler.querySelector('span:nth-child(2)');
-
-// Function to set dark mode preference
-function setDarkModePreference(isDark) {
-    localStorage.setItem('darkMode', isDark);
-}
-
-// Function to get dark mode preference
-function getDarkModePreference() {
-    return JSON.parse(localStorage.getItem('darkMode'));
-}
+	// Function to get dark mode preference
+	function getDarkModePreference() {
+		return JSON.parse(localStorage.getItem('darkMode'));
+	}
 
 
-themeToggler.addEventListener('click', () => {
-	const isDark = !document.body.classList.contains('dark-theme-variables');
-    toggleDarkMode(isDark);
-});
+	themeToggler.addEventListener('click', () => {
+		const isDark = !document.body.classList.contains('dark-theme-variables');
+		toggleDarkMode(isDark);
+	});
 
 
-// Check dark mode preference on page load
-document.addEventListener('DOMContentLoaded', () => {
-    const storedPreference = getDarkModePreference();
-    const isDarkMode = storedPreference === null ? false : storedPreference;
-    toggleDarkMode(isDarkMode);
-});
+	// Check dark mode preference on page load
+	document.addEventListener('DOMContentLoaded', () => {
+		const storedPreference = getDarkModePreference();
+		const isDarkMode = storedPreference === null ? false : storedPreference;
+		toggleDarkMode(isDarkMode);
+	});
 
 
-function toggleDarkMode(isDark) {
-	setDarkModePreference(isDark);
+	function toggleDarkMode(isDark) {
+		setDarkModePreference(isDark);
 
-    // Toggle the theme on the body
-    document.body.classList.toggle('dark-theme-variables', isDark);
+		// Toggle the theme on the body
+		document.body.classList.toggle('dark-theme-variables', isDark);
 
-    // Check the new state and apply the 'active' class accordingly
-    if (isDark) {
-        // If the body now has the dark theme, it means we've just switched to dark mode
-        darkModeIcon.classList.add('active'); // Mark the dark mode icon as active
-        lightModeIcon.classList.remove('active'); // Ensure the light mode icon is not marked as active
-        toggleDarkMode1(true);
-        //toggleDarkMode2(true);
-        toggleDarkMode3(true);
-        toggleDarkMode4(true);
-        toggleDarkMode5(true);
-        toggleDarkMode6(true);
-        toggleDarkMode7(true);
-        toggleDarkMode8(true);
-        toggleDarkMode9(true);
-        toggleDarkMode10(true);
-        toggleDarkMode11(true);
-    } else {
-        // If the body does not have the dark theme, it means we've just switched to light mode
-        lightModeIcon.classList.add('active'); // Mark the light mode icon as active
-        darkModeIcon.classList.remove('active'); // Ensure the dark mode icon is not marked as active
-        toggleDarkMode1(false);
-        //toggleDarkMode2(false);
-        toggleDarkMode3(false);
-        toggleDarkMode4(false);
-        toggleDarkMode5(false);
-        toggleDarkMode6(false);
-        toggleDarkMode7(false);
-        toggleDarkMode8(false);
-        toggleDarkMode9(false);
-        toggleDarkMode10(false);
-        toggleDarkMode11(false);
-    }
-}
+		// Check the new state and apply the 'active' class accordingly
+		if (isDark) {
+			// If the body now has the dark theme, it means we've just switched to dark mode
+			darkModeIcon.classList.add('active'); // Mark the dark mode icon as active
+			lightModeIcon.classList.remove('active'); // Ensure the light mode icon is not marked as active
+			toggleDarkMode1(true);
+			toggleDarkMode3(true);
+			toggleDarkMode4(true);
+			toggleDarkMode5(true);
+			toggleDarkMode6(true);
+			toggleDarkMode7(true);
+			toggleDarkMode8(true);
+			toggleDarkMode9(true);
+			toggleDarkMode10(true);
+			toggleDarkMode11(true);
+			toggleDarkMode2(true);
+		} else {
+			// If the body does not have the dark theme, it means we've just switched to light mode
+			lightModeIcon.classList.add('active'); // Mark the light mode icon as active
+			darkModeIcon.classList.remove('active'); // Ensure the dark mode icon is not marked as active
+			toggleDarkMode1(false);
+			toggleDarkMode3(false);
+			toggleDarkMode4(false);
+			toggleDarkMode5(false);
+			toggleDarkMode6(false);
+			toggleDarkMode7(false);
+			toggleDarkMode8(false);
+			toggleDarkMode9(false);
+			toggleDarkMode10(false);
+			toggleDarkMode11(false);
+			toggleDarkMode2(false);
+		}
+	}
 
-</script>
+	</script>
 </body>
 
 </html>

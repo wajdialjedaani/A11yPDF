@@ -7,7 +7,7 @@ from pdfminer.high_level import extract_pages
 def find_table_captions(pdf_path):
     tables = camelot.read_pdf(pdf_path, flavor='stream', pages='all')
     print('Number of tables found:', len(tables))
-    print("tables",tables[1].df)
+    # print("tables",tables[1].df)
     captions_with_tables = []
     tables_with_captions = set()  # To track tables that have captions
 

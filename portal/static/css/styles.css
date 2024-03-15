@@ -24,7 +24,7 @@
           --acc-score-title: #000000;
           --dashed-color: rgba(0, 0, 0, 0.5);
           --upload-box: #e3e3e3;
-
+            --no-links: #000;
         }
 
         .main{
@@ -410,10 +410,10 @@
 		}
 
 		.doughnut-chart1 {
-			height: 90px !important;
+			height: 80px !important;
 			display: block;
 			box-sizing: border-box;
-			width: 90px !important;
+			width: 80px !important;
             margin-left: 35px;
             margin-top: 10px;
 		}
@@ -421,12 +421,12 @@
 		.moreinfo-con {
 			display: flex;
 			align-items: center;
-			justify-content: center;
 			width: 40%;
 			border: 2px solid var(--bg-color);
 			cursor: pointer;
 			border-radius: 10px;
 			background-color: #f2f2f2;
+			padding: 2px;
 		}
 
 		.arrow {
@@ -1840,18 +1840,19 @@ width: 35%;
 }
 
 .theme-toggle{
-  background: white;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 1.6rem;
-  width: 4.2rem;
-  cursor: pointer;
-  /*border-radius: var(--border-radius-1);*/
+    background: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 2.6rem;
+    width: 5.2rem;
+    cursor: pointer;
+    /* border-radius: var(--border-radius-1); */
+    margin-top: -10px;
 }
 
 .theme-toggle span {
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   width: 50%;
   height: 100%;
   display: flex;
@@ -1881,6 +1882,7 @@ width: 35%;
 --acc-score-title: #ffffff;
  --dashed-color: #ffffff;
 --upload-box:#3c3c3c;
+--no-links: #ffffff;
 }
 
 .form-lbl{
@@ -1889,6 +1891,12 @@ width: 35%;
     text-align: center;
     color: var(--title-desc);
 }
+
+.no_links{
+color: var(--no-links);
+}
+
+
 /*#1d1d1d;
 #F2F2F2
 #3c3c3c*/
