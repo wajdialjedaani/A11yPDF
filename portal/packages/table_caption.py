@@ -26,7 +26,8 @@ def find_table_captions(pdf_path):
                                 captions_with_tables.append({
                                     "page_number": page_num,
                                     # "table": table,
-                                    "caption_text": caption
+                                    "caption_text": caption,
+                                    "Accessible": "Yes"
                                 })
                                 tables_with_captions.add(table)
                                 break
@@ -37,7 +38,8 @@ def find_table_captions(pdf_path):
             captions_with_tables.append({
                 "page_number": table.page,
                 # "table": table,
-                "caption_text": None  # Indicate that no caption was found
+                "caption_text": "None",  # Indicate that no caption was found
+                "Accessible": "No"
             })
 
     return captions_with_tables
@@ -45,7 +47,8 @@ def find_table_captions(pdf_path):
 
 def calculate_percentage(captions_with_tables):
     total_tables = len(captions_with_tables)
-    tables_with_caption = sum(1 for item in captions_with_tables if item['caption_text'] is not None)
+    tables_with_caption = sum(
+        1 for item in captions_with_tables if item['caption_text'] is not None and item['caption_text'] != "None")
     tables_without_caption = total_tables - tables_with_caption
 
     if total_tables > 0:
@@ -59,12 +62,10 @@ def calculate_percentage(captions_with_tables):
     return percentage_with_caption, percentage_without_caption
 
 
-
 # Example usage
 def analyze_table_caption(pdf_file):
     captions_with_tables = find_table_captions(pdf_file)
-    percentage_with_caption, percentage_without_caption =calculate_percentage(captions_with_tables)
+    percentage_with_caption, percentage_without_caption = calculate_percentage(captions_with_tables)
     return percentage_with_caption, percentage_without_caption, captions_with_tables
-
 
 # analyze_table_caption("/Users/sandeepkumarrudhravaram/WorkSpace/UntProjects/A11yPDF/pdf_docs/1403202408551189600/bioinformatics_35_21_4381.pdf")
