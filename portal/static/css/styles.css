@@ -400,6 +400,14 @@
 			text-align: left;
 		}
 
+		.card-title1 {
+			font-size: 23px;
+			font-weight: 700;
+			color:#000;
+			text-transform: capitalize;
+			text-align: left;
+		}
+
 		.doughnut-chart {
 			height: 80px !important;
 			display: block;
@@ -1999,6 +2007,10 @@ body {
     height: 500px; /* Set the height of the target div */
     background-color: #f0f0f0; /* Example background color */
     /* Add other styles as needed */
+}
+.modal_data{
+    color: #000;
+    text-align: justify;
 }
 /*#1d1d1d;
 #F2F2F2

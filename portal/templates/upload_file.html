@@ -6,6 +6,7 @@
     <title>File Upload</title>
     <link rel="stylesheet" href="/PDFAnalyzerX/static/css/styles.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
+
 </head>
 <body>
 <div class="main1">
@@ -37,10 +38,20 @@
 <!--                <path d="M21 41.25C15.375 41.25 10.5937 39.2812 6.65625 35.3438C2.71875 31.4062 0.75 26.625 0.75 21C0.75 15.375 2.71875 10.5938 6.65625 6.65625C10.5938 2.71875 15.375 0.75 21 0.75C21.525 0.75 22.041 0.76875 22.548 0.80625C23.055 0.84375 23.5515 0.9 24.0375 0.975C22.5 2.0625 21.2715 3.4785 20.352 5.223C19.4325 6.9675 18.9735 8.8515 18.975 10.875C18.975 14.25 20.1563 17.1187 22.5188 19.4812C24.8813 21.8437 27.75 23.025 31.125 23.025C33.1875 23.025 35.0812 22.5652 36.8062 21.6457C38.5312 20.7262 39.9375 19.4985 41.025 17.9625C41.1 18.45 41.1563 18.9465 41.1938 19.452C41.2313 19.9575 41.25 20.4735 41.25 21C41.25 26.625 39.2812 31.4063 35.3438 35.3438C31.4062 39.2812 26.625 41.25 21 41.25ZM21 36.75C24.3 36.75 27.2625 35.8403 29.8875 34.0208C32.5125 32.2013 34.425 29.8298 35.625 26.9063C34.875 27.0938 34.125 27.2437 33.375 27.3562C32.625 27.4687 31.875 27.525 31.125 27.525C26.5125 27.525 22.584 25.9028 19.3395 22.6583C16.095 19.4138 14.4735 15.486 14.475 10.875C14.475 10.125 14.5313 9.375 14.6438 8.625C14.7563 7.875 14.9062 7.125 15.0938 6.375C12.1688 7.575 9.7965 9.4875 7.977 12.1125C6.1575 14.7375 5.2485 17.7 5.25 21C5.25 25.35 6.7875 29.0625 9.8625 32.1375C12.9375 35.2125 16.65 36.75 21 36.75Z"-->
 <!--                      fill="white"/>-->
 <!--            </svg>-->
-            <div class="theme-toggle">
-					<span class="material-icons-sharp active">light_mode</span>
-					<span class="material-icons-sharp">dark_mode</span>
-				</div>
+<!--            <div class="theme-toggle">-->
+<!--					<span class="material-icons-sharp active">light_mode</span>-->
+<!--					<span class="material-icons-sharp">dark_mode</span>-->
+<!--				</div>-->
+            <div class="container-only-for-centering" title="Light/Dark Mode">
+                  <div class="darkmode-toggle-wrapper">
+                    <input type="checkbox" id="darkmode-toggle" aria-label="dark mode toggle" class="darkmode-toggle-checkbox">
+                    <div class="darkmode-toggle-circle">
+                    </div>
+                      <span class="darkmode-toggle-emoji" style="margin-right: -30px;" title="Switch to Light Mode">🌞</span>
+                    <span class="darkmode-toggle-emoji" style="margin-left: -30px;" title="Switch to Light Mode">🌚</span>
+
+                  </div>
+                </div>
         </div>
     </div>
 
@@ -315,39 +326,40 @@ function hideLoader() {
 <script>
 
 
-const themeToggler = document.querySelector('.theme-toggle');
-const lightModeIcon = themeToggler.querySelector('span:nth-child(1)');
-const darkModeIcon = themeToggler.querySelector('span:nth-child(2)');
+ const darkModeToggle = document.getElementById('darkmode-toggle');
+    const darkModeCircle = document.querySelector('.darkmode-toggle-circle');
+    const darkModeEmojis = document.querySelectorAll('.darkmode-toggle-emoji');
 
 
 // Function to set dark mode preference
-function setDarkModePreference(isDark) {
-    localStorage.setItem('darkMode', isDark);
-}
+    function setDarkModePreference(isDark) {
+        localStorage.setItem('darkMode', isDark);
+    }
 
-// Function to get dark mode preference
-function getDarkModePreference() {
-    return JSON.parse(localStorage.getItem('darkMode'));
-}
-
-
-themeToggler.addEventListener('click', () => {
-	const isDark = !document.body.classList.contains('dark-theme-variables');
-    toggleDarkMode(isDark);
-});
+    // Function to get dark mode preference
+    function getDarkModePreference() {
+        return JSON.parse(localStorage.getItem('darkMode'));
+    }
 
 
-// Check dark mode preference on page load
-document.addEventListener('DOMContentLoaded', () => {
-    const storedPreference = getDarkModePreference();
-    const isDarkMode = storedPreference === null ? false : storedPreference;
-    toggleDarkMode(isDarkMode);
-});
+darkModeToggle.addEventListener('click', () => {
+		const isDark1 = !document.body.classList.contains('dark-theme-variables');
+		toggleDarkMode(isDark1);
+	});
+
+
+	// Check dark mode preference on page load
+	document.addEventListener('DOMContentLoaded', () => {
+		const storedPreference = getDarkModePreference();
+		const isDarkMode = storedPreference === null ? false : storedPreference;
+		toggleDarkMode(isDarkMode);
+		darkModeToggle.checked = isDarkMode;
+	});
 
 
 
 
-function toggleDarkMode(isDark) {
+ function toggleDarkMode(isDark) {
 	setDarkModePreference(isDark);
 
     // Toggle the theme on the body
@@ -356,12 +368,13 @@ function toggleDarkMode(isDark) {
     // Check the new state and apply the 'active' class accordingly
     if (document.body.classList.contains('dark-theme-variables')) {
         // If the body now has the dark theme, it means we've just switched to dark mode
-        darkModeIcon.classList.add('active'); // Mark the dark mode icon as active
-        lightModeIcon.classList.remove('active'); // Ensure the light mode icon is not marked as active
+       darkModeEmojis[0].style.display = 'none'; // Hide sun emoji
+        darkModeEmojis[1].style.display = 'inline'; // Display moon emoji
+        darkModeToggle.checked = isDark;
     } else {
         // If the body does not have the dark theme, it means we've just switched to light mode
-        lightModeIcon.classList.add('active'); // Mark the light mode icon as active
-        darkModeIcon.classList.remove('active'); // Ensure the dark mode icon is not marked as active
+       darkModeEmojis[1].style.display = 'none'; // Hide moon emoji
+        darkModeEmojis[0].style.display = 'inline'; // Display sun emoji
     }
 }
 

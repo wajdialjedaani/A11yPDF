@@ -69,7 +69,7 @@
 <!--					<span class="material-icons-sharp active">light_mode</span>-->
 <!--					<span class="material-icons-sharp">dark_mode</span>-->
 <!--				</div>-->
-					<div class="container-only-for-centering">
+					<div class="container-only-for-centering" title="Light/Dark Mode">
 					  <div class="darkmode-toggle-wrapper">
 						<input type="checkbox" id="darkmode-toggle" aria-label="dark mode toggle" class="darkmode-toggle-checkbox">
 						<div class="darkmode-toggle-circle">
@@ -267,7 +267,7 @@
 					<canvas id="font_size"></canvas>
 				</div>
 				<div class="button-con">
-					<div id="more_info" class="moreinfo-con"><a class="button arrow" href="#open-modal" data-target="modal1">More Info </a></div>
+					<div id="more_info" class="moreinfo-con"><a class="button arrow" href="#open-modal1" data-target="modal1">More Info </a></div>
 					<div class="btn" id="gen_report" onclick="location.href='/PDFAnalyzerX/generate_report/fsa/{{process_id}}'">
 						<div class="generate-report-button">
 							<p>Generate Report</p>
@@ -281,13 +281,13 @@
 					</div>
 				</div>
 
-				<div id="open-modal" class="modal-window">
+				<div id="open-modal1" class="modal-window">
 						<div>
 <!--							<a href="#" title="Close" class="modal-close"><img style="width: 35px;" alt="close" src="/PDFAnalyzerX/static/images/ion/close1437.jpg"/></a>-->
 							<!-- <h1>Fonts Family Analysis</h1> -->
 							<div class=" mt-xl-0 mt-4">
 								<div class="font-div">
-									<h4 class="card-title">Fonts Size</h4>
+									<h4 class="card-title1">Fonts Size</h4>
 								</div>
 								<div>
 									<a href="#" title="Close" class="modal-close"><img style="width: 35px;" alt="close" src="/PDFAnalyzerX/static/images/ion/output-close_red.png"/></a>
@@ -297,6 +297,9 @@
 							</div>
 							<div class="col-md-12" style="height: 55%;">
 <!--								<canvas id=""></canvas>-->
+								<P class="modal_data">Our pie chart visually represents the distribution of font sizes found within uploaded PDF documents. Each slice of the pie corresponds to a specific font size category, with the size of the slice indicating the proportion of text in the document using that particular font size. This chart offers users a comprehensive overview of the range and prevalence of font sizes present in their documents, aiding in understanding the document's typographic diversity.</P>
+								<br/>
+								<p class="modal_data">The doughnut chart provides insight into the accessibility of font sizes within the PDF document. It represents the accessibility score, a measure of how effectively users with diverse visual abilities can read the text based on font size. </p>
 							</div>
 							<div class="button-con">
 
@@ -341,7 +344,7 @@
 					</div>
 					{% endif %}
 					<div class="button-con">
-						<div class="moreinfo-con"><a class="button arrow" href="#open-modal" data-target="modal2">More Info </a></div>
+						<div class="moreinfo-con"><a class="button arrow" href="#open-modal2">More Info </a></div>
 						<div class="btn" onclick="location.href='/PDFAnalyzerX/generate_report/urls/{{process_id}}'">
 							<div class="generate-report-button">
 								<p>Generate Report</p>
@@ -351,6 +354,25 @@
 										d="M27.958 25.3125L23.2998 29.9561L21.9814 28.6377L24.3691 26.25H15.375V24.375H24.3691L21.9814 21.9873L23.2998 20.6689L27.958 25.3125ZM18.1582 28.125L20.0332 30H0.375V0H16.708L24.75 8.04199V18.7939L22.875 16.9189V9.375H15.375V1.875H2.25V28.125H18.1582ZM17.25 7.5H21.542L17.25 3.20801V7.5Z"
 										fill="#F2F2F2" />
 								</svg>
+							</div>
+						</div>
+					</div>
+					<div id="open-modal2" class="modal-window">
+						<div>
+							<div class=" mt-xl-0 mt-4">
+								<div class="font-div">
+									<h4 class="card-title1">Links</h4>
+								</div>
+								<div>
+									<a href="#" title="Close" class="modal-close"><img style="width: 35px;" alt="close" src="/PDFAnalyzerX/static/images/ion/output-close_red.png"/></a>
+								</div>
+							</div>
+							<div class="col-md-12" style="height: 55%;">
+								<P class="modal_data">Our pie chart visually represents the distribution of font sizes found within uploaded PDF documents. Each slice of the pie corresponds to a specific font size category, with the size of the slice indicating the proportion of text in the document using that particular font size. This chart offers users a comprehensive overview of the range and prevalence of font sizes present in their documents, aiding in understanding the document's typographic diversity.</P>
+								<br/>
+								<p class="modal_data">The doughnut chart provides insight into the accessibility of font sizes within the PDF document. It represents the accessibility score, a measure of how effectively users with diverse visual abilities can read the text based on font size. </p>
+							</div>
+							<div class="button-con">
 							</div>
 						</div>
 					</div>
@@ -369,7 +391,7 @@
 						<canvas id="image_cap"></canvas>
 					</div>
 					<div class="button-con">
-						<div class="moreinfo-con"><a class="button arrow" href="#open-modal">More Info </a></div>
+						<div class="moreinfo-con"><a class="button arrow" href="#open-modal3">More Info </a></div>
 						<div class="btn" onclick="location.href='/PDFAnalyzerX/generate_report/cwi/{{process_id}}'">
 							<div class="generate-report-button">
 								<p>Generate Report</p>
@@ -379,6 +401,25 @@
 										d="M27.958 25.3125L23.2998 29.9561L21.9814 28.6377L24.3691 26.25H15.375V24.375H24.3691L21.9814 21.9873L23.2998 20.6689L27.958 25.3125ZM18.1582 28.125L20.0332 30H0.375V0H16.708L24.75 8.04199V18.7939L22.875 16.9189V9.375H15.375V1.875H2.25V28.125H18.1582ZM17.25 7.5H21.542L17.25 3.20801V7.5Z"
 										fill="#F2F2F2" />
 								</svg>
+							</div>
+						</div>
+					</div>
+					<div id=" modal3" class="modal-window">
+						<div>
+							<div class=" mt-xl-0 mt-4">
+								<div class="font-div">
+									<h4 class="card-title1">Image Captions</h4>
+								</div>
+								<div>
+									<a href="#" title="Close" class="modal-close"><img style="width: 35px;" alt="close" src="/PDFAnalyzerX/static/images/ion/output-close_red.png"/></a>
+								</div>
+							</div>
+							<div class="col-md-12" style="height: 55%;">
+								<P class="modal_data">Our pie chart visually represents the distribution of font sizes found within uploaded PDF documents. Each slice of the pie corresponds to a specific font size category, with the size of the slice indicating the proportion of text in the document using that particular font size. This chart offers users a comprehensive overview of the range and prevalence of font sizes present in their documents, aiding in understanding the document's typographic diversity.</P>
+								<br/>
+								<p class="modal_data">The doughnut chart provides insight into the accessibility of font sizes within the PDF document. It represents the accessibility score, a measure of how effectively users with diverse visual abilities can read the text based on font size. </p>
+							</div>
+							<div class="button-con">
 							</div>
 						</div>
 					</div>
@@ -397,7 +438,7 @@
 						<canvas id="header_chart"></canvas>
 					</div>
 					<div class="button-con">
-						<div class="moreinfo-con"><a class="button arrow" href="#open-modal">More Info </a></div>
+						<div class="moreinfo-con"><a class="button arrow" href="#open-modal4">More Info </a></div>
 						<div class="btn" onclick="location.href='/PDFAnalyzerX/generate_report/headers_analysis/{{process_id}}'" >
 							<div class="generate-report-button">
 								<p>Generate Report</p>
@@ -407,6 +448,25 @@
 										d="M27.958 25.3125L23.2998 29.9561L21.9814 28.6377L24.3691 26.25H15.375V24.375H24.3691L21.9814 21.9873L23.2998 20.6689L27.958 25.3125ZM18.1582 28.125L20.0332 30H0.375V0H16.708L24.75 8.04199V18.7939L22.875 16.9189V9.375H15.375V1.875H2.25V28.125H18.1582ZM17.25 7.5H21.542L17.25 3.20801V7.5Z"
 										fill="#F2F2F2" />
 								</svg>
+							</div>
+						</div>
+					</div>
+					<div id="open-modal4" class="modal-window">
+						<div>
+							<div class=" mt-xl-0 mt-4">
+								<div class="font-div">
+									<h4 class="card-title1">Header</h4>
+								</div>
+								<div>
+									<a href="#" title="Close" class="modal-close"><img style="width: 35px;" alt="close" src="/PDFAnalyzerX/static/images/ion/output-close_red.png"/></a>
+								</div>
+							</div>
+							<div class="col-md-12" style="height: 55%;">
+								<P class="modal_data">Our pie chart visually represents the distribution of font sizes found within uploaded PDF documents. Each slice of the pie corresponds to a specific font size category, with the size of the slice indicating the proportion of text in the document using that particular font size. This chart offers users a comprehensive overview of the range and prevalence of font sizes present in their documents, aiding in understanding the document's typographic diversity.</P>
+								<br/>
+								<p class="modal_data">The doughnut chart provides insight into the accessibility of font sizes within the PDF document. It represents the accessibility score, a measure of how effectively users with diverse visual abilities can read the text based on font size. </p>
+							</div>
+							<div class="button-con">
 							</div>
 						</div>
 					</div>
@@ -430,7 +490,7 @@
 						<canvas id="footer_chart"></canvas>
 					</div>
 					<div class="button-con">
-						<div class="moreinfo-con"><a class="button arrow" href="#open-modal">More Info </a></div>
+						<div class="moreinfo-con"><a class="button arrow" href="#open-modal5">More Info </a></div>
 						<div class="btn" onclick="location.href='/PDFAnalyzerX/generate_report/footers_analysis/{{process_id}}'">
 							<div class="generate-report-button">
 								<p>Generate Report</p>
@@ -440,6 +500,25 @@
 										d="M27.958 25.3125L23.2998 29.9561L21.9814 28.6377L24.3691 26.25H15.375V24.375H24.3691L21.9814 21.9873L23.2998 20.6689L27.958 25.3125ZM18.1582 28.125L20.0332 30H0.375V0H16.708L24.75 8.04199V18.7939L22.875 16.9189V9.375H15.375V1.875H2.25V28.125H18.1582ZM17.25 7.5H21.542L17.25 3.20801V7.5Z"
 										fill="#F2F2F2" />
 								</svg>
+							</div>
+						</div>
+					</div>
+					<div id="open-modal5" class="modal-window">
+						<div>
+							<div class=" mt-xl-0 mt-4">
+								<div class="font-div">
+									<h4 class="card-title1">Footer</h4>
+								</div>
+								<div>
+									<a href="#" title="Close" class="modal-close"><img style="width: 35px;" alt="close" src="/PDFAnalyzerX/static/images/ion/output-close_red.png"/></a>
+								</div>
+							</div>
+							<div class="col-md-12" style="height: 55%;">
+								<P class="modal_data">Our pie chart visually represents the distribution of font sizes found within uploaded PDF documents. Each slice of the pie corresponds to a specific font size category, with the size of the slice indicating the proportion of text in the document using that particular font size. This chart offers users a comprehensive overview of the range and prevalence of font sizes present in their documents, aiding in understanding the document's typographic diversity.</P>
+								<br/>
+								<p class="modal_data">The doughnut chart provides insight into the accessibility of font sizes within the PDF document. It represents the accessibility score, a measure of how effectively users with diverse visual abilities can read the text based on font size. </p>
+							</div>
+							<div class="button-con">
 							</div>
 						</div>
 					</div>
@@ -458,7 +537,7 @@
 						<canvas id="page_contrast"></canvas>
 					</div>
 					<div class="button-con">
-						<div class="moreinfo-con"><a class="button arrow" href="#open-modal">More Info </a></div>
+						<div class="moreinfo-con"><a class="button arrow" href="#open-modal6">More Info </a></div>
 						<div class="btn" onclick="location.href='/PDFAnalyzerX/generate_report/Page_Contrast/{{process_id}}'">
 							<div class="generate-report-button">
 								<p>Generate Report</p>
@@ -468,6 +547,25 @@
 										d="M27.958 25.3125L23.2998 29.9561L21.9814 28.6377L24.3691 26.25H15.375V24.375H24.3691L21.9814 21.9873L23.2998 20.6689L27.958 25.3125ZM18.1582 28.125L20.0332 30H0.375V0H16.708L24.75 8.04199V18.7939L22.875 16.9189V9.375H15.375V1.875H2.25V28.125H18.1582ZM17.25 7.5H21.542L17.25 3.20801V7.5Z"
 										fill="#F2F2F2" />
 								</svg>
+							</div>
+						</div>
+					</div>
+					<div id="open-modal6" class="modal-window">
+						<div>
+							<div class=" mt-xl-0 mt-4">
+								<div class="font-div">
+									<h4 class="card-title1">Page Contrast</h4>
+								</div>
+								<div>
+									<a href="#" title="Close" class="modal-close"><img style="width: 35px;" alt="close" src="/PDFAnalyzerX/static/images/ion/output-close_red.png"/></a>
+								</div>
+							</div>
+							<div class="col-md-12" style="height: 55%;">
+								<P class="modal_data">Our pie chart visually represents the distribution of font sizes found within uploaded PDF documents. Each slice of the pie corresponds to a specific font size category, with the size of the slice indicating the proportion of text in the document using that particular font size. This chart offers users a comprehensive overview of the range and prevalence of font sizes present in their documents, aiding in understanding the document's typographic diversity.</P>
+								<br/>
+								<p class="modal_data">The doughnut chart provides insight into the accessibility of font sizes within the PDF document. It represents the accessibility score, a measure of how effectively users with diverse visual abilities can read the text based on font size. </p>
+							</div>
+							<div class="button-con">
 							</div>
 						</div>
 					</div>
@@ -486,7 +584,7 @@
 						<canvas id="page_numbers"></canvas>
 					</div>
 					<div class="button-con">
-						<div class="moreinfo-con"><a class="button arrow" href="#open-modal">More Info </a></div>
+						<div class="moreinfo-con"><a class="button arrow" href="#open-modal7">More Info </a></div>
 						<div class="btn" onclick="location.href='/PDFAnalyzerX/generate_report/Page_Numbers/{{process_id}}'">
 							<div class="generate-report-button">
 								<p>Generate Report</p>
@@ -499,11 +597,30 @@
 							</div>
 						</div>
 					</div>
+					<div id="open-modal7" class="modal-window">
+						<div>
+							<div class=" mt-xl-0 mt-4">
+								<div class="font-div">
+									<h4 class="card-title1">Page Numbers</h4>
+								</div>
+								<div>
+									<a href="#" title="Close" class="modal-close"><img style="width: 35px;" alt="close" src="/PDFAnalyzerX/static/images/ion/output-close_red.png"/></a>
+								</div>
+							</div>
+							<div class="col-md-12" style="height: 55%;">
+								<P class="modal_data">Our pie chart visually represents the distribution of font sizes found within uploaded PDF documents. Each slice of the pie corresponds to a specific font size category, with the size of the slice indicating the proportion of text in the document using that particular font size. This chart offers users a comprehensive overview of the range and prevalence of font sizes present in their documents, aiding in understanding the document's typographic diversity.</P>
+								<br/>
+								<p class="modal_data">The doughnut chart provides insight into the accessibility of font sizes within the PDF document. It represents the accessibility score, a measure of how effectively users with diverse visual abilities can read the text based on font size. </p>
+							</div>
+							<div class="button-con">
+							</div>
+						</div>
+					</div>
 				</div>
 				<div class="box" id="box_family">
 					<div class="row  mt-xl-0 mt-4">
 						<div class="font-div">
-							<h4 class="card-title card-430">Fonts Family Analysis</h4>
+							<h4 class="card-title card-430">Fonts Family</h4>
 						</div>
 						<div>
 <!--							<span>Accessibility</span>-->
@@ -514,7 +631,7 @@
 						<canvas id="color"></canvas>
 					</div>
 					<div class="button-con">
-						<div class="moreinfo-con"><a class="button arrow" href="#open-modal">More Info </a></div>
+						<div class="moreinfo-con"><a class="button arrow" href="#open-modal8">More Info </a></div>
 						<div class="btn" onclick="location.href='/PDFAnalyzerX/generate_report/fsa/{{process_id}}'">
 							<div class="generate-report-button">
 								<p>Generate Report</p>
@@ -524,6 +641,25 @@
 										d="M27.958 25.3125L23.2998 29.9561L21.9814 28.6377L24.3691 26.25H15.375V24.375H24.3691L21.9814 21.9873L23.2998 20.6689L27.958 25.3125ZM18.1582 28.125L20.0332 30H0.375V0H16.708L24.75 8.04199V18.7939L22.875 16.9189V9.375H15.375V1.875H2.25V28.125H18.1582ZM17.25 7.5H21.542L17.25 3.20801V7.5Z"
 										fill="#F2F2F2" />
 								</svg>
+							</div>
+						</div>
+					</div>
+					<div id="open-modal8" class="modal-window">
+						<div>
+							<div class=" mt-xl-0 mt-4">
+								<div class="font-div">
+									<h4 class="card-title1">Font Family</h4>
+								</div>
+								<div>
+									<a href="#" title="Close" class="modal-close"><img style="width: 35px;" alt="close" src="/PDFAnalyzerX/static/images/ion/output-close_red.png"/></a>
+								</div>
+							</div>
+							<div class="col-md-12" style="height: 55%;">
+								<P class="modal_data">Our pie chart visually represents the distribution of font sizes found within uploaded PDF documents. Each slice of the pie corresponds to a specific font size category, with the size of the slice indicating the proportion of text in the document using that particular font size. This chart offers users a comprehensive overview of the range and prevalence of font sizes present in their documents, aiding in understanding the document's typographic diversity.</P>
+								<br/>
+								<p class="modal_data">The doughnut chart provides insight into the accessibility of font sizes within the PDF document. It represents the accessibility score, a measure of how effectively users with diverse visual abilities can read the text based on font size. </p>
+							</div>
+							<div class="button-con">
 							</div>
 						</div>
 					</div>
@@ -549,7 +685,7 @@
 						<canvas id="color_blindness"></canvas>
 					</div>
 					<div class="button-con color-btn-div" style="margin: 3% auto;">
-						<div class="moreinfo-con"><a class="button arrow" href="#open-modal">More Info </a></div>
+						<div class="moreinfo-con"><a class="button arrow" href="#open-modal9">More Info </a></div>
 						<div class="btn" onclick="location.href='/PDFAnalyzerX/generate_report/color_blindness/{{process_id}}'">
 							<div class="generate-report-button">
 								<p>Generate Report</p>
@@ -559,6 +695,25 @@
 										d="M27.958 25.3125L23.2998 29.9561L21.9814 28.6377L24.3691 26.25H15.375V24.375H24.3691L21.9814 21.9873L23.2998 20.6689L27.958 25.3125ZM18.1582 28.125L20.0332 30H0.375V0H16.708L24.75 8.04199V18.7939L22.875 16.9189V9.375H15.375V1.875H2.25V28.125H18.1582ZM17.25 7.5H21.542L17.25 3.20801V7.5Z"
 										fill="#F2F2F2" />
 								</svg>
+							</div>
+						</div>
+					</div>
+					<div id="open-modal9" class="modal-window">
+						<div>
+							<div class=" mt-xl-0 mt-4">
+								<div class="font-div">
+									<h4 class="card-title1">Color Blindness</h4>
+								</div>
+								<div>
+									<a href="#" title="Close" class="modal-close"><img style="width: 35px;" alt="close" src="/PDFAnalyzerX/static/images/ion/output-close_red.png"/></a>
+								</div>
+							</div>
+							<div class="col-md-12" style="height: 55%;">
+								<P class="modal_data">Our pie chart visually represents the distribution of font sizes found within uploaded PDF documents. Each slice of the pie corresponds to a specific font size category, with the size of the slice indicating the proportion of text in the document using that particular font size. This chart offers users a comprehensive overview of the range and prevalence of font sizes present in their documents, aiding in understanding the document's typographic diversity.</P>
+								<br/>
+								<p class="modal_data">The doughnut chart provides insight into the accessibility of font sizes within the PDF document. It represents the accessibility score, a measure of how effectively users with diverse visual abilities can read the text based on font size. </p>
+							</div>
+							<div class="button-con">
 							</div>
 						</div>
 					</div>
@@ -577,7 +732,7 @@
 					<canvas id="table_caption"></canvas>
 				</div>
 				<div class="button-con">
-					<div class="moreinfo-con"><a class="button arrow" href="#open-modal">More Info </a></div>
+					<div class="moreinfo-con"><a class="button arrow" href="#open-modal10">More Info </a></div>
 					<div class="btn" onclick="location.href='/PDFAnalyzerX/generate_report/table_dylexia/{{process_id}}'">
 						<div class="generate-report-button">
 							<p>Generate Report</p>
@@ -590,6 +745,25 @@
 						</div>
 					</div>
 				</div>
+				<div id="open-modal10" class="modal-window">
+						<div>
+							<div class=" mt-xl-0 mt-4">
+								<div class="font-div">
+									<h4 class="card-title1">Table Caption</h4>
+								</div>
+								<div>
+									<a href="#" title="Close" class="modal-close"><img style="width: 35px;" alt="close" src="/PDFAnalyzerX/static/images/ion/output-close_red.png"/></a>
+								</div>
+							</div>
+							<div class="col-md-12" style="height: 55%;">
+								<P class="modal_data">Our pie chart visually represents the distribution of font sizes found within uploaded PDF documents. Each slice of the pie corresponds to a specific font size category, with the size of the slice indicating the proportion of text in the document using that particular font size. This chart offers users a comprehensive overview of the range and prevalence of font sizes present in their documents, aiding in understanding the document's typographic diversity.</P>
+								<br/>
+								<p class="modal_data">The doughnut chart provides insight into the accessibility of font sizes within the PDF document. It represents the accessibility score, a measure of how effectively users with diverse visual abilities can read the text based on font size. </p>
+							</div>
+							<div class="button-con">
+							</div>
+						</div>
+					</div>
 			</div>
 			<div class="box" id="box_dyslexia">
 				<div id="dyslexia" class="row  mt-xl-0 mt-4">
@@ -605,7 +779,7 @@
 					<canvas id="dylexia"></canvas>
 				</div>
 				<div class="button-con">
-					<div class="moreinfo-con"><a class="button arrow" href="#open-modal">More Info </a></div>
+					<div class="moreinfo-con"><a class="button arrow" href="#open-modal11">More Info </a></div>
 					<div class="btn" onclick="location.href='/PDFAnalyzerX/generate_report/fsa/{{process_id}}'">
 						<div class="generate-report-button">
 							<p>Generate Report</p>
@@ -618,6 +792,25 @@
 						</div>
 					</div>
 				</div>
+				<div id="open-modal11" class="modal-window">
+						<div>
+							<div class=" mt-xl-0 mt-4">
+								<div class="font-div">
+									<h4 class="card-title1">Dyslexia</h4>
+								</div>
+								<div>
+									<a href="#" title="Close" class="modal-close"><img style="width: 35px;" alt="close" src="/PDFAnalyzerX/static/images/ion/output-close_red.png"/></a>
+								</div>
+							</div>
+							<div class="col-md-12" style="height: 55%;">
+								<P class="modal_data">Our pie chart visually represents the distribution of font sizes found within uploaded PDF documents. Each slice of the pie corresponds to a specific font size category, with the size of the slice indicating the proportion of text in the document using that particular font size. This chart offers users a comprehensive overview of the range and prevalence of font sizes present in their documents, aiding in understanding the document's typographic diversity.</P>
+								<br/>
+								<p class="modal_data">The doughnut chart provides insight into the accessibility of font sizes within the PDF document. It represents the accessibility score, a measure of how effectively users with diverse visual abilities can read the text based on font size. </p>
+							</div>
+							<div class="button-con">
+							</div>
+						</div>
+					</div>
 			</div>
 		</div>
 		<div class="footer-box">
@@ -3593,6 +3786,21 @@
         return JSON.parse(localStorage.getItem('darkMode'));
     }
 
+
+	darkModeToggle.addEventListener('click', () => {
+		const isDark1 = !document.body.classList.contains('dark-theme-variables');
+		toggleDarkMode(isDark1);
+	});
+
+
+	// Check dark mode preference on page load
+	document.addEventListener('DOMContentLoaded', () => {
+		const storedPreference = getDarkModePreference();
+		const isDarkMode = storedPreference === null ? false : storedPreference;
+		toggleDarkMode(isDarkMode);
+		darkModeToggle.checked = isDarkMode;
+	});
+
     // Function to toggle dark mode
     function toggleDarkMode(isDark) {
         const isDark2 = darkModeToggle.checked;
@@ -3633,19 +3841,6 @@
     }
 
 
-	darkModeToggle.addEventListener('click', () => {
-		const isDark1 = !document.body.classList.contains('dark-theme-variables');
-		toggleDarkMode(isDark1);
-	});
-
-
-	// Check dark mode preference on page load
-	document.addEventListener('DOMContentLoaded', () => {
-		const storedPreference = getDarkModePreference();
-		const isDarkMode = storedPreference === null ? false : storedPreference;
-		toggleDarkMode(isDarkMode);
-		darkModeToggle.checked = isDarkMode;
-	});
 
 
 <!--	function toggleDarkMode(isDark) {-->
@@ -3705,46 +3900,7 @@
 }
 </script>
 
-<script>
-  document.addEventListener("DOMContentLoaded", function() {
-    var modalContentMap = {
-      "modal1": "<p>Content for Modal 1 goes here.</p>",
-      "modal2": "<p>Content for Modal 2 goes here.</p>"
-    };
 
-    var modal = document.getElementById("open-modal");
-    var modalContent = modal.querySelector(".modal-content");
-
-    // Function to open modal with specific content
-    function openModal(content) {
-      modalContent.innerHTML = content;
-      modal.style.display = "block";
-    }
-
-    // Event listener for each button
-    var buttons = document.querySelectorAll(".moreinfo-con .button");
-    buttons.forEach(function(button) {
-      button.addEventListener("click", function(event) {
-        event.preventDefault();
-        var target = this.getAttribute("data-target");
-        openModal(modalContentMap[target]);
-      });
-    });
-
-    // Close modal functionality
-    var modalClose = modal.querySelector(".modal-close");
-    modalClose.addEventListener("click", function() {
-      modal.style.display = "none";
-    });
-
-    // Close modal when clicking outside the modal content
-    window.addEventListener("click", function(event) {
-      if (event.target == modal) {
-        modal.style.display = "none";
-      }
-    });
-  });
-</script>
 </body>
 
 </html>
