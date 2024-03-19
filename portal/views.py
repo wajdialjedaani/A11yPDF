@@ -957,7 +957,7 @@ def generate_report_pdf(type_, process_id):
             pdf_footer_data = finl_dd['titles_for_footers_']
             pdf_titles_rows = []
             for item in pdf_footer_data:
-                if clean_string(pdf_footer_data[item])=="None":
+                if clean_string(pdf_footer_data[item]) == "None":
                     row = {
                         "Page Number": item,
                         "Page Footer": clean_string(pdf_footer_data[item]),
@@ -1921,3 +1921,9 @@ def final_result(process_id):
                             "errors": "Data Is Not Available"})
             resp.status_code = 400
             return resp
+
+
+@bp.route('/about', methods=["GET", "POST"])
+def about():
+    if request.method == "GET":
+        return render_template("about.html")
