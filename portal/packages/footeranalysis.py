@@ -17,11 +17,11 @@ def extract_foter(pdf_path):
                 text_found_ = False
                 for line in block["lines"]:
                     for span in line["spans"]:
-                        if count_ == 20:
-                            print('height_', height_, "width_", width_)
-                            print("span['bbox']", span['bbox'])
-                            print("span['text']", span['text'])
-                            print("(span['bbox'][1] > 740 and span['bbox'][0] > 500",(span['bbox'][1] > 740 and span['bbox'][0] > 500))
+                        # if count_ == 20:
+                        #     print('height_', height_, "width_", width_)
+                        #     print("span['bbox']", span['bbox'])
+                        #     print("span['text']", span['text'])
+                        #     print("(span['bbox'][1] > 740 and span['bbox'][0] > 500",(span['bbox'][1] > 740 and span['bbox'][0] > 500))
                         if str(span['text']).strip() == '':
                             pass
                         elif ((span['bbox'][1] > 740 and span['bbox'][0] > 500) or (span['bbox'][1] > 731 and span['bbox'][0] > 74)) and (height_ > 785 and width_ > 585):
@@ -30,6 +30,11 @@ def extract_foter(pdf_path):
                             Final_text_found = True
                             break
                         elif (span['bbox'][1] > 740 and span['bbox'][0] > 47) and (height_ > 790 and width_ > 610):
+                            titles[count_] = span['text'].replace('\t', '')
+                            text_found_ = True
+                            Final_text_found = True
+                            break
+                        elif (span['bbox'][1] > 732 and span['bbox'][0] > 52) and (height_ > 790 and width_ > 593):
                             titles[count_] = span['text'].replace('\t', '')
                             text_found_ = True
                             Final_text_found = True
@@ -157,6 +162,12 @@ def check_page_number(pdf_file_path):
                                 text_found = True
                                 break
                         elif (span['bbox'][1] > 740 and span['bbox'][0] > 47) and (height_ > 790 and width_ > 610):
+                            page_number_pattern = r"\b\d{1,5}\b"
+                            match = re.search(page_number_pattern, span['text'].replace('\t', ''))
+                            if match:
+                                text_found = True
+                                break
+                        elif (span['bbox'][1] > 732 and span['bbox'][0] > 52) and (height_ > 790 and width_ > 593):
                             page_number_pattern = r"\b\d{1,5}\b"
                             match = re.search(page_number_pattern, span['text'].replace('\t', ''))
                             if match:

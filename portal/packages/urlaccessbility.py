@@ -8,10 +8,24 @@ def check_url_access(url):
     }
     temp = {}
     try:
-        response = requests.get(url,headers=headers)
-
-        temp['url_acc'] = "Yes" if response.ok else "No"
-        temp['status_code'] = response.status_code
+        response1 = requests.get(url)
+        response2 = requests.get(url,headers=headers)
+        if response1.status_code == 403:
+            temp['url_acc'] = "Yes"
+            temp['status_code'] = response1.status_code
+        elif response1.status_code == 200:
+            temp['url_acc'] = "Yes"
+            temp['status_code'] = response1.status_code  # Or perform other actions with the response
+        else:
+            if response2.status_code == 403:
+                temp['url_acc'] = "Yes"
+                temp['status_code'] = response2.status_code
+            elif response2.status_code == 200:
+                temp['url_acc'] = "Yes"
+                temp['status_code'] = response2.status_code
+            else:
+                temp['url_acc'] = "No"
+                temp['status_code'] = 400
     except requests.RequestException:
         temp['url_acc'] = "No"
         temp['status_code'] = 400

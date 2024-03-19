@@ -91,9 +91,9 @@ def analyze_pdf(pdf_path):
     meets_wcag_percentage = (meets_wcag_count / total_pages) * 100
     does_not_meet_wcag_percentage = (does_not_meet_wcag_count / total_pages) * 100
 
-    print(f"Total Pages: {total_pages}")
-    print(f"Pages meeting WCAG AA standards: {meets_wcag_count} ({meets_wcag_percentage:.2f}%)")
-    print(f"Pages not meeting WCAG AA standards: {does_not_meet_wcag_count} ({does_not_meet_wcag_percentage:.2f}%)")
+    # print(f"Total Pages: {total_pages}")
+    # print(f"Pages meeting WCAG AA standards: {meets_wcag_count} ({meets_wcag_percentage:.2f}%)")
+    # print(f"Pages not meeting WCAG AA standards: {does_not_meet_wcag_count} ({does_not_meet_wcag_percentage:.2f}%)")
 
     pdf_document.close()
     return meets_wcag_count, does_not_meet_wcag_count, meets_wcag_percentage, does_not_meet_wcag_percentage,image_accessibility,image_ratio_of_accessibility

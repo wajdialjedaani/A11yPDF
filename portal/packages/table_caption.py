@@ -54,8 +54,8 @@ def calculate_percentage(captions_with_tables):
     if total_tables > 0:
         percentage_with_caption = round((tables_with_caption / total_tables) * 100)
         percentage_without_caption = round((tables_without_caption / total_tables) * 100)
-        print(f"Percentage of tables with captions: {percentage_with_caption:.2f}%")
-        print(f"Percentage of tables without captions: {percentage_without_caption:.2f}%")
+        # print(f"Percentage of tables with captions: {percentage_with_caption:.2f}%")
+        # print(f"Percentage of tables without captions: {percentage_without_caption:.2f}%")
     else:
         percentage_with_caption = 0
         percentage_without_caption = 0

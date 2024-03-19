@@ -24,7 +24,7 @@ import PyPDF2
 import re
 from .packages.table_caption import *
 from .packages.dylexia import *
-from .packages.footeranalysis import extract_foter,check_page_number
+from .packages.footeranalysis import extract_foter, check_page_number
 from .packages.headeranalysis import extract_headers
 
 bp = Blueprint('view', __name__, url_prefix='/PDFAnalyzerX', template_folder="./templates", static_folder="./static")
@@ -766,6 +766,7 @@ def create_excel_from_data(data):
 
     return rows
 
+
 @bp.route('/generate_report/<string:type_>/<string:process_id>', methods=["GET", "POST"])
 def generate_report_pdf(type_, process_id):
     pdf_docs_json = APP.config["PDF_RESULT_JSON"]
@@ -799,7 +800,8 @@ def generate_report_pdf(type_, process_id):
                                     "Font Line": clean_string(text_data.get("font_line", "")),
                                     "Font Type": ", ".join(text_data.get("font_font_type", [])),
                                     "Font Sizes": ", ".join(text_data.get("font_sizes", [])),
-                                    "Accessible/Not Accessible":", ".join(text_data.get("font_size_Accessible_status", []))
+                                    "Accessible/Not Accessible": ", ".join(
+                                        text_data.get("font_size_Accessible_status", []))
                                 }
                             except:
                                 row = {
@@ -841,7 +843,7 @@ def generate_report_pdf(type_, process_id):
                         "Caption Text": clean_string(item.get("caption_text", "")),
                         # "Image Index": item.get("image_info", {}).get("image_index", ""),
                         "Page Number": item.get("page_number", ""),
-                        "image Index In Pdf":item.get("image Index In Pdf", ""),
+                        "image Index In Pdf": item.get("image Index In Pdf", ""),
                         "image Index In Page": item.get("image Index In Page", ""),
                         "Accessibility": item.get("Accessibility", "")
                     }
@@ -851,12 +853,12 @@ def generate_report_pdf(type_, process_id):
                 image_rows.append(row)
             if not image_rows:
                 image_rows.append({
-                    "Caption Text":"No Data" ,
-                        # "Image Index": item.get("image_info", {}).get("image_index", ""),
-                        "Page Number": "No Data",
-                        "image Index In Pdf":"No Data",
-                        "image Index In Page": "No Data",
-                        "Accessibility": "Not Accessible"
+                    "Caption Text": "No Data",
+                    # "Image Index": item.get("image_info", {}).get("image_index", ""),
+                    "Page Number": "No Data",
+                    "image Index In Pdf": "No Data",
+                    "image Index In Page": "No Data",
+                    "Accessibility": "Not Accessible"
                 })
 
             image_df = pd.DataFrame(image_rows)
@@ -914,10 +916,18 @@ def generate_report_pdf(type_, process_id):
             pdf_titles_rows = []
             for item in pdf_titles_data:
                 try:
-                    row = {
-                        "Page Number": item,
-                        "Page Header": clean_string(pdf_titles_data[item])
-                    }
+                    if clean_string(pdf_titles_data[item]) == "None":
+                        row = {
+                            "Page Number": item,
+                            "Page Header": clean_string(pdf_titles_data[item]),
+                            "Accessible/Not": "Not Accessible"
+                        }
+                    else:
+                        row = {
+                            "Page Number": item,
+                            "Page Header": clean_string(pdf_titles_data[item]),
+                            "Accessible/Not": "Accessible"
+                        }
                 except:
                     row = {}
                     pass
@@ -947,10 +957,19 @@ def generate_report_pdf(type_, process_id):
             pdf_footer_data = finl_dd['titles_for_footers_']
             pdf_titles_rows = []
             for item in pdf_footer_data:
-                row = {
-                    "Page Number": item,
-                    "Page Footer": clean_string(pdf_footer_data[item])
-                }
+                if clean_string(pdf_footer_data[item])=="None":
+                    row = {
+                        "Page Number": item,
+                        "Page Footer": clean_string(pdf_footer_data[item]),
+                        "Accessible/Not": "Not Accessible"
+
+                    }
+                else:
+                    row = {
+                        "Page Number": item,
+                        "Page Footer": clean_string(pdf_footer_data[item]),
+                        "Accessible/Not": "Accessible"
+                    }
                 pdf_titles_rows.append(row)
 
             image_df = pd.DataFrame(pdf_titles_rows)
@@ -1009,22 +1028,22 @@ def generate_report_pdf(type_, process_id):
     elif type_ == "Page_Contrast":
         try:
             image_accessibility = finl_dd['image_accessibility']
-            image_ratio_of_accessibility=finl_dd["image_ratio_of_accessibility"]
+            image_ratio_of_accessibility = finl_dd["image_ratio_of_accessibility"]
             # Create a DataFrame from the new JSON data
             image_rows = []
             for key, accessibility in image_accessibility.items():
                 recommended = "none"
                 page_number, index = key.split('_')
                 try:
-                    if accessibility=="Accessible":
-                        recommended="none"
+                    if accessibility == "Accessible":
+                        recommended = "none"
                     else:
                         recommended = "For Normal Text ratio of 4.5:1 and for Large Text ratio of 3:1 is required"
                     row = {
                         "Page Number": page_number,
                         "Image Index": index,
-                        "Ratio":image_ratio_of_accessibility[key],
-                        "recommended":recommended,
+                        "Ratio": image_ratio_of_accessibility[key],
+                        "recommended": recommended,
                         "Accessible/Not": accessibility
                     }
                 except:
@@ -1040,8 +1059,8 @@ def generate_report_pdf(type_, process_id):
                 image_rows.append({
                     "Page Numbe": "No Data",
                     "Image Index": "No Data",
-                    "Ratio":"none",
-                    "recommended" : "none",
+                    "Ratio": "none",
+                    "recommended": "none",
                     "Accessible/Not": "No Data"
                 })
             image_df = pd.DataFrame(image_rows)
@@ -1090,7 +1109,7 @@ def generate_report_pdf(type_, process_id):
     elif type_ == "color_blindness":
         try:
             combined_data_analyze_pdf_colorblind = finl_dd['combined_data_analyze_pdf_colorblind']
-            combined_data_analyze_pdf_colorblind=create_excel_from_data(combined_data_analyze_pdf_colorblind)
+            combined_data_analyze_pdf_colorblind = create_excel_from_data(combined_data_analyze_pdf_colorblind)
             # combined_data_analyze_pdf_colorblind = prepare_data_for_excel(combined_data_analyze_pdf_colorblind)
             image_df = pd.DataFrame(combined_data_analyze_pdf_colorblind)
             image_df.to_excel(excel_file, sheet_name="Color Blindness", index=False)
@@ -1255,7 +1274,6 @@ def calculate_colorblind_accessibility(data):
     return results
 
 
-
 @bp.route('/result/<string:process_id>/', methods=['GET', "POST"])
 def final_result(process_id):
     if request.method == "POST":
@@ -1329,7 +1347,7 @@ def final_result(process_id):
 
                     percentage_with_captions, percentage_without_captions, captions_with_images = analyze_figure_captions_parallel(
                         os.path.join(pdf_docs, process_id, filename))
-                    meets_wcag_count, does_not_meet_wcag_count, meets_wcag_percentage, does_not_meet_wcag_percentage, image_accessibility,image_ratio_of_accessibility = analyze_pdf(
+                    meets_wcag_count, does_not_meet_wcag_count, meets_wcag_percentage, does_not_meet_wcag_percentage, image_accessibility, image_ratio_of_accessibility = analyze_pdf(
                         os.path.join(pdf_docs, process_id, filename))
                     meets_wcag_count, does_not_meet_wcag_count, meets_wcag_percentage, does_not_meet_wcag_percentage = meets_wcag_count, does_not_meet_wcag_count, round(
                         meets_wcag_percentage), round(does_not_meet_wcag_percentage)
@@ -1367,7 +1385,7 @@ def final_result(process_id):
                                    "percentage_with_caption_table": percentage_with_caption_table,
                                    "percentage_without_caption_table": percentage_without_caption_table,
                                    "captions_with_tables": captions_with_tables,
-                                   "image_ratio_of_accessibility":image_ratio_of_accessibility}
+                                   "image_ratio_of_accessibility": image_ratio_of_accessibility}
 
                     fina_header_count_ = [[round(percentage_with_headers), yes_headers_pages],
                                           [round(percentage_without_headers), No_headers_Pages]]
@@ -1381,7 +1399,8 @@ def final_result(process_id):
                         for j in dict_final_[i]:
                             for k in dict_final_[i][j]:
                                 # print(dict_final_[i][j][k]['font_line'])
-                                if str(dict_final_[i][j][k]['font_line']).strip() == '' or dict_final_[i][j][k]['font_line'] == '':
+                                if str(dict_final_[i][j][k]['font_line']).strip() == '' or dict_final_[i][j][k][
+                                    'font_line'] == '':
                                     pass
                                 else:
                                     count_ = count_ + 1
@@ -1398,7 +1417,7 @@ def final_result(process_id):
                     # print('total_counts_types', total_counts_types)
                     # print('count',top_4_fonts_types)
                     # exit()
-                    print('font_size_dict_',font_size_dict_)
+                    print('font_size_dict_', font_size_dict_)
                     percentage_dict_types = {font: round((count / total_counts_types) * 100) for font, count in
                                              top_4_fonts_types.items()}
                     length_of_percentage_dict_types = len(percentage_dict_types)
@@ -1473,22 +1492,6 @@ def final_result(process_id):
                     #                        does_not_meet_wcag_count=does_not_meet_wcag_count,
                     #                        meets_wcag_percentage=meets_wcag_percentage,
                     #                        does_not_meet_wcag_percentage=does_not_meet_wcag_percentage)
-                    if count_urls_final_ == 0:
-                        percentages = [round(percentage_with_captions, 1), round(percentage_with_captions, 1),
-                                       round(fina_header_count_[0][0], 1), round(count_of_footers_[0][0], 1),
-                                       round(meets_wcag_percentage, 1), round(percentage_with_page_number, 1)]
-                    else:
-                        try:
-                            percentages = [round(percentage_with_captions, 1), round(percentage_with_captions, 1),
-                                           round(fina_header_count_[0][0], 1), round(count_of_footers_[0][0], 1),
-                                           round(meets_wcag_percentage, 1), round(percentage_with_page_number, 1),
-                                           round(no_of_work['Number Of Urls Accessible'], 1)]
-                        except:
-                            percentages = [round(percentage_with_captions, 1), round(percentage_with_captions, 1),
-                                           round(fina_header_count_[0][0], 1), round(count_of_footers_[0][0], 1),
-                                           round(meets_wcag_percentage, 1), round(percentage_with_page_number, 1)]
-                    overall_percentage = round(sum(percentages) / len(percentages), 1)
-                    remaining_percentage = round(100 - overall_percentage, 1)
 
                     percentage_analyze_dylexia, matching_fonts_analyze_dylexia, non_matching_fonts_analyze_dylexia = analyze_dylexia(
                         font_type_dict_)
@@ -1498,11 +1501,13 @@ def final_result(process_id):
 
                     final_data_analyze_pdf_colorblind, combined_data_analyze_pdf_colorblind = future.result()
 
-                    adjusted_data_combined_data_analyze_pdf_colorblind = {key: [1 if val >= 0.5 else 0 for val in values if key != 'page number'] for
-                                     key, values in
-                                     combined_data_analyze_pdf_colorblind.items()}
+                    adjusted_data_combined_data_analyze_pdf_colorblind = {
+                        key: [1 if val >= 0.5 else 0 for val in values if key != 'page number'] for
+                        key, values in
+                        combined_data_analyze_pdf_colorblind.items()}
 
-                    overall_percentages_colorblind = calculate_colorblind_accessibility(adjusted_data_combined_data_analyze_pdf_colorblind)
+                    overall_percentages_colorblind = calculate_colorblind_accessibility(
+                        adjusted_data_combined_data_analyze_pdf_colorblind)
 
                     # overall_percentages_colorblind = calculate_overall_percentage(combined_data_analyze_pdf_colorblind)
 
@@ -1516,6 +1521,52 @@ def final_result(process_id):
                         file.close()
                     # print('final_data_analyze_pdf_colorblind, combined_data_analyze_pdf_colorblind',final_data_analyze_pdf_colorblind, combined_data_analyze_pdf_colorblind)
                     # exit()
+
+                    # percentage_greater_than_16,no_of_work['Number Of Urls Accessible'],fina_header_count_[0][0],count_of_footers_[0][0],meets_wcag_percentage,percentage_analyze_dylexia
+                    # percentage_with_page_number,overall_percentages_colorblind['Monochromacy']['Accessible'],overall_percentages_colorblind['Protonopia/Deuteranopia']['Accessible'],overall_percentages_colorblind['Tritanopia']['Accessible']
+
+                    # percentage_with_captions #percentage_with_caption_table
+
+                    # if count_urls_final_ == 0:
+                    #     percentages = [round(percentage_with_captions, 1), round(percentage_with_captions, 1),
+                    #                    round(fina_header_count_[0][0], 1), round(count_of_footers_[0][0], 1),
+                    #                    round(meets_wcag_percentage, 1), round(percentage_with_page_number, 1)]
+                    # else:
+                    #     try:
+                    #         percentages = [round(percentage_with_captions, 1), round(percentage_with_captions, 1),
+                    #                        round(fina_header_count_[0][0], 1), round(count_of_footers_[0][0], 1),
+                    #                        round(meets_wcag_percentage, 1), round(percentage_with_page_number, 1),
+                    #                        round(no_of_work['Number Of Urls Accessible'], 1)]
+                    #     except:
+                    #         percentages = [round(percentage_with_captions, 1), round(percentage_with_captions, 1),
+                    #                        round(fina_header_count_[0][0], 1), round(count_of_footers_[0][0], 1),
+                    #                        round(meets_wcag_percentage, 1), round(percentage_with_page_number, 1)]
+
+                    mandatory_percentages_sum = (
+                            round(percentage_greater_than_16) +
+                            round(fina_header_count_[0][0]) +
+                            round(count_of_footers_[0][0]) +
+                            round(percentage_analyze_dylexia) +
+                            round(percentage_with_page_number) +
+                            round(overall_percentages_colorblind['Monochromacy']['Accessible']) +
+                            round(overall_percentages_colorblind['Protonopia/Deuteranopia']['Accessible']) +
+                            round(overall_percentages_colorblind['Tritanopia']['Accessible'])
+                    )
+                    num_fields = 8
+                    if count_images_ > 0:
+                        mandatory_percentages_sum += round(percentage_with_captions)
+                        mandatory_percentages_sum += round(meets_wcag_percentage)
+                        num_fields += 2
+                    if table_count_ > 0:
+                        mandatory_percentages_sum += round(percentage_with_caption_table)
+                        num_fields += 1
+                    if count_urls_final_ > 0:
+                        mandatory_percentages_sum += round(no_of_work['Number Of Urls Accessible'])
+                        num_fields += 1
+
+                    overall_percentage = round(mandatory_percentages_sum / num_fields)
+                    remaining_percentage = round(100 - overall_percentage)
+
                     elapsed_time = time.time() - start_time
                     print(f"analyze_pdf_colorblind took {elapsed_time:.2f} seconds.")
                 # print('font_type_dict_', font_type_dict_)
@@ -1684,7 +1735,7 @@ def final_result(process_id):
                                "captions_with_tables": captions_with_tables,
                                "matching_fonts_analyze_dylexia": matching_fonts_analyze_dylexia,
                                "non_matching_fonts_analyze_dylexia": non_matching_fonts_analyze_dylexia,
-                               "image_ratio_of_accessibility":image_ratio_of_accessibility}
+                               "image_ratio_of_accessibility": image_ratio_of_accessibility}
                 pdf_docs_json = APP.config["PDF_RESULT_JSON"]
                 if not os.path.exists(os.path.join(pdf_docs_json, process_id)):
                     os.mkdir(os.path.join(pdf_docs_json, process_id))
@@ -1770,27 +1821,53 @@ def final_result(process_id):
                 # print('fina_header_count_', fina_header_count_)
                 # print("overal",round(percentage_with_captions, 1), round(percentage_with_captions, 1), round(fina_header_count_[0][0],1),
                 #       round(count_of_footers_[0][0],1), round(meets_wcag_percentage,1), round(percentage_with_page_number,1), count_urls_)
-                if count_urls_ == 0:
-                    percentages = [round(percentage_with_captions, 1), round(percentage_with_captions, 1),
-                                   round(fina_header_count_[0][0], 1), round(count_of_footers_[0][0], 1),
-                                   round(meets_wcag_percentage, 1), round(percentage_with_page_number, 1)]
-                else:
-                    try:
-                        percentages = [round(percentage_with_captions, 1), round(percentage_with_captions, 1),
-                                       round(fina_header_count_[0][0], 1), round(count_of_footers_[0][0], 1),
-                                       round(meets_wcag_percentage, 1), round(percentage_with_page_number, 1),
-                                       round(no_of_work['Number Of Urls Accessible'], 1)]
-                    except:
-                        percentages = [round(percentage_with_captions, 1), round(percentage_with_captions, 1),
-                                       round(fina_header_count_[0][0], 1), round(count_of_footers_[0][0], 1),
-                                       round(meets_wcag_percentage, 1), round(percentage_with_page_number, 1)]
-                overall_percentage = round(sum(percentages) / len(percentages))
-                remaining_percentage = round(100 - overall_percentage)
+                # if count_urls_ == 0:
+                #     percentages = [round(percentage_with_captions, 1), round(percentage_with_captions, 1),
+                #                    round(fina_header_count_[0][0], 1), round(count_of_footers_[0][0], 1),
+                #                    round(meets_wcag_percentage, 1), round(percentage_with_page_number, 1)]
+                # else:
+                #     try:
+                #         percentages = [round(percentage_with_captions, 1), round(percentage_with_captions, 1),
+                #                        round(fina_header_count_[0][0], 1), round(count_of_footers_[0][0], 1),
+                #                        round(meets_wcag_percentage, 1), round(percentage_with_page_number, 1),
+                #                        round(no_of_work['Number Of Urls Accessible'], 1)]
+                #     except:
+                #         percentages = [round(percentage_with_captions, 1), round(percentage_with_captions, 1),
+                #                        round(fina_header_count_[0][0], 1), round(count_of_footers_[0][0], 1),
+                #                        round(meets_wcag_percentage, 1), round(percentage_with_page_number, 1)]
+                # overall_percentage = round(sum(percentages) / len(percentages))
+                # remaining_percentage = round(100 - overall_percentage)
                 # percentage, matching_fonts, non_matching_fonts = analyze_dylexia(font_type_dict_)
                 percentage_analyze_dylexia, matching_fonts_analyze_dylexia, non_matching_fonts_analyze_dylexia = analyze_dylexia(
                     font_type_dict_)
                 # print('percentage_analyze_dylexia, matching_fonts_analyze_dylexia, non_matching_fonts_analyze_dylexia',percentage_analyze_dylexia, matching_fonts_analyze_dylexia)
                 remaining_percentage_dylexia = round(100 - percentage_analyze_dylexia)
+
+                mandatory_percentages_sum = (
+                        round(percentage_greater_than_16) +
+                        round(fina_header_count_[0][0]) +
+                        round(count_of_footers_[0][0]) +
+                        round(percentage_analyze_dylexia) +
+                        round(percentage_with_page_number) +
+                        round(overall_percentages_colorblind['Monochromacy']['Accessible']) +
+                        round(overall_percentages_colorblind['Protonopia/Deuteranopia']['Accessible']) +
+                        round(overall_percentages_colorblind['Tritanopia']['Accessible'])
+                )
+                num_fields = 8
+                if count_images_ > 0:
+                    mandatory_percentages_sum += round(percentage_with_captions)
+                    mandatory_percentages_sum += round(meets_wcag_percentage)
+                    num_fields += 2
+                if table_count_ > 0:
+                    mandatory_percentages_sum += round(percentage_with_caption_table)
+                    num_fields += 1
+                if count_urls_ > 0:
+                    mandatory_percentages_sum += round(no_of_work['Number Of Urls Accessible'])
+                    num_fields += 1
+
+                overall_percentage = round(mandatory_percentages_sum / num_fields)
+                remaining_percentage = round(100 - overall_percentage)
+
                 # print('non_matching_fonts_analyze_dylexia',non_matching_fonts_analyze_dylexia)
                 # print('remaining_percentage_dylexia',remaining_percentage_dylexia)
                 return render_template("pdf_analysis_latest.html", top_4_font_size_=top_4_font_size_,
