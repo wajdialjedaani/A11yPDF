@@ -211,7 +211,7 @@
 				  <span>Freelancer</span> -->
 				</li>
 				<li class="card" onclick="scrollToDiv('box_contrast')">
-					<h4 class="acc-score-title">Contrast</h4>
+					<h4 class="acc-score-title">Page Contrast</h4>
 					<canvas id="card_chart5" class="acc_chart1"></canvas>
 					<h5 id="contrast_score" class="acc-grade">Good</h5>
 				  <!-- <h2>Kristina Zasiadko</h2>
@@ -241,6 +241,11 @@
 					<h4 class="acc-score-title">Table Caption</h4>
 					<canvas id="card_chart11" class="acc_chart1"></canvas>
 					<h5 id="table_cap_score" class="acc-grade">Good</h5>
+				</li>
+				  <li class="card" onclick="scrollToDiv('box_tableCap')">
+					<h4 class="acc-score-title">Dyslexia</h4>
+					<canvas id="card_chart12" class="acc_chart1"></canvas>
+					<h5 id="dyslexia_score" class="acc-grade">Good</h5>
 				</li>
 <!--				  <li class="card">-->
 <!--					<h4 class="acc-score-title">Table Caption</h4>-->
@@ -280,7 +285,6 @@
 						</div>
 					</div>
 				</div>
-
 				<div id="open-modal1" class="modal-window">
 						<div>
 <!--							<a href="#" title="Close" class="modal-close"><img style="width: 35px;" alt="close" src="/PDFAnalyzerX/static/images/ion/close1437.jpg"/></a>-->
@@ -382,14 +386,26 @@
 						<div class="font-div">
 							<h4 class="card-title">Image Caption</h4>
 						</div>
+						{% if count_images_ > 0 %}
 						<div>
 							<span class="access-core">Accessibility Score</span>
 							<canvas id="doughnut3" class="doughnut-chart"></canvas>
 						</div>
+						{% else %}
+						<div>
+							<p class="no_links">No data :(</p>
+						</div>
+						{% endif %}
 					</div>
+					{% if count_images_ > 0 %}
 					<div class="col-md-12" style="height: 55%;">
 						<canvas id="image_cap"></canvas>
 					</div>
+					{% else %}
+					<div class="col-md-12" style="height: 55%;">
+						<p class="no_links" style="ext-align: center;padding-top: 120px;">No images found in pdf :(</p>
+					</div>
+					{% endif %}
 					<div class="button-con">
 						<div class="moreinfo-con"><a class="button arrow" href="#open-modal3">More Info </a></div>
 						<div class="btn" onclick="location.href='/PDFAnalyzerX/generate_report/cwi/{{process_id}}'">
@@ -718,19 +734,31 @@
 						</div>
 					</div>
 				</div>
-			<div class="box" id="box_tableCap">
+				<div class="box" id="box_tableCap">
 				<div id="table-caption" class="row  mt-xl-0 mt-4">
 					<div class="font-div">
 						<h4 class="card-title">Table Caption</h4>
 					</div>
+					{% if table_count_ > 0 %}
 					<div>
 						<span class="access-core">Accessibility Score</span>
 						<canvas id="doughnut8" class="doughnut-chart"></canvas>
 					</div>
-				</div>
+					{% else %}
+					<div>
+						<p class="no_links">No data :(</p>
+					</div>
+					{% endif %}
+					</div>
+					{% if table_count_ > 0 %}
 				<div class="col-md-12">
 					<canvas id="table_caption"></canvas>
 				</div>
+				{% else %}
+				<div class="col-md-12" style="height: 55%;">
+					<p class="no_links" style="ext-align: center;padding-top: 120px;">No tables found in pdf :(</p>
+				</div>
+				{% endif %}
 				<div class="button-con">
 					<div class="moreinfo-con"><a class="button arrow" href="#open-modal10">More Info </a></div>
 					<div class="btn" onclick="location.href='/PDFAnalyzerX/generate_report/table_dylexia/{{process_id}}'">
@@ -942,6 +970,10 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/hopscotch/0.3.1/js/hopscotch.js"></script>
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+
+	<script>
+		 document.body.classList.toggle('dark-theme-variables', JSON.parse(localStorage.getItem('darkMode')) ?? false);
+	</script>
 <!--	overrall accessibility score doughnut chart #access_chart-->
 	<script>
 		// Determine background color based on percentage
@@ -2633,9 +2665,9 @@
 				const fontSize = Math.min(width, height) * 0.2; // Adjust 0.2 as needed for font size scaling
 
 				ctx.font = 'bolder 45px Arial';
-				ctx.fillStyle = backgroundColor22;
+				ctx.fillStyle = backgroundColor23;
 				ctx.textAlign = 'center';
-				ctx.fillText('{{percentage_with_caption_table}}%', x, y);
+				ctx.fillText('{{percentage_analyze_dylexia}}%', x, y);
 			}
 		};
 
@@ -2647,7 +2679,7 @@
 				datasets: [{
 					data: [{{percentage_with_caption_table}},{{percentage_without_caption_table}}], // 84% filled, 16% empty
 					weight: 10,
-					backgroundColor: [backgroundColor14, '#d7d9db'],
+					backgroundColor: [backgroundColor23, '#d7d9db'],
 					borderColor: 'white',
 					borderWidth: 0
 				}]
@@ -2663,6 +2695,79 @@
 				},
 			}, // Add a comma here
 			plugins: [CardDataLabels14],
+		});
+	</script>
+<!--	Dyslexia acessibility score chart #card_chart12-->
+	<script>
+ 		// Determine background color based on percentage
+		percentage = {{percentage_analyze_dylexia}}
+		var backgroundColor24 = '';
+		if (percentage > 60) {
+			backgroundColor24 = 'green'; // Red background
+			content = 'Good';
+		} else if (percentage >= 40 && percentage <= 60) {
+			backgroundColor24 = '#e3700e'; // Orange background
+			content = 'Average';
+		} else {
+			backgroundColor24 = '#E33147'; // Green background
+			content = 'Poor';
+		}
+
+		// Set the background color and content for the h5 element
+		var h5Element = document.getElementById('dyslexia_score'); // Replace 'your_h5_element_id' with the actual ID of your h5 element
+		h5Element.style.color = backgroundColor24;
+		h5Element.textContent = content;
+
+		var remaining_percentage_dylexia = {{remaining_percentage_dylexia}};
+		//check if both the values are zero
+		if({{percentage_analyze_dylexia}} == 0 && {{remaining_percentage_dylexia}} == 0){
+			remaining_percentage_dylexia = 100;
+		}
+
+		const CardDataLabels15 = {
+			id: 'CardDataLabels15',
+			afterDatasetsDraw(chart, args, options) {
+				const { ctx, chartArea: { left, right, top, bottom, width, height } } = chart;
+				ctx.save();
+
+				// Calculate the position relative to the chart area
+				const x = (left + width / 2) + 2; // Center horizontally
+				const y = (top + height / 2) + 10; // Center vertically
+
+				// Determine the font size dynamically based on the chart size
+				const fontSize = Math.min(width, height) * 0.2; // Adjust 0.2 as needed for font size scaling
+
+				ctx.font = 'bolder 45px Arial';
+				ctx.fillStyle = backgroundColor24;
+				ctx.textAlign = 'center';
+				ctx.fillText('{{percentage_analyze_dylexia}}%', x, y);
+			}
+		};
+
+		var ctxDough = document.getElementById('card_chart12').getContext('2d');
+		var myChart = new Chart(ctxDough, {
+			type: 'doughnut',
+			data: {
+				labels: [''], // No labels needed for a single segment
+				datasets: [{
+					data: [{{percentage_analyze_dylexia}},remaining_percentage_dylexia], // 84% filled, 16% empty
+					weight: 10,
+					backgroundColor: [backgroundColor15, '#d7d9db'],
+					borderColor: 'white',
+					borderWidth: 0
+				}]
+			},
+			options: {
+				cutout: 70, // Adjust cutout size as needed
+				rotation: -90, // Start at the top
+				circumference: 360, // Adjust to match image proportions
+				plugins: {
+					legend: {
+						display: false,
+					}
+				},
+			}, // Add a comma here
+			plugins: [CardDataLabels15],
 		});
 	</script>
 <!--	font size pie chart #font_size-->
@@ -2753,32 +2858,32 @@
 					borderWidth: 1
 				}]
 			},
-				options: {
-					plugins: {
-						legend: {
-			padding: 20,
-			position: 'left',
-			align: 'center',
-			labels: {
-			  boxWidth: 50, // Adjust if needed
-			  usePointStyle: true,
-			  color: '#000000',
-			  font: {
-				size: 10, // Reduced font size
-			  }
-			},
-			title: {
-			  display: true,
-			  padding: 15, // Increased padding
-			}
-		  },
-		  datalabels: {
-			color: '#fff',
-			font: {
-			  weight: 'bold',
-			}
-		  }
-		},
+			options: {
+				plugins: {
+					legend: {
+						padding: 20,
+						position: 'left',
+						align: 'center',
+						labels: {
+						  boxWidth: 50, // Adjust if needed
+						  usePointStyle: true,
+						  color: '#000000',
+						  font: {
+							size: 13, // Reduced font size
+						  }
+						},
+						title: {
+						  display: true,
+						  padding: 15, // Increased padding
+						}
+					},
+					datalabels: {
+						color: '#fff',
+						font: {
+						  weight: 'bold',
+						}
+					}
+				},
 				maintainAspectRatio: false,
 				animation: {
 					duration: 2000,
@@ -2787,16 +2892,18 @@
 			},
 			plugins: [ChartDataLabels],
 		});
-<!--		function toggleDarkMode2(isDarkMode) {-->
-<!--			if (isDarkMode) {-->
-<!--				myChart.options.plugins.legend.labels.color = 'white';-->
-<!--			} else {-->
-<!--				if (myChart2.options.plugins.legend) {-->
-<!--					myChart2.options.plugins.legend.labels.color = 'black'; // Set font color for light mode-->
-<!--				}-->
-<!--			}-->
-<!--			myChart2.update(); // Apply changes-->
-<!--		}-->
+		function toggleDarkMode2(isDarkMode) {
+			if (isDarkMode) {
+				if (myChart2.options.plugins.legend) {
+					myChart2.options.plugins.legend.labels.color = 'white'; // Set font color for dark mode
+				}
+			} else {
+				if (myChart2.options.plugins.legend) {
+					myChart2.options.plugins.legend.labels.color = 'black'; // Set font color for light mode
+				}
+			}
+			myChart2.update(); // Apply changes
+		}
 	</script>
 <!--	image caption bar chart #image_cap-->
 	<script>
@@ -3787,8 +3894,8 @@
 </script>
 <!--	light mode/dark mode toggle-->
 	<script>
-	 const darkModeToggle = document.getElementById('darkmode-toggle');
-    const darkModeCircle = document.querySelector('.darkmode-toggle-circle');
+
+	const darkModeToggle = document.getElementById('darkmode-toggle');
     const darkModeEmojis = document.querySelectorAll('.darkmode-toggle-emoji');
 
     // Function to set dark mode preference
@@ -3802,19 +3909,22 @@
     }
 
 
+	// Check dark mode preference on page load
+	document.addEventListener('DOMContentLoaded', () => {
+		const storedPreference = getDarkModePreference();
+		const isDarkMode = storedPreference === null ? false : storedPreference;
+		document.body.classList.toggle('dark-theme-variables', isDarkMode);
+		toggleDarkMode(isDarkMode);
+		darkModeToggle.checked = isDarkMode;
+	});
+
 	darkModeToggle.addEventListener('click', () => {
 		const isDark1 = !document.body.classList.contains('dark-theme-variables');
 		toggleDarkMode(isDark1);
 	});
 
 
-	// Check dark mode preference on page load
-	document.addEventListener('DOMContentLoaded', () => {
-		const storedPreference = getDarkModePreference();
-		const isDarkMode = storedPreference === null ? false : storedPreference;
-		toggleDarkMode(isDarkMode);
-		darkModeToggle.checked = isDarkMode;
-	});
+
 
     // Function to toggle dark mode
     function toggleDarkMode(isDark) {
@@ -3826,31 +3936,48 @@
             darkModeEmojis[1].style.display = 'inline'; // Display moon emoji
             darkModeToggle.checked = isDark;
             toggleDarkMode1(true);
-			toggleDarkMode3(true);
+<!--			toggleDarkMode3(true);-->
 			toggleDarkMode4(true);
 			toggleDarkMode5(true);
 			toggleDarkMode6(true);
 			toggleDarkMode7(true);
-			toggleDarkMode8(true);
+<!--			toggleDarkMode8(true);-->
 			toggleDarkMode9(true);
 			toggleDarkMode10(true);
 			toggleDarkMode11(true);
-			toggleDarkMode2(true);
-
+<!--			toggleDarkMode2(true);-->
+			if ({{ count_images_ }} > 0) {
+				toggleDarkMode3(true);
+			}
+			if ({{ table_count_ }} > 0) {
+				toggleDarkMode8(true);
+			}
+			if ({{ count_urls_ }} > 0) {
+				toggleDarkMode2(true);
+			}
         } else {
             darkModeEmojis[1].style.display = 'none'; // Hide moon emoji
             darkModeEmojis[0].style.display = 'inline'; // Display sun emoji
             toggleDarkMode1(false);
-			toggleDarkMode3(false);
+<!--			toggleDarkMode3(false);-->
 			toggleDarkMode4(false);
 			toggleDarkMode5(false);
 			toggleDarkMode6(false);
 			toggleDarkMode7(false);
-			toggleDarkMode8(false);
+<!--			toggleDarkMode8(false);-->
 			toggleDarkMode9(false);
 			toggleDarkMode10(false);
 			toggleDarkMode11(false);
-			toggleDarkMode2(false);
+<!--			toggleDarkMode2(false);-->
+			if ({{ count_images_ }} > 0) {
+				toggleDarkMode3(false);
+			}
+			if ({{ table_count_ }} > 0) {
+				toggleDarkMode8(false);
+			}
+			if ({{ count_urls_ }} > 0) {
+				toggleDarkMode2(false);
+			}
         }
 
     }

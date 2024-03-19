@@ -249,7 +249,9 @@
 
 </div>
 </body>
-
+<script>
+		 document.body.classList.toggle('dark-theme-variables', JSON.parse(localStorage.getItem('darkMode')) ?? false);
+	</script>
 <script>
     function submitForms_file() {
         var fileInput = document.getElementById('pdf_file');
