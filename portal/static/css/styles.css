@@ -265,16 +265,16 @@
 			 border: 2px solid var(--title-color);
 		}
 		.grp-btn .generate-report-button svg{
-		    transition: transform 0.3s ease-out;
+		   /* transition: transform 0.3s ease-out;*/
 		}
 
 		.grp-btn:hover .generate-report-button svg{
-		    transform: translateX(5px)
+		    /*transform: translateX(5px)*/
 		}
 
 		.grp-btn .generate-report-button svg path{
 		    fill:  var(--card-bg);
-		    transition: transform 0.3s ease-out;
+		    /*transition: transform 0.3s ease-out;*/
 		}
 		.grp-btn:hover{
             background: #fff;
@@ -285,7 +285,7 @@
 		}
 		.grp-btn:hover .generate-report-button svg path{
 		    fill:  var(--bg-color);
-		    transform: scale(1.2);
+		    /*transform: scale(1.2);*/x
 		}
 
 		.btn {
