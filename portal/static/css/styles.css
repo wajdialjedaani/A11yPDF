@@ -978,6 +978,7 @@ input[type=file] {
     background: #f5f2f285;
     z-index: 2;
     margin-top: -560px;
+    position: fixed;
 }
 
 .loading-container {

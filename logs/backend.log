@@ -1182,3 +1182,122 @@ jinja2.exceptions.TemplateSyntaxError: expected token 'end of print statement', 
 [2024-02-17 00:30:17,341][worker-0][INFO] Initialized logger with level 10 for worker 0
 [2024-02-17 00:30:19,127][worker-0][INFO] Initialized CORS
 [2024-02-17 00:30:19,127][worker-0][INFO] App Initialization is finished successfully
+[2024-03-15 00:21:01,467][worker-0][INFO] Initialized logger with level 10 for worker 0
+[2024-03-15 00:21:02,745][worker-0][INFO] Initialized CORS
+[2024-03-15 00:21:02,745][worker-0][INFO] App Initialization is finished successfully
+[2024-03-15 00:21:21,155][worker-0][ERROR] list index out of range
+Traceback (most recent call last):
+  File "D:\UNT\Software_Engineering\hgfhgfh\A11yPDF\portal\views.py", line 1299, in final_result
+    percentage_with_caption_table, percentage_without_caption_table, captions_with_tables = analyze_table_caption(
+  File "D:\UNT\Software_Engineering\hgfhgfh\A11yPDF\portal\packages\table_caption.py", line 65, in analyze_table_caption
+    captions_with_tables = find_table_captions(pdf_file)
+  File "D:\UNT\Software_Engineering\hgfhgfh\A11yPDF\portal\packages\table_caption.py", line 10, in find_table_captions
+    print("tables",tables[1].df)
+  File "C:\Users\chint\.conda\envs\pdf_analyzer_prod_final\lib\site-packages\camelot\core.py", line 689, in __getitem__
+    return self._tables[idx]
+IndexError: list index out of range
+[2024-03-15 00:21:50,381][worker-0][INFO] Initialized logger with level 10 for worker 0
+[2024-03-15 00:21:51,899][worker-0][INFO] Initialized CORS
+[2024-03-15 00:21:51,899][worker-0][INFO] App Initialization is finished successfully
+[2024-03-15 00:25:31,636][worker-0][INFO] Initialized logger with level 10 for worker 0
+[2024-03-15 00:25:32,816][worker-0][INFO] Initialized CORS
+[2024-03-15 00:25:32,816][worker-0][INFO] App Initialization is finished successfully
+[2024-03-15 04:12:50,154][worker-0][INFO] Initialized logger with level 10 for worker 0
+[2024-03-15 04:12:51,924][worker-0][INFO] Initialized CORS
+[2024-03-15 04:12:51,924][worker-0][INFO] App Initialization is finished successfully
+[2024-03-15 10:33:19,891][worker-0][INFO] Initialized logger with level 10 for worker 0
+[2024-03-15 10:33:22,514][worker-0][INFO] Initialized CORS
+[2024-03-15 10:33:22,514][worker-0][INFO] App Initialization is finished successfully
+[2024-03-15 11:01:37,505][worker-0][INFO] Initialized logger with level 10 for worker 0
+[2024-03-15 11:01:38,764][worker-0][INFO] Initialized CORS
+[2024-03-15 11:01:38,764][worker-0][INFO] App Initialization is finished successfully
+[2024-03-15 13:50:21,977][worker-0][INFO] Initialized logger with level 10 for worker 0
+[2024-03-15 13:50:23,373][worker-0][INFO] Initialized CORS
+[2024-03-15 13:50:23,373][worker-0][INFO] App Initialization is finished successfully
+[2024-03-15 14:16:04,762][worker-0][INFO] Initialized logger with level 10 for worker 0
+[2024-03-15 14:16:05,894][worker-0][INFO] Initialized CORS
+[2024-03-15 14:16:05,894][worker-0][INFO] App Initialization is finished successfully
+[2024-03-15 14:17:24,111][worker-0][INFO] Initialized logger with level 10 for worker 0
+[2024-03-15 14:17:25,213][worker-0][INFO] Initialized CORS
+[2024-03-15 14:17:25,213][worker-0][INFO] App Initialization is finished successfully
+[2024-03-15 00:21:01,467][worker-0][INFO] Initialized logger with level 10 for worker 0
+[2024-03-15 00:21:02,745][worker-0][INFO] Initialized CORS
+[2024-03-15 00:21:02,745][worker-0][INFO] App Initialization is finished successfully
+[2024-03-15 00:21:21,155][worker-0][ERROR] list index out of range
+Traceback (most recent call last):
+  File "D:\UNT\Software_Engineering\hgfhgfh\A11yPDF\portal\views.py", line 1299, in final_result
+    percentage_with_caption_table, percentage_without_caption_table, captions_with_tables = analyze_table_caption(
+  File "D:\UNT\Software_Engineering\hgfhgfh\A11yPDF\portal\packages\table_caption.py", line 65, in analyze_table_caption
+    captions_with_tables = find_table_captions(pdf_file)
+  File "D:\UNT\Software_Engineering\hgfhgfh\A11yPDF\portal\packages\table_caption.py", line 10, in find_table_captions
+    print("tables",tables[1].df)
+  File "C:\Users\chint\.conda\envs\pdf_analyzer_prod_final\lib\site-packages\camelot\core.py", line 689, in __getitem__
+    return self._tables[idx]
+IndexError: list index out of range
+[2024-03-15 00:21:50,381][worker-0][INFO] Initialized logger with level 10 for worker 0
+[2024-03-15 00:21:51,899][worker-0][INFO] Initialized CORS
+[2024-03-15 00:21:51,899][worker-0][INFO] App Initialization is finished successfully
+[2024-03-15 00:25:31,636][worker-0][INFO] Initialized logger with level 10 for worker 0
+[2024-03-15 00:25:32,816][worker-0][INFO] Initialized CORS
+[2024-03-15 00:25:32,816][worker-0][INFO] App Initialization is finished successfully
+[2024-03-15 04:12:50,154][worker-0][INFO] Initialized logger with level 10 for worker 0
+[2024-03-15 04:12:51,924][worker-0][INFO] Initialized CORS
+[2024-03-15 04:12:51,924][worker-0][INFO] App Initialization is finished successfully
+[2024-03-15 10:33:19,891][worker-0][INFO] Initialized logger with level 10 for worker 0
+[2024-03-15 10:33:22,514][worker-0][INFO] Initialized CORS
+[2024-03-15 10:33:22,514][worker-0][INFO] App Initialization is finished successfully
+[2024-03-15 11:01:37,505][worker-0][INFO] Initialized logger with level 10 for worker 0
+[2024-03-15 11:01:38,764][worker-0][INFO] Initialized CORS
+[2024-03-15 11:01:38,764][worker-0][INFO] App Initialization is finished successfully
+[2024-03-15 13:50:21,977][worker-0][INFO] Initialized logger with level 10 for worker 0
+[2024-03-15 13:50:23,373][worker-0][INFO] Initialized CORS
+[2024-03-15 13:50:23,373][worker-0][INFO] App Initialization is finished successfully
+[2024-03-15 14:16:04,762][worker-0][INFO] Initialized logger with level 10 for worker 0
+[2024-03-15 14:16:05,894][worker-0][INFO] Initialized CORS
+[2024-03-15 14:16:05,894][worker-0][INFO] App Initialization is finished successfully
+[2024-03-15 14:17:24,111][worker-0][INFO] Initialized logger with level 10 for worker 0
+[2024-03-15 14:17:25,213][worker-0][INFO] Initialized CORS
+[2024-03-15 14:17:25,213][worker-0][INFO] App Initialization is finished successfully
+[2024-03-16 11:55:30,355][worker-0][INFO] Initialized logger with level 10 for worker 0
+[2024-03-16 11:55:36,285][worker-0][INFO] Initialized CORS
+[2024-03-16 11:55:36,285][worker-0][INFO] App Initialization is finished successfully
+[2024-03-16 23:27:38,484][worker-0][INFO] Initialized logger with level 10 for worker 0
+[2024-03-16 23:27:40,384][worker-0][INFO] Initialized CORS
+[2024-03-16 23:27:40,385][worker-0][INFO] App Initialization is finished successfully
+[2024-03-17 23:44:56,499][worker-0][INFO] Initialized logger with level 10 for worker 0
+[2024-03-17 23:45:39,718][worker-0][INFO] Initialized CORS
+[2024-03-17 23:45:39,721][worker-0][INFO] App Initialization is finished successfully
+[2024-03-18 00:11:49,422][worker-0][INFO] Initialized logger with level 10 for worker 0
+[2024-03-18 00:11:51,463][worker-0][INFO] Initialized CORS
+[2024-03-18 00:11:51,463][worker-0][INFO] App Initialization is finished successfully
+[2024-03-18 00:12:17,464][worker-0][INFO] Initialized logger with level 10 for worker 0
+[2024-03-18 00:12:19,460][worker-0][INFO] Initialized CORS
+[2024-03-18 00:12:19,460][worker-0][INFO] App Initialization is finished successfully
+[2024-03-18 00:14:50,657][worker-0][INFO] Initialized logger with level 10 for worker 0
+[2024-03-18 00:14:53,020][worker-0][INFO] Initialized CORS
+[2024-03-18 00:14:53,020][worker-0][INFO] App Initialization is finished successfully
+[2024-03-18 19:52:35,747][worker-0][INFO] Initialized logger with level 10 for worker 0
+[2024-03-18 19:52:37,325][worker-0][INFO] Initialized CORS
+[2024-03-18 19:52:37,325][worker-0][INFO] App Initialization is finished successfully
+[2024-03-19 09:35:33,388][worker-0][INFO] Initialized logger with level 10 for worker 0
+[2024-03-19 09:35:35,731][worker-0][ERROR] An error happened during initializing app components: no such file: '/Users/sandeepkumarrudhravaram/WorkSpace/UntProjects/pdf_analyzer_prod_final/Issues/s10209-022-00897-5_5.pdf'
+[2024-03-19 09:35:45,856][worker-0][INFO] Initialized logger with level 10 for worker 0
+[2024-03-19 09:35:46,534][worker-0][ERROR] An error happened during initializing app components: no such file: '/Users/sandeepkumarrudhravaram/WorkSpace/UntProjects/pdf_analyzer_prod_final/Issues/s10209-022-00897-5_5.pdf'
+[2024-03-19 09:36:09,064][worker-0][INFO] Initialized logger with level 10 for worker 0
+[2024-03-19 09:36:09,781][worker-0][ERROR] An error happened during initializing app components: no such file: '/Users/sandeepkumarrudhravaram/WorkSpace/UntProjects/pdf_analyzer_prod_final/Issues/s10209-022-00897-5_5.pdf'
+[2024-03-19 09:38:58,810][worker-0][INFO] Initialized logger with level 10 for worker 0
+[2024-03-19 09:39:00,613][worker-0][INFO] Initialized CORS
+[2024-03-19 09:39:00,613][worker-0][INFO] App Initialization is finished successfully
+[2024-03-19 09:45:09,478][worker-0][INFO] Initialized logger with level 10 for worker 0
+[2024-03-19 09:45:11,603][worker-0][ERROR] An error happened during initializing app components: View function mapping is overwriting an existing endpoint function: view.login
+[2024-03-19 09:46:27,292][worker-0][INFO] Initialized logger with level 10 for worker 0
+[2024-03-19 09:46:28,712][worker-0][ERROR] An error happened during initializing app components: View function mapping is overwriting an existing endpoint function: view.login
+[2024-03-19 09:49:00,779][worker-0][INFO] Initialized logger with level 10 for worker 0
+[2024-03-19 09:49:02,248][worker-0][ERROR] An error happened during initializing app components: View function mapping is overwriting an existing endpoint function: view.login
+[2024-03-19 10:34:38,602][worker-0][INFO] Initialized logger with level 10 for worker 0
+[2024-03-19 10:34:40,691][worker-0][ERROR] An error happened during initializing app components: View function mapping is overwriting an existing endpoint function: view.login
+[2024-03-19 10:38:06,853][worker-0][INFO] Initialized logger with level 10 for worker 0
+[2024-03-19 10:38:08,593][worker-0][ERROR] An error happened during initializing app components: View function mapping is overwriting an existing endpoint function: view.login
+[2024-03-19 10:49:18,990][worker-0][INFO] Initialized logger with level 10 for worker 0
+[2024-03-19 10:49:20,393][worker-0][INFO] Initialized CORS
+[2024-03-19 10:49:20,393][worker-0][INFO] App Initialization is finished successfully
