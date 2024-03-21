@@ -273,7 +273,7 @@ def analyze_figure_captions_parallel(filename):
 # print(percentage_with_captions, percentage_without_captions, all_captions_with_images)
 
 
-# Example usage
+# # Example usage
 # filename = "/Users/sandeepkumarrudhravaram/WorkSpace/UntProjects/pdf_analyzer_prod_final/Issues/s10209-022-00897-5_5.pdf"
 # percentage_with_captions, percentage_without_captions, all_captions_with_images=analyze_figure_captions_parallel(filename)
 # print(percentage_with_captions, percentage_without_captions, all_captions_with_images)

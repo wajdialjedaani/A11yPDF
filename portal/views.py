@@ -9,7 +9,7 @@ import threading
 from . import APP, LOG
 from werkzeug.utils import secure_filename
 from .packages import get_final_result, get_tables_count, \
-    get_image_resolution_aspect_ratio, assess_pdf_quality, get_top_colors, analyze_figure_captions, get_tables_count
+    get_image_resolution_aspect_ratio, assess_pdf_quality, get_top_colors, analyze_figure_captions, get_tables_count,count_images_in_pdf
 import pandas as pd
 from .packages.image_caption_analysis import analyze_figure_captions_parallel
 from .packages.contast_ratio_ import analyze_pdf
@@ -1314,6 +1314,8 @@ def final_result(process_id):
                     count_urls_, count_images_, dict_final_, pdf_document_page_count = get_final_result(
                         os.path.join(pdf_docs, process_id, filename), process_id)
 
+                    count_images_ =count_images_in_pdf(os.path.join(pdf_docs, process_id, filename))
+
                     percentage_with_caption_table, percentage_without_caption_table, captions_with_tables = analyze_table_caption(
                         os.path.join(pdf_docs, process_id, filename))
 
@@ -1426,13 +1428,18 @@ def final_result(process_id):
 
                     top_4_font_size_ = dict(sorted(font_size_dict_.items(), key=lambda x: x[1], reverse=True)[:5])
                     total_counts_size = sum(font_size_dict_.values())
+                    print('total_counts_size',total_counts_size)
 
-                    sum_greater_than_16 = sum(value for key, value in font_size_dict_.items() if float(key) >= 14)
-                    percentage_greater_than_16 = round((sum_greater_than_16 / total_counts_size) * 100)
-
-                    sum_less_than_16 = sum(value for key, value in font_size_dict_.items() if float(key) < 14)
-                    percentage_less_than_16 = round((sum_less_than_16 / total_counts_size) * 100)
-
+                    if total_counts_size>0:
+                        sum_greater_than_16 = sum(value for key, value in font_size_dict_.items() if float(key) >= 14)
+                        percentage_greater_than_16 = round((sum_greater_than_16 / total_counts_size) * 100)
+                        sum_less_than_16 = sum(value for key, value in font_size_dict_.items() if float(key) < 14)
+                        percentage_less_than_16 = round((sum_less_than_16 / total_counts_size) * 100)
+                    else:
+                        sum_greater_than_16=0
+                        percentage_greater_than_16=0
+                        sum_less_than_16=0
+                        percentage_less_than_16=0
                     print('percentage_greater_than_16', percentage_greater_than_16)
                     print('percentage_less_than_16', percentage_less_than_16)
 
@@ -1493,8 +1500,15 @@ def final_result(process_id):
                     #                        meets_wcag_percentage=meets_wcag_percentage,
                     #                        does_not_meet_wcag_percentage=does_not_meet_wcag_percentage)
 
-                    percentage_analyze_dylexia, matching_fonts_analyze_dylexia, non_matching_fonts_analyze_dylexia = analyze_dylexia(
+                    print('font_type_dict_',font_type_dict_)
+
+                    if font_type_dict_:
+                        percentage_analyze_dylexia, matching_fonts_analyze_dylexia, non_matching_fonts_analyze_dylexia = analyze_dylexia(
                         font_type_dict_)
+                    else:
+                        percentage_analyze_dylexia=0
+                        matching_fonts_analyze_dylexia={}
+                        non_matching_fonts_analyze_dylexia={}
                     final_json_['matching_fonts_analyze_dylexia'] = matching_fonts_analyze_dylexia
                     final_json_['non_matching_fonts_analyze_dylexia'] = non_matching_fonts_analyze_dylexia
                     remaining_percentage_dylexia = round(100 - percentage_analyze_dylexia)
