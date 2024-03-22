@@ -68,4 +68,4 @@ def analyze_table_caption(pdf_file):
     percentage_with_caption, percentage_without_caption = calculate_percentage(captions_with_tables)
     return percentage_with_caption, percentage_without_caption, captions_with_tables
 
-analyze_table_caption("/Users/sandeepkumarrudhravaram/WorkSpace/UntProjects/A11yPDF/pdf_docs/UserName.pdf")
+# analyze_table_caption("/Users/sandeepkumarrudhravaram/WorkSpace/UntProjects/A11yPDF/pdf_docs/UserName.pdf")
