@@ -76,7 +76,7 @@
 
 			<div class="sub-title-box-1">
 				<h2 id="pdf-title" class="title" onclick="location.href='/PDFAnalyzerX/download/{{filename}}/{{process_id}}'" style="text-align: justify;">{{filename}}</h2>
-				<h5 class="title-desc" style="	text-align: justify;">{{summarized_text}} </h5>
+				<h5 class="title-desc" style="	text-align:	left;">{{summarized_text}} </h5>
 				<div class="grp-btn" onclick="location.href='/PDFAnalyzerX/generate_report/{{process_id}}'">
 					<div id="generate-btn" class="generate-report-button">
 						<p>Overall Report</p>
@@ -283,457 +283,35 @@
 							</div>
 						</div>
 					</div>
-					</div>
-				<div class="box" id="box_links">
-					<div class="row  mt-xl-0 mt-4">
-						<div class="font-div">
-							<h4 class="card-title">Links</h4>
-						</div>
-						{% if count_urls_ > 0 %}
-						<div>
-							<span class="access-core">Accessibility Score</span>
-							<canvas id="doughnut2" class="doughnut-chart"></canvas>
-						</div>
-						{% else %}
-						<div>
-							<p class="no_links">No data :(</p>
-						</div>
-						{% endif %}
+			</div>
+			<div class="box" id="box_links">
+				<div class="row  mt-xl-0 mt-4">
+					<div class="font-div">
+						<h4 class="card-title">Links</h4>
 					</div>
 					{% if count_urls_ > 0 %}
-					<div class="col-md-12" style="height: 55%;">
-						<canvas id="links_chart"></canvas>
-					</div>
-					{% else %}
-					<div class="col-md-12" style="height: 55%;">
-						<p class="no_links" style="ext-align: center;padding-top: 120px;">No links found in pdf :(</p>
-					</div>
-					{% endif %}
-					<div class="button-con">
-						<div class="moreinfo-con"><a class="button arrow" href="#open-modal2">More Info </a></div>
-						<div class="btn" onclick="location.href='/PDFAnalyzerX/generate_report/urls/{{process_id}}'">
-							<div class="generate-report-button">
-								<p>Generate Report</p>
-								<svg width="28" height="30" viewBox="0 0 28 30" fill="none"
-									xmlns="http://www.w3.org/2000/svg">
-									<path
-										d="M27.958 25.3125L23.2998 29.9561L21.9814 28.6377L24.3691 26.25H15.375V24.375H24.3691L21.9814 21.9873L23.2998 20.6689L27.958 25.3125ZM18.1582 28.125L20.0332 30H0.375V0H16.708L24.75 8.04199V18.7939L22.875 16.9189V9.375H15.375V1.875H2.25V28.125H18.1582ZM17.25 7.5H21.542L17.25 3.20801V7.5Z"
-										fill="#F2F2F2" />
-								</svg>
-							</div>
-						</div>
-					</div>
-					<div id="open-modal2" class="modal-window">
-						<div>
-							<div class=" mt-xl-0 mt-4">
-								<div class="font-div">
-									<h4 class="card-title1">Links</h4>
-								</div>
-								<div>
-									<a href="#x" title="Close" class="modal-close"><img style="width: 35px;" alt="close" src="/PDFAnalyzerX/static/images/ion/output-close_red.png"/></a>
-								</div>
-							</div>
-							<div class="col-md-12" style="height: 55%;">
-								<P class="modal_data">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</P>
-								<br/>
-								<p class="modal_data">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
-							</div>
-							<div class="button-con">
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="box" id="box_imageCap">
-					<div class="row  mt-xl-0 mt-4">
-						<div class="font-div">
-							<h4 class="card-title">Image Caption</h4>
-						</div>
-						{% if count_images_ > 0 %}
-						<div>
-							<span class="access-core">Accessibility Score</span>
-							<canvas id="doughnut3" class="doughnut-chart"></canvas>
-						</div>
-						{% else %}
-						<div>
-							<p class="no_links">No data :(</p>
-						</div>
-						{% endif %}
-					</div>
-					{% if count_images_ > 0 %}
-					<div class="col-md-12" style="height: 55%;">
-						<canvas id="image_cap"></canvas>
-					</div>
-					{% else %}
-					<div class="col-md-12" style="height: 55%;">
-						<p class="no_links" style="ext-align: center;padding-top: 120px;">No images found in pdf :(</p>
-					</div>
-					{% endif %}
-					<div class="button-con">
-						<div class="moreinfo-con"><a class="button arrow" href="#open-modal3">More Info </a></div>
-						<div class="btn" onclick="location.href='/PDFAnalyzerX/generate_report/cwi/{{process_id}}'">
-							<div class="generate-report-button">
-								<p>Generate Report</p>
-								<svg width="28" height="30" viewBox="0 0 28 30" fill="none"
-									xmlns="http://www.w3.org/2000/svg">
-									<path
-										d="M27.958 25.3125L23.2998 29.9561L21.9814 28.6377L24.3691 26.25H15.375V24.375H24.3691L21.9814 21.9873L23.2998 20.6689L27.958 25.3125ZM18.1582 28.125L20.0332 30H0.375V0H16.708L24.75 8.04199V18.7939L22.875 16.9189V9.375H15.375V1.875H2.25V28.125H18.1582ZM17.25 7.5H21.542L17.25 3.20801V7.5Z"
-										fill="#F2F2F2" />
-								</svg>
-							</div>
-						</div>
-					</div>
-					<div id="open-modal3" class="modal-window">
-						<div>
-							<div class=" mt-xl-0 mt-4">
-								<div class="font-div">
-									<h4 class="card-title1">Image Captions</h4>
-								</div>
-								<div>
-									<a href="#x" title="Close" class="modal-close"><img style="width: 35px;" alt="close" src="/PDFAnalyzerX/static/images/ion/output-close_red.png"/></a>
-								</div>
-							</div>
-							<div class="col-md-12" style="height: 55%;">
-								<P class="modal_data">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</P>
-								<br/>
-								<p class="modal_data">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
-							</div>
-							<div class="button-con">
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="box" id="box_header">
-					<div class="row  mt-xl-0 mt-4">
-						<div  class="font-div">
-							<h4 class="card-title">Header</h4>
-						</div>
-						<div>
-							<span class="access-core">Accessibility Score</span>
-							<canvas id="doughnut4" class="doughnut-chart"></canvas>
-						</div>
-				</div>
-					<div class="col-md-12" style="height: 55%;">
-						<canvas id="header_chart"></canvas>
-					</div>
-					<div class="button-con">
-						<div class="moreinfo-con"><a class="button arrow" href="#open-modal4">More Info </a></div>
-						<div class="btn" onclick="location.href='/PDFAnalyzerX/generate_report/headers_analysis/{{process_id}}'" >
-							<div class="generate-report-button">
-								<p>Generate Report</p>
-								<svg width="28" height="30" viewBox="0 0 28 30" fill="none"
-									xmlns="http://www.w3.org/2000/svg">
-									<path
-										d="M27.958 25.3125L23.2998 29.9561L21.9814 28.6377L24.3691 26.25H15.375V24.375H24.3691L21.9814 21.9873L23.2998 20.6689L27.958 25.3125ZM18.1582 28.125L20.0332 30H0.375V0H16.708L24.75 8.04199V18.7939L22.875 16.9189V9.375H15.375V1.875H2.25V28.125H18.1582ZM17.25 7.5H21.542L17.25 3.20801V7.5Z"
-										fill="#F2F2F2" />
-								</svg>
-							</div>
-						</div>
-					</div>
-					<div id="open-modal4" class="modal-window">
-						<div>
-							<div class=" mt-xl-0 mt-4">
-								<div class="font-div">
-									<h4 class="card-title1">Header</h4>
-								</div>
-								<div>
-									<a href="#x" title="Close" class="modal-close"><img style="width: 35px;" alt="close" src="/PDFAnalyzerX/static/images/ion/output-close_red.png"/></a>
-								</div>
-							</div>
-							<div class="col-md-12" style="height: 55%;">
-								<P class="modal_data">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</P>
-								<br/>
-								<p class="modal_data">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
-							</div>
-							<div class="button-con">
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="box" id="box_footer">
-					<div class="row  mt-xl-0 mt-4">
-						<div class="font-div">
-							<h4 class="card-title">Footer</h4>
-						</div>
-						<div>
-							<span class="access-core">Accessibility Score</span>
-							<canvas id="doughnut5" class="doughnut-chart"></canvas>
-						</div>
-					</div>
-
-
-
-
-
-					<div class="col-md-12" style="height: 55%;">
-						<canvas id="footer_chart"></canvas>
-					</div>
-					<div class="button-con">
-						<div class="moreinfo-con"><a class="button arrow" href="#open-modal5">More Info </a></div>
-						<div class="btn" onclick="location.href='/PDFAnalyzerX/generate_report/footers_analysis/{{process_id}}'">
-							<div class="generate-report-button">
-								<p>Generate Report</p>
-								<svg width="28" height="30" viewBox="0 0 28 30" fill="none"
-									xmlns="http://www.w3.org/2000/svg">
-									<path
-										d="M27.958 25.3125L23.2998 29.9561L21.9814 28.6377L24.3691 26.25H15.375V24.375H24.3691L21.9814 21.9873L23.2998 20.6689L27.958 25.3125ZM18.1582 28.125L20.0332 30H0.375V0H16.708L24.75 8.04199V18.7939L22.875 16.9189V9.375H15.375V1.875H2.25V28.125H18.1582ZM17.25 7.5H21.542L17.25 3.20801V7.5Z"
-										fill="#F2F2F2" />
-								</svg>
-							</div>
-						</div>
-					</div>
-					<div id="open-modal5" class="modal-window">
-						<div>
-							<div class=" mt-xl-0 mt-4">
-								<div class="font-div">
-									<h4 class="card-title1">Footer</h4>
-								</div>
-								<div>
-									<a href="#x" title="Close" class="modal-close"><img style="width: 35px;" alt="close" src="/PDFAnalyzerX/static/images/ion/output-close_red.png"/></a>
-								</div>
-							</div>
-							<div class="col-md-12" style="height: 55%;">
-								<P class="modal_data">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</P>
-								<br/>
-								<p class="modal_data">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
-							</div>
-							<div class="button-con">
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="box" id="box_contrast">
-					<div class="row  mt-xl-0 mt-4">
-						<div  class="font-div">
-							<h4 class="card-title">Page Contrast</h4>
-						</div>
-						{% if count_images_ > 0 %}
-						<div>
-						<span class="access-core">Accessibility Score</span>
-							<canvas id="doughnut6" class="doughnut-chart"></canvas>
-						</div>
-						{% else %}
-						<div>
-							<p class="no_links">No data :(</p>
-						</div>
-						{% endif %}
-					</div>
-					{% if count_images_ > 0 %}
-					<div class="col-md-12" style="height: 55%;">
-						<canvas id="page_contrast"></canvas>
-					</div>
-					{% else %}
-					<div class="col-md-12" style="height: 55%;">
-						<p class="no_links" style="ext-align: center;padding-top: 120px;">No images found in pdf :(</p>
-					</div>
-					{% endif %}
-					<div class="button-con">
-						<div class="moreinfo-con"><a class="button arrow" href="#open-modal6">More Info </a></div>
-						<div class="btn" onclick="location.href='/PDFAnalyzerX/generate_report/Page_Contrast/{{process_id}}'">
-							<div class="generate-report-button">
-								<p>Generate Report</p>
-								<svg width="28" height="30" viewBox="0 0 28 30" fill="none"
-									xmlns="http://www.w3.org/2000/svg">
-									<path
-										d="M27.958 25.3125L23.2998 29.9561L21.9814 28.6377L24.3691 26.25H15.375V24.375H24.3691L21.9814 21.9873L23.2998 20.6689L27.958 25.3125ZM18.1582 28.125L20.0332 30H0.375V0H16.708L24.75 8.04199V18.7939L22.875 16.9189V9.375H15.375V1.875H2.25V28.125H18.1582ZM17.25 7.5H21.542L17.25 3.20801V7.5Z"
-										fill="#F2F2F2" />
-								</svg>
-							</div>
-						</div>
-					</div>
-					<div id="open-modal6" class="modal-window">
-						<div>
-							<div class=" mt-xl-0 mt-4">
-								<div class="font-div">
-									<h4 class="card-title1">Page Contrast</h4>
-								</div>
-								<div>
-									<a href="#x" title="Close" class="modal-close"><img style="width: 35px;" alt="close" src="/PDFAnalyzerX/static/images/ion/output-close_red.png"/></a>
-								</div>
-							</div>
-							<div class="col-md-12" style="height: 55%;">
-								<P class="modal_data">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</P>
-								<br/>
-								<p class="modal_data">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
-							</div>
-							<div class="button-con">
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="box" id="box_pageNum">
-					<div class="row  mt-xl-0 mt-4">
-						<div  class="font-div">
-							<h4 class="card-title">Page Numbers</h4>
-						</div>
-						<div>
-							<span class="access-core">Accessibility Score</span>
-							<canvas id="doughnut7" class="doughnut-chart"></canvas>
-						</div>
-					</div>
-					<div class="col-md-12" style="height: 55%;">
-						<canvas id="page_numbers"></canvas>
-					</div>
-					<div class="button-con">
-						<div class="moreinfo-con"><a class="button arrow" href="#open-modal7">More Info </a></div>
-						<div class="btn" onclick="location.href='/PDFAnalyzerX/generate_report/Page_Numbers/{{process_id}}'">
-							<div class="generate-report-button">
-								<p>Generate Report</p>
-								<svg width="28" height="30" viewBox="0 0 28 30" fill="none"
-									xmlns="http://www.w3.org/2000/svg">
-									<path
-										d="M27.958 25.3125L23.2998 29.9561L21.9814 28.6377L24.3691 26.25H15.375V24.375H24.3691L21.9814 21.9873L23.2998 20.6689L27.958 25.3125ZM18.1582 28.125L20.0332 30H0.375V0H16.708L24.75 8.04199V18.7939L22.875 16.9189V9.375H15.375V1.875H2.25V28.125H18.1582ZM17.25 7.5H21.542L17.25 3.20801V7.5Z"
-										fill="#F2F2F2" />
-								</svg>
-							</div>
-						</div>
-					</div>
-					<div id="open-modal7" class="modal-window">
-						<div>
-							<div class=" mt-xl-0 mt-4">
-								<div class="font-div">
-									<h4 class="card-title1">Page Numbers</h4>
-								</div>
-								<div>
-									<a href="#x" title="Close" class="modal-close"><img style="width: 35px;" alt="close" src="/PDFAnalyzerX/static/images/ion/output-close_red.png"/></a>
-								</div>
-							</div>
-							<div class="col-md-12" style="height: 55%;">
-								<P class="modal_data">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</P>
-								<br/>
-								<p class="modal_data">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
-							</div>
-							<div class="button-con">
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="box" id="box_family">
-					<div class="row  mt-xl-0 mt-4">
-						<div class="font-div">
-							<h4 class="card-title card-430">Fonts Family</h4>
-						</div>
-						<div>
-						</div>
-					</div>
-					<div class="col-md-12" style="height: 55%;">
-						<canvas id="color"></canvas>
-					</div>
-					<div class="button-con">
-						<div class="moreinfo-con"><a class="button arrow" href="#open-modal8">More Info </a></div>
-						<div class="btn" onclick="location.href='/PDFAnalyzerX/generate_report/fsa/{{process_id}}'">
-							<div class="generate-report-button">
-								<p>Generate Report</p>
-								<svg width="28" height="30" viewBox="0 0 28 30" fill="none"
-									xmlns="http://www.w3.org/2000/svg">
-									<path
-										d="M27.958 25.3125L23.2998 29.9561L21.9814 28.6377L24.3691 26.25H15.375V24.375H24.3691L21.9814 21.9873L23.2998 20.6689L27.958 25.3125ZM18.1582 28.125L20.0332 30H0.375V0H16.708L24.75 8.04199V18.7939L22.875 16.9189V9.375H15.375V1.875H2.25V28.125H18.1582ZM17.25 7.5H21.542L17.25 3.20801V7.5Z"
-										fill="#F2F2F2" />
-								</svg>
-							</div>
-						</div>
-					</div>
-					<div id="open-modal8" class="modal-window">
-						<div>
-							<div class=" mt-xl-0 mt-4">
-								<div class="font-div">
-									<h4 class="card-title1">Font Family</h4>
-								</div>
-								<div>
-									<a href="#x" title="Close" class="modal-close"><img style="width: 35px;" alt="close" src="/PDFAnalyzerX/static/images/ion/output-close_red.png"/></a>
-								</div>
-							</div>
-							<div class="col-md-12" style="height: 55%;">
-								<P class="modal_data">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</P>
-								<br/>
-								<p class="modal_data">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
-							</div>
-							<div class="button-con">
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="box color_box" id="box_color">
-					<div class="row  mt-xl-0 mt-4 color_blind">
-						<div class="font-div">
-							<h4 class="card-title card-430">Color Blindness</h4>
-						</div>
-						<div>
-							<div style="display:flex;margin-bottom: 15px;">
-								<div><span class="access-core" style="margin-left: 15px;">Monochromacy</span>
-								<canvas id="doughnut11" class="doughnut-chart1"></canvas>
-								</div><div><span class="access-core" style="margin-left: 18px;">Protonopia</span>
-								<canvas id="doughnut12" class="doughnut-chart1"></canvas>
-								</div><div><span class="access-core" style="margin-left: 18px;">Tritanopia</span>
-								<canvas id="doughnut13" class="doughnut-chart1"></canvas>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-12" style="height: 55%;">
-						<canvas id="color_blindness"></canvas>
-					</div>
-					<div class="button-con color-btn-div" style="margin: 3% auto;">
-						<div class="moreinfo-con"><a class="button arrow" href="#open-modal9">More Info </a></div>
-						<div class="btn" onclick="location.href='/PDFAnalyzerX/generate_report/color_blindness/{{process_id}}'">
-							<div class="generate-report-button">
-								<p>Generate Report</p>
-								<svg width="28" height="30" viewBox="0 0 28 30" fill="none"
-									xmlns="http://www.w3.org/2000/svg">
-									<path
-										d="M27.958 25.3125L23.2998 29.9561L21.9814 28.6377L24.3691 26.25H15.375V24.375H24.3691L21.9814 21.9873L23.2998 20.6689L27.958 25.3125ZM18.1582 28.125L20.0332 30H0.375V0H16.708L24.75 8.04199V18.7939L22.875 16.9189V9.375H15.375V1.875H2.25V28.125H18.1582ZM17.25 7.5H21.542L17.25 3.20801V7.5Z"
-										fill="#F2F2F2" />
-								</svg>
-							</div>
-						</div>
-					</div>
-					<div id="open-modal9" class="modal-window">
-						<div>
-							<div class=" mt-xl-0 mt-4">
-								<div class="font-div">
-									<h4 class="card-title1">Color Blindness</h4>
-								</div>
-								<div>
-									<a href="#x" title="Close" class="modal-close"><img style="width: 35px;" alt="close" src="/PDFAnalyzerX/static/images/ion/output-close_red.png"/></a>
-								</div>
-							</div>
-							<div class="col-md-12" style="height: 55%;">
-								<P class="modal_data">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</P>
-								<br/>
-								<p class="modal_data">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
-							</div>
-							<div class="button-con">
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="box" id="box_tableCap">
-				<div id="table-caption" class="row  mt-xl-0 mt-4">
-					<div class="font-div">
-						<h4 class="card-title">Table Caption</h4>
-					</div>
-					{% if table_count_ > 0 %}
 					<div>
 						<span class="access-core">Accessibility Score</span>
-						<canvas id="doughnut8" class="doughnut-chart"></canvas>
+						<canvas id="doughnut2" class="doughnut-chart"></canvas>
 					</div>
 					{% else %}
 					<div>
 						<p class="no_links">No data :(</p>
 					</div>
 					{% endif %}
-					</div>
-					{% if table_count_ > 0 %}
-				<div class="col-md-12">
-					<canvas id="table_caption"></canvas>
+				</div>
+				{% if count_urls_ > 0 %}
+				<div class="col-md-12" style="height: 55%;">
+					<canvas id="links_chart"></canvas>
 				</div>
 				{% else %}
 				<div class="col-md-12" style="height: 55%;">
-					<p class="no_links" style="ext-align: center;padding-top: 120px;">No tables found in pdf :(</p>
+					<p class="no_links" style="ext-align: center;padding-top: 120px;">No links found in pdf :(</p>
 				</div>
 				{% endif %}
 				<div class="button-con">
-					<div class="moreinfo-con"><a class="button arrow" href="#open-modal10">More Info </a></div>
-					<div class="btn" onclick="location.href='/PDFAnalyzerX/generate_report/table_dylexia/{{process_id}}'">
+					<div class="moreinfo-con"><a class="button arrow" href="#open-modal2">More Info </a></div>
+					<div class="btn" onclick="location.href='/PDFAnalyzerX/generate_report/urls/{{process_id}}'">
 						<div class="generate-report-button">
 							<p>Generate Report</p>
 							<svg width="28" height="30" viewBox="0 0 28 30" fill="none"
@@ -745,41 +323,303 @@
 						</div>
 					</div>
 				</div>
-				<div id="open-modal10" class="modal-window">
-						<div>
-							<div class=" mt-xl-0 mt-4">
-								<div class="font-div">
-									<h4 class="card-title1">Table Caption</h4>
-								</div>
-								<div>
-									<a href="#x" title="Close" class="modal-close"><img style="width: 35px;" alt="close" src="/PDFAnalyzerX/static/images/ion/output-close_red.png"/></a>
-								</div>
+				<div id="open-modal2" class="modal-window">
+					<div>
+						<div class=" mt-xl-0 mt-4">
+							<div class="font-div">
+								<h4 class="card-title1">Links</h4>
 							</div>
-							<div class="col-md-12" style="height: 55%;">
-								<P class="modal_data">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</P>
-								<br/>
-								<p class="modal_data">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
-							</div>
-							<div class="button-con">
+							<div>
+								<a href="#x" title="Close" class="modal-close"><img style="width: 35px;" alt="close" src="/PDFAnalyzerX/static/images/ion/output-close_red.png"/></a>
 							</div>
 						</div>
+						<div class="col-md-12" style="height: 55%;">
+							<P class="modal_data">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</P>
+							<br/>
+							<p class="modal_data">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
+						</div>
+						<div class="button-con">
+						</div>
 					</div>
+				</div>
 			</div>
-			<div class="box" id="box_dyslexia">
-				<div id="dyslexia" class="row  mt-xl-0 mt-4">
+			<div class="box" id="box_imageCap">
+				<div class="row  mt-xl-0 mt-4">
 					<div class="font-div">
-						<h4 class="card-title">Dyslexia</h4>
+						<h4 class="card-title">Image Caption</h4>
+					</div>
+					{% if count_images_ > 0 %}
+					<div>
+						<span class="access-core">Accessibility Score</span>
+						<canvas id="doughnut3" class="doughnut-chart"></canvas>
+					</div>
+					{% else %}
+					<div>
+						<p class="no_links">No data :(</p>
+					</div>
+					{% endif %}
+				</div>
+				{% if count_images_ > 0 %}
+				<div class="col-md-12" style="height: 55%;">
+					<canvas id="image_cap"></canvas>
+				</div>
+				{% else %}
+				<div class="col-md-12" style="height: 55%;">
+					<p class="no_links" style="ext-align: center;padding-top: 120px;">No images found in pdf :(</p>
+				</div>
+				{% endif %}
+				<div class="button-con">
+					<div class="moreinfo-con"><a class="button arrow" href="#open-modal3">More Info </a></div>
+					<div class="btn" onclick="location.href='/PDFAnalyzerX/generate_report/cwi/{{process_id}}'">
+						<div class="generate-report-button">
+							<p>Generate Report</p>
+							<svg width="28" height="30" viewBox="0 0 28 30" fill="none"
+								xmlns="http://www.w3.org/2000/svg">
+								<path
+									d="M27.958 25.3125L23.2998 29.9561L21.9814 28.6377L24.3691 26.25H15.375V24.375H24.3691L21.9814 21.9873L23.2998 20.6689L27.958 25.3125ZM18.1582 28.125L20.0332 30H0.375V0H16.708L24.75 8.04199V18.7939L22.875 16.9189V9.375H15.375V1.875H2.25V28.125H18.1582ZM17.25 7.5H21.542L17.25 3.20801V7.5Z"
+									fill="#F2F2F2" />
+							</svg>
+						</div>
+					</div>
+				</div>
+				<div id="open-modal3" class="modal-window">
+					<div>
+						<div class=" mt-xl-0 mt-4">
+							<div class="font-div">
+								<h4 class="card-title1">Image Captions</h4>
+							</div>
+							<div>
+								<a href="#x" title="Close" class="modal-close"><img style="width: 35px;" alt="close" src="/PDFAnalyzerX/static/images/ion/output-close_red.png"/></a>
+							</div>
+						</div>
+						<div class="col-md-12" style="height: 55%;">
+							<P class="modal_data">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</P>
+							<br/>
+							<p class="modal_data">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
+						</div>
+						<div class="button-con">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="box" id="box_header">
+				<div class="row  mt-xl-0 mt-4">
+					<div  class="font-div">
+						<h4 class="card-title">Header</h4>
 					</div>
 					<div>
 						<span class="access-core">Accessibility Score</span>
-						<canvas id="doughnut9" class="doughnut-chart"></canvas>
+						<canvas id="doughnut4" class="doughnut-chart"></canvas>
 					</div>
-				</div>
-				<div class="col-md-12">
-					<canvas id="dylexia"></canvas>
+			</div>
+				<div class="col-md-12" style="height: 55%;">
+					<canvas id="header_chart"></canvas>
 				</div>
 				<div class="button-con">
-					<div class="moreinfo-con"><a class="button arrow" href="#open-modal11">More Info </a></div>
+					<div class="moreinfo-con"><a class="button arrow" href="#open-modal4">More Info </a></div>
+					<div class="btn" onclick="location.href='/PDFAnalyzerX/generate_report/headers_analysis/{{process_id}}'" >
+						<div class="generate-report-button">
+							<p>Generate Report</p>
+							<svg width="28" height="30" viewBox="0 0 28 30" fill="none"
+								xmlns="http://www.w3.org/2000/svg">
+								<path
+									d="M27.958 25.3125L23.2998 29.9561L21.9814 28.6377L24.3691 26.25H15.375V24.375H24.3691L21.9814 21.9873L23.2998 20.6689L27.958 25.3125ZM18.1582 28.125L20.0332 30H0.375V0H16.708L24.75 8.04199V18.7939L22.875 16.9189V9.375H15.375V1.875H2.25V28.125H18.1582ZM17.25 7.5H21.542L17.25 3.20801V7.5Z"
+									fill="#F2F2F2" />
+							</svg>
+						</div>
+					</div>
+				</div>
+				<div id="open-modal4" class="modal-window">
+					<div>
+						<div class=" mt-xl-0 mt-4">
+							<div class="font-div">
+								<h4 class="card-title1">Header</h4>
+							</div>
+							<div>
+								<a href="#x" title="Close" class="modal-close"><img style="width: 35px;" alt="close" src="/PDFAnalyzerX/static/images/ion/output-close_red.png"/></a>
+							</div>
+						</div>
+						<div class="col-md-12" style="height: 55%;">
+							<P class="modal_data">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</P>
+							<br/>
+							<p class="modal_data">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
+						</div>
+						<div class="button-con">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="box" id="box_footer">
+				<div class="row  mt-xl-0 mt-4">
+					<div class="font-div">
+						<h4 class="card-title">Footer</h4>
+					</div>
+					<div>
+						<span class="access-core">Accessibility Score</span>
+						<canvas id="doughnut5" class="doughnut-chart"></canvas>
+					</div>
+				</div>
+
+
+
+
+
+				<div class="col-md-12" style="height: 55%;">
+					<canvas id="footer_chart"></canvas>
+				</div>
+				<div class="button-con">
+					<div class="moreinfo-con"><a class="button arrow" href="#open-modal5">More Info </a></div>
+					<div class="btn" onclick="location.href='/PDFAnalyzerX/generate_report/footers_analysis/{{process_id}}'">
+						<div class="generate-report-button">
+							<p>Generate Report</p>
+							<svg width="28" height="30" viewBox="0 0 28 30" fill="none"
+								xmlns="http://www.w3.org/2000/svg">
+								<path
+									d="M27.958 25.3125L23.2998 29.9561L21.9814 28.6377L24.3691 26.25H15.375V24.375H24.3691L21.9814 21.9873L23.2998 20.6689L27.958 25.3125ZM18.1582 28.125L20.0332 30H0.375V0H16.708L24.75 8.04199V18.7939L22.875 16.9189V9.375H15.375V1.875H2.25V28.125H18.1582ZM17.25 7.5H21.542L17.25 3.20801V7.5Z"
+									fill="#F2F2F2" />
+							</svg>
+						</div>
+					</div>
+				</div>
+				<div id="open-modal5" class="modal-window">
+					<div>
+						<div class=" mt-xl-0 mt-4">
+							<div class="font-div">
+								<h4 class="card-title1">Footer</h4>
+							</div>
+							<div>
+								<a href="#x" title="Close" class="modal-close"><img style="width: 35px;" alt="close" src="/PDFAnalyzerX/static/images/ion/output-close_red.png"/></a>
+							</div>
+						</div>
+						<div class="col-md-12" style="height: 55%;">
+							<P class="modal_data">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</P>
+							<br/>
+							<p class="modal_data">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
+						</div>
+						<div class="button-con">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="box" id="box_contrast">
+				<div class="row  mt-xl-0 mt-4">
+					<div  class="font-div">
+						<h4 class="card-title">Page Contrast</h4>
+					</div>
+					{% if count_images_ > 0 %}
+					<div>
+					<span class="access-core">Accessibility Score</span>
+						<canvas id="doughnut6" class="doughnut-chart"></canvas>
+					</div>
+					{% else %}
+					<div>
+						<p class="no_links">No data :(</p>
+					</div>
+					{% endif %}
+				</div>
+				{% if count_images_ > 0 %}
+				<div class="col-md-12" style="height: 55%;">
+					<canvas id="page_contrast"></canvas>
+				</div>
+				{% else %}
+				<div class="col-md-12" style="height: 55%;">
+					<p class="no_links" style="ext-align: center;padding-top: 120px;">No images found in pdf :(</p>
+				</div>
+				{% endif %}
+				<div class="button-con">
+					<div class="moreinfo-con"><a class="button arrow" href="#open-modal6">More Info </a></div>
+					<div class="btn" onclick="location.href='/PDFAnalyzerX/generate_report/Page_Contrast/{{process_id}}'">
+						<div class="generate-report-button">
+							<p>Generate Report</p>
+							<svg width="28" height="30" viewBox="0 0 28 30" fill="none"
+								xmlns="http://www.w3.org/2000/svg">
+								<path
+									d="M27.958 25.3125L23.2998 29.9561L21.9814 28.6377L24.3691 26.25H15.375V24.375H24.3691L21.9814 21.9873L23.2998 20.6689L27.958 25.3125ZM18.1582 28.125L20.0332 30H0.375V0H16.708L24.75 8.04199V18.7939L22.875 16.9189V9.375H15.375V1.875H2.25V28.125H18.1582ZM17.25 7.5H21.542L17.25 3.20801V7.5Z"
+									fill="#F2F2F2" />
+							</svg>
+						</div>
+					</div>
+				</div>
+				<div id="open-modal6" class="modal-window">
+					<div>
+						<div class=" mt-xl-0 mt-4">
+							<div class="font-div">
+								<h4 class="card-title1">Page Contrast</h4>
+							</div>
+							<div>
+								<a href="#x" title="Close" class="modal-close"><img style="width: 35px;" alt="close" src="/PDFAnalyzerX/static/images/ion/output-close_red.png"/></a>
+							</div>
+						</div>
+						<div class="col-md-12" style="height: 55%;">
+							<P class="modal_data">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</P>
+							<br/>
+							<p class="modal_data">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
+						</div>
+						<div class="button-con">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="box" id="box_pageNum">
+				<div class="row  mt-xl-0 mt-4">
+					<div  class="font-div">
+						<h4 class="card-title">Page Numbers</h4>
+					</div>
+					<div>
+						<span class="access-core">Accessibility Score</span>
+						<canvas id="doughnut7" class="doughnut-chart"></canvas>
+					</div>
+				</div>
+				<div class="col-md-12" style="height: 55%;">
+					<canvas id="page_numbers"></canvas>
+				</div>
+				<div class="button-con">
+					<div class="moreinfo-con"><a class="button arrow" href="#open-modal7">More Info </a></div>
+					<div class="btn" onclick="location.href='/PDFAnalyzerX/generate_report/Page_Numbers/{{process_id}}'">
+						<div class="generate-report-button">
+							<p>Generate Report</p>
+							<svg width="28" height="30" viewBox="0 0 28 30" fill="none"
+								xmlns="http://www.w3.org/2000/svg">
+								<path
+									d="M27.958 25.3125L23.2998 29.9561L21.9814 28.6377L24.3691 26.25H15.375V24.375H24.3691L21.9814 21.9873L23.2998 20.6689L27.958 25.3125ZM18.1582 28.125L20.0332 30H0.375V0H16.708L24.75 8.04199V18.7939L22.875 16.9189V9.375H15.375V1.875H2.25V28.125H18.1582ZM17.25 7.5H21.542L17.25 3.20801V7.5Z"
+									fill="#F2F2F2" />
+							</svg>
+						</div>
+					</div>
+				</div>
+				<div id="open-modal7" class="modal-window">
+					<div>
+						<div class=" mt-xl-0 mt-4">
+							<div class="font-div">
+								<h4 class="card-title1">Page Numbers</h4>
+							</div>
+							<div>
+								<a href="#x" title="Close" class="modal-close"><img style="width: 35px;" alt="close" src="/PDFAnalyzerX/static/images/ion/output-close_red.png"/></a>
+							</div>
+						</div>
+						<div class="col-md-12" style="height: 55%;">
+							<P class="modal_data">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</P>
+							<br/>
+							<p class="modal_data">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
+						</div>
+						<div class="button-con">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="box" id="box_family">
+				<div class="row  mt-xl-0 mt-4">
+					<div class="font-div">
+						<h4 class="card-title card-430">Fonts Family</h4>
+					</div>
+					<div>
+					</div>
+				</div>
+				<div class="col-md-12" style="height: 55%;">
+					<canvas id="color"></canvas>
+				</div>
+				<div class="button-con">
+					<div class="moreinfo-con"><a class="button arrow" href="#open-modal8">More Info </a></div>
 					<div class="btn" onclick="location.href='/PDFAnalyzerX/generate_report/fsa/{{process_id}}'">
 						<div class="generate-report-button">
 							<p>Generate Report</p>
@@ -792,26 +632,186 @@
 						</div>
 					</div>
 				</div>
-				<div id="open-modal11" class="modal-window">
-						<div>
-							<div class=" mt-xl-0 mt-4">
-								<div class="font-div">
-									<h4 class="card-title1">Dyslexia</h4>
-								</div>
-								<div>
-									<a href="#x" title="Close" class="modal-close"><img style="width: 35px;" alt="close" src="/PDFAnalyzerX/static/images/ion/output-close_red.png"/></a>
-								</div>
+				<div id="open-modal8" class="modal-window">
+					<div>
+						<div class=" mt-xl-0 mt-4">
+							<div class="font-div">
+								<h4 class="card-title1">Font Family</h4>
 							</div>
-							<div class="col-md-12" style="height: 55%;">
-								<P class="modal_data">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</P>
-								<br/>
-								<p class="modal_data">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
+							<div>
+								<a href="#x" title="Close" class="modal-close"><img style="width: 35px;" alt="close" src="/PDFAnalyzerX/static/images/ion/output-close_red.png"/></a>
 							</div>
-							<div class="button-con">
+						</div>
+						<div class="col-md-12" style="height: 55%;">
+							<P class="modal_data">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</P>
+							<br/>
+							<p class="modal_data">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
+						</div>
+						<div class="button-con">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="box color_box" id="box_color">
+				<div class="row  mt-xl-0 mt-4 color_blind">
+					<div class="font-div">
+						<h4 class="card-title card-430">Color Blindness</h4>
+					</div>
+					<div>
+						<div style="display:flex;margin-bottom: 15px;">
+							<div><span class="access-core access_mono">Monochromacy</span>
+							<canvas id="doughnut11" class="doughnut-chart1"></canvas>
+							</div><div><span class="access-core access_prot">Protonopia</span>
+							<canvas id="doughnut12" class="doughnut-chart1"></canvas>
+							</div><div><span class="access-core access_trit">Tritanopia</span>
+							<canvas id="doughnut13" class="doughnut-chart1"></canvas>
 							</div>
 						</div>
 					</div>
+				</div>
+				<div class="col-md-12" style="height: 55%;">
+					<canvas id="color_blindness"></canvas>
+				</div>
+				<div class="button-con color-btn-div" style="margin: 3% auto;">
+					<div class="moreinfo-con"><a class="button arrow" href="#open-modal9">More Info </a></div>
+					<div class="btn" onclick="location.href='/PDFAnalyzerX/generate_report/color_blindness/{{process_id}}'">
+						<div class="generate-report-button">
+							<p>Generate Report</p>
+							<svg width="28" height="30" viewBox="0 0 28 30" fill="none"
+								xmlns="http://www.w3.org/2000/svg">
+								<path
+									d="M27.958 25.3125L23.2998 29.9561L21.9814 28.6377L24.3691 26.25H15.375V24.375H24.3691L21.9814 21.9873L23.2998 20.6689L27.958 25.3125ZM18.1582 28.125L20.0332 30H0.375V0H16.708L24.75 8.04199V18.7939L22.875 16.9189V9.375H15.375V1.875H2.25V28.125H18.1582ZM17.25 7.5H21.542L17.25 3.20801V7.5Z"
+									fill="#F2F2F2" />
+							</svg>
+						</div>
+					</div>
+				</div>
+				<div id="open-modal9" class="modal-window">
+					<div>
+						<div class=" mt-xl-0 mt-4">
+							<div class="font-div">
+								<h4 class="card-title1">Color Blindness</h4>
+							</div>
+							<div>
+								<a href="#x" title="Close" class="modal-close"><img style="width: 35px;" alt="close" src="/PDFAnalyzerX/static/images/ion/output-close_red.png"/></a>
+							</div>
+						</div>
+						<div class="col-md-12" style="height: 55%;">
+							<P class="modal_data">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</P>
+							<br/>
+							<p class="modal_data">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
+						</div>
+						<div class="button-con">
+						</div>
+					</div>
+				</div>
 			</div>
+			<div class="box" id="box_tableCap">
+			<div id="table-caption" class="row  mt-xl-0 mt-4">
+				<div class="font-div">
+					<h4 class="card-title">Table Caption</h4>
+				</div>
+				{% if table_count_ > 0 %}
+				<div>
+					<span class="access-core">Accessibility Score</span>
+					<canvas id="doughnut8" class="doughnut-chart"></canvas>
+				</div>
+				{% else %}
+				<div>
+					<p class="no_links">No data :(</p>
+				</div>
+				{% endif %}
+				</div>
+				{% if table_count_ > 0 %}
+			<div class="col-md-12">
+				<canvas id="table_caption"></canvas>
+			</div>
+			{% else %}
+			<div class="col-md-12" style="height: 55%;">
+				<p class="no_links" style="ext-align: center;padding-top: 120px;">No tables found in pdf :(</p>
+			</div>
+			{% endif %}
+			<div class="button-con">
+				<div class="moreinfo-con"><a class="button arrow" href="#open-modal10">More Info </a></div>
+				<div class="btn" onclick="location.href='/PDFAnalyzerX/generate_report/table_dylexia/{{process_id}}'">
+					<div class="generate-report-button">
+						<p>Generate Report</p>
+						<svg width="28" height="30" viewBox="0 0 28 30" fill="none"
+							xmlns="http://www.w3.org/2000/svg">
+							<path
+								d="M27.958 25.3125L23.2998 29.9561L21.9814 28.6377L24.3691 26.25H15.375V24.375H24.3691L21.9814 21.9873L23.2998 20.6689L27.958 25.3125ZM18.1582 28.125L20.0332 30H0.375V0H16.708L24.75 8.04199V18.7939L22.875 16.9189V9.375H15.375V1.875H2.25V28.125H18.1582ZM17.25 7.5H21.542L17.25 3.20801V7.5Z"
+								fill="#F2F2F2" />
+						</svg>
+					</div>
+				</div>
+			</div>
+			<div id="open-modal10" class="modal-window">
+					<div>
+						<div class=" mt-xl-0 mt-4">
+							<div class="font-div">
+								<h4 class="card-title1">Table Caption</h4>
+							</div>
+							<div>
+								<a href="#x" title="Close" class="modal-close"><img style="width: 35px;" alt="close" src="/PDFAnalyzerX/static/images/ion/output-close_red.png"/></a>
+							</div>
+						</div>
+						<div class="col-md-12" style="height: 55%;">
+							<P class="modal_data">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</P>
+							<br/>
+							<p class="modal_data">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
+						</div>
+						<div class="button-con">
+						</div>
+					</div>
+				</div>
+		</div>
+		<div class="box" id="box_dyslexia">
+			<div id="dyslexia" class="row  mt-xl-0 mt-4">
+				<div class="font-div">
+					<h4 class="card-title">Dyslexia</h4>
+				</div>
+				<div>
+					<span class="access-core">Accessibility Score</span>
+					<canvas id="doughnut9" class="doughnut-chart"></canvas>
+				</div>
+			</div>
+			<div class="col-md-12">
+				<canvas id="dylexia"></canvas>
+			</div>
+			<div class="button-con">
+				<div class="moreinfo-con"><a class="button arrow" href="#open-modal11">More Info </a></div>
+				<div class="btn" onclick="location.href='/PDFAnalyzerX/generate_report/fsa/{{process_id}}'">
+					<div class="generate-report-button">
+						<p>Generate Report</p>
+						<svg width="28" height="30" viewBox="0 0 28 30" fill="none"
+							xmlns="http://www.w3.org/2000/svg">
+							<path
+								d="M27.958 25.3125L23.2998 29.9561L21.9814 28.6377L24.3691 26.25H15.375V24.375H24.3691L21.9814 21.9873L23.2998 20.6689L27.958 25.3125ZM18.1582 28.125L20.0332 30H0.375V0H16.708L24.75 8.04199V18.7939L22.875 16.9189V9.375H15.375V1.875H2.25V28.125H18.1582ZM17.25 7.5H21.542L17.25 3.20801V7.5Z"
+								fill="#F2F2F2" />
+						</svg>
+					</div>
+				</div>
+			</div>
+			<div id="open-modal11" class="modal-window">
+					<div>
+						<div class=" mt-xl-0 mt-4">
+							<div class="font-div">
+								<h4 class="card-title1">Dyslexia</h4>
+							</div>
+							<div>
+								<a href="#x" title="Close" class="modal-close"><img style="width: 35px;" alt="close" src="/PDFAnalyzerX/static/images/ion/output-close_red.png"/></a>
+							</div>
+						</div>
+						<div class="col-md-12" style="height: 55%;">
+							<P class="modal_data">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</P>
+							<br/>
+							<p class="modal_data">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
+						</div>
+						<div class="button-con">
+						</div>
+					</div>
+				</div>
+		</div>
 		</div>
 		<div class="footer-box">
 			<div class="inner-footer">
@@ -1082,15 +1082,20 @@
 	<script>
 
 
-<!--	Assuming you have the counts stored in variables accessible_urls and inaccessible_urls-->
+	<!--Assuming you have the counts stored in variables accessible_urls and inaccessible_urls-->
 	accessible_urls = {{no_of_work['Number Of Urls Accessible']}};
 	inaccessible_urls = {{no_of_work['Number Of Not Urls Accessible']}};
 
-<!--	 Calculate total number of URLs-->
+	<!--Calculate total number of URLs-->
 	total_urls = accessible_urls + inaccessible_urls;
 
-<!--	 Calculate average percentage of accessible URLs-->
-	average_percentage = (accessible_urls / total_urls) * 100;
+	<!--Calculate average percentage of accessible URLs-->
+	if(total_urls == 0){
+		average_percentage = 0;
+	}
+	else{
+		average_percentage = (accessible_urls / total_urls) * 100;
+	}
 
 
 		// Determine background color based on percentage
@@ -1539,7 +1544,7 @@
 		data: {
 			labels: [''], // No labels needed for a single segment
 			datasets: [{
-				data: [{{percentage_with_caption_table}},{{percentage_without_caption_table}}], // 84% filled, 16% empty
+				data: [{{percentage_with_caption_table}},percentage_without_caption_table], // 84% filled, 16% empty
 				weight: 10,
 				backgroundColor: [tableBackColor, '#d7d9db'],
 				borderColor: 'white',
@@ -1681,7 +1686,7 @@
 				}]
 			},
 			options: {
-				cutout: 40, // Adjust cutout size as needed
+				cutout: 45, // Adjust cutout size as needed
 				rotation: -90, // Start at the top
 				circumference: 360, // Adjust to match image proportions
 				plugins: {
@@ -2357,15 +2362,20 @@
 <!--	links acessibility score chart #card_chart8-->
 	<script>
 
-		<!--	Assuming you have the counts stored in variables accessible_urls and inaccessible_urls-->
+	<!--Assuming you have the counts stored in variables accessible_urls and inaccessible_urls-->
 	accessible_urls = {{no_of_work['Number Of Urls Accessible']}};
 	inaccessible_urls = {{no_of_work['Number Of Not Urls Accessible']}};
 
-<!--	 Calculate total number of URLs-->
+	<!--Calculate total number of URLs-->
 	total_urls = accessible_urls + inaccessible_urls;
 
-<!--	 Calculate average percentage of accessible URLs-->
-	average_percentage = (accessible_urls / total_urls) * 100;
+	<!--Calculate average percentage of accessible URLs-->
+	if(total_urls == 0){
+		average_percentage = 0;
+	}
+	else{
+		average_percentage = (accessible_urls / total_urls) * 100;
+	}
 
  		// Determine background color based on percentage
 		percentage = average_percentage;
@@ -2637,7 +2647,7 @@
 			data: {
 				labels: [''], // No labels needed for a single segment
 				datasets: [{
-					data: [{{percentage_with_caption_table}},{{percentage_without_caption_table}}], // 84% filled, 16% empty
+					data: [{{percentage_with_caption_table}},percentage_without_caption_table], // 84% filled, 16% empty
 					weight: 10,
 					backgroundColor: [tableCapBackColor, '#d7d9db'],
 					borderColor: 'white',
@@ -3155,7 +3165,8 @@
 		var myChart7 = new Chart(ctx6, {
 			type: 'pie',
 			data: {
-				labels: ["Contains Page Numbers %","Doesn't Contains Page Numbers %"],
+				labels: [["Contains"," Page Numbers %"],
+            	["Doesn't Contains"," Page Numbers %"]],
 				datasets: [{
 					label: 'Page',
 					backgroundColor: ['#0282c1', '#e34c19'],
@@ -3173,9 +3184,6 @@
 							color: '#000000',
 						},
 						maxWidth: 250, // Limit the width of the legend
-						minWidth: 150,
-						height: 50
-
 					},
 					datalabels: {
 						color: '#fff',
@@ -3488,7 +3496,7 @@
 		var myChart9 = new Chart(ctx10, {
 			type: 'pie',
 			data: {
-				labels: ["Satisfies Dylexia %","Doesn't Satisfies Dylexia %"],
+				labels: ["Satisfies Dylexia %",["Doesn't Satisfies"," Dylexia %"]],
 				datasets: [{
 					label: 'Page',
 					backgroundColor: ['#df2488', '#1a951d'],
