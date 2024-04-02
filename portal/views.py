@@ -1508,6 +1508,17 @@ def calculate_colorblind_accessibility(data):
     return results
 
 
+def is_text_based_pdf(pdf_path):
+    doc = fitz.open(pdf_path)
+    for page_num in range(len(doc)):
+        page = doc.load_page(page_num)
+        text = page.get_text()
+        if text.strip():
+            doc.close()
+            return True
+    doc.close()
+    return False
+
 @bp.route('/result/<string:process_id>', methods=['GET', "POST"])
 def final_result(process_id):
     if request.method == "POST":
@@ -1650,15 +1661,10 @@ def final_result(process_id):
 
                     top_4_fonts_types = dict(sorted(font_type_dict_.items(), key=lambda x: x[1], reverse=True)[:5])
                     total_counts_types = sum(font_type_dict_.values())
-                    # print('total_counts_types', total_counts_types)
-                    # print('count',top_4_fonts_types)
-                    # exit()
                     print('font_size_dict_', font_size_dict_)
                     percentage_dict_types = {font: round((count / total_counts_types) * 100) for font, count in
                                              top_4_fonts_types.items()}
                     length_of_percentage_dict_types = len(percentage_dict_types)
-                    # for font, percentage in percentage_dict_types.items():
-                    #     print("Percentage of {} compared to all fonts: {:.2f}%".format(font, percentage))
 
                     top_4_font_size_ = dict(sorted(font_size_dict_.items(), key=lambda x: x[1], reverse=True)[:5])
                     total_counts_size = sum(font_size_dict_.values())

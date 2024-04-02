@@ -5,7 +5,10 @@ from pdfminer.high_level import extract_pages
 
 
 def find_table_captions(pdf_path):
-    tables = camelot.read_pdf(pdf_path, flavor='stream', pages='all')
+    try:
+        tables = camelot.read_pdf(pdf_path, flavor='stream', pages='all')
+    except:
+        tables=[]
     # print('Number of tables found:', len(tables))
     # print("tables",tables[0].df)
     print('Number of tables found:', len(tables))

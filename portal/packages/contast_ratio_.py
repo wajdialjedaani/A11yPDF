@@ -6,10 +6,14 @@ import re
 
 
 def get_contrast_ratio(color1, color2):
+    # Ensure only the RGB components are passed to the converter, ignore alpha if present
+    color1_rgb = color1[:3]
+    color2_rgb = color2[:3]
+
     # Calculate contrast ratio using colorspacious library
     converter = cspace_converter("sRGB1", "CAM02-UCS")
-    color1_lab = converter(color1)
-    color2_lab = converter(color2)
+    color1_lab = converter(color1_rgb)
+    color2_lab = converter(color2_rgb)
 
     l1, _, _ = color1_lab
     l2, _, _ = color2_lab
@@ -26,7 +30,10 @@ def check_contrast(image):
 
 
     # Calculate contrast ratio
-    contrast_ratio = get_contrast_ratio(pixel1, pixel2)
+    try:
+        contrast_ratio = get_contrast_ratio(pixel1, pixel2)
+    except:
+        contrast_ratio=1.0
 
     # print(f"Contrast Ratio: {contrast_ratio:.2f}")
 
@@ -98,3 +105,6 @@ def analyze_pdf(pdf_path):
     pdf_document.close()
     return meets_wcag_count, does_not_meet_wcag_count, meets_wcag_percentage, does_not_meet_wcag_percentage,image_accessibility,image_ratio_of_accessibility
 
+# meets_wcag_count, does_not_meet_wcag_count, meets_wcag_percentage, does_not_meet_wcag_percentage,image_accessibility,image_ratio_of_accessibility=analyze_pdf("/Users/sandeepkumarrudhravaram/WorkSpace/UntProjects/pdf_analyzer_prod_final/Issues/Team16_Sprint_2.pdf")
+#
+# print(meets_wcag_count, does_not_meet_wcag_count, meets_wcag_percentage, does_not_meet_wcag_percentage,image_accessibility,image_ratio_of_accessibility)
