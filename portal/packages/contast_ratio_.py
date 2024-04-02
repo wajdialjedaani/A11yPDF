@@ -6,19 +6,14 @@ import re
 
 
 def get_contrast_ratio(color1, color2):
-    # Ensure only the RGB components are passed to the converter, ignore alpha if present
     color1_rgb = color1[:3]
     color2_rgb = color2[:3]
-
-    # Calculate contrast ratio using colorspacious library
     converter = cspace_converter("sRGB1", "CAM02-UCS")
     color1_lab = converter(color1_rgb)
     color2_lab = converter(color2_rgb)
 
     l1, _, _ = color1_lab
     l2, _, _ = color2_lab
-
-    # Calculate contrast ratio using luminance values
     contrast_ratio = (l1 + 0.05) / (l2 + 0.05)
     return contrast_ratio
 
@@ -35,8 +30,6 @@ def check_contrast(image):
     except:
         contrast_ratio=1.0
 
-    # print(f"Contrast Ratio: {contrast_ratio:.2f}")
-
     # Determine if the contrast meets accessibility standards (WCAG)
     if contrast_ratio >= 4.5:
         # print("Contrast meets WCAG AA standards for normal text.")
@@ -48,6 +41,15 @@ def check_contrast(image):
         # print("Contrast does not meet WCAG AA standards.")
         return False,contrast_ratio
 
+#
+# def convert_image_to_standard_format(image_bytes):
+#     # Open the image using Wand
+#     with WandImage(blob=image_bytes) as img:
+#         # Convert the image to PNG format
+#         img.format = 'png'
+#         # Convert Wand image to bytes
+#         return img.make_blob()
+
 
 def analyze_pdf(pdf_path):
     # Open the PDF file
@@ -56,6 +58,7 @@ def analyze_pdf(pdf_path):
     total_pages = pdf_document.page_count
     meets_wcag_count = 0
     does_not_meet_wcag_count = 0
+    images_cont_=0
     meets_wcag_pages = []  # To store page numbers of images meeting WCAG standards
     image_accessibility = {}
     image_ratio_of_accessibility = {}
@@ -72,31 +75,49 @@ def analyze_pdf(pdf_path):
             image_ratio_of_accessibility[key2]="none"
             continue
         for img_index, img_info in enumerate(image_list):
+            images_cont_+=1
             xref = img_info[0]
             base_image = pdf_document.extract_image(xref)
             image_bytes = base_image["image"]
-            image = Image.open(io.BytesIO(image_bytes))
-            # Calculate contrast for the image
-            status_,ratio_of_image=check_contrast(image)
-            if status_:
-                meets_wcag_count += 1
-                # page_meets_wcag = True
-                image_status = "Accessible"
+            image_extension = base_image["ext"]
+
+            if image_extension.lower() != 'jb2':
+                image = Image.open(io.BytesIO(image_bytes))
+                status_,ratio_of_image=check_contrast(image)
+                if status_:
+                    meets_wcag_count += 1
+                    # page_meets_wcag = True
+                    image_status = "Accessible"
+                else:
+                    does_not_meet_wcag_count += 1
+                    image_status = "Not Accessible"
+                key = f"{page_num + 1}_{img_index + 1}"
+                image_accessibility[key] = image_status
+                image_ratio_of_accessibility[key] = ratio_of_image
             else:
                 does_not_meet_wcag_count += 1
-                image_status ="Not Accessible"
-                # page_does_not_meet_wcag = True
-            key = f"{page_num + 1}_{img_index + 1}"
-            image_accessibility[key] = image_status
-            image_ratio_of_accessibility[key]=ratio_of_image
+                key = f"{page_num + 1}_{img_index + 1}"
+                image_accessibility[key] = "Image is not in correct format"
+                image_ratio_of_accessibility[key] = "none"
+            # else:
+            #     does_not_meet_wcag_count += 1
+            #     image_status = "Not Accessible"
+            #     key = f"{page_num + 1}_{img_index + 1}"
+            #     image_accessibility[key] = image_status
+            #     image_ratio_of_accessibility[key] = "Image is jp2 format"
+
         # if page_meets_wcag:
         #     meets_wcag_pages.append(page_num + 1)  # Pages are 0-indexed, adding 1 for human-readable format
         # if page_does_not_meet_wcag:
         #     does_not_meet_wcag_pages.append(page_num + 1)
 
     # Calculate percentages
-    meets_wcag_percentage = (meets_wcag_count / total_pages) * 100
-    does_not_meet_wcag_percentage = (does_not_meet_wcag_count / total_pages) * 100
+    if images_cont_==0:
+        meets_wcag_percentage=0
+        does_not_meet_wcag_percentage=0
+    else:
+        meets_wcag_percentage = (meets_wcag_count / images_cont_) * 100
+        does_not_meet_wcag_percentage = (does_not_meet_wcag_count / images_cont_) * 100
 
     # print(f"Total Pages: {total_pages}")
     # print(f"Pages meeting WCAG AA standards: {meets_wcag_count} ({meets_wcag_percentage:.2f}%)")
