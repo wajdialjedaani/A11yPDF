@@ -422,19 +422,19 @@
 			display: block;
 			box-sizing: border-box;
 			width: 80px !important;
-            margin-left: 35px;
+            margin-left: 25px;
             margin-top: 10px;
 		}
 
 		.moreinfo-con {
 			display: flex;
 			align-items: center;
-			width: 40%;
+			width: 35%;
 			border: 2px solid var(--bg-color);
 			cursor: pointer;
 			border-radius: 10px;
 			background-color: #f2f2f2;
-			padding: 2px;
+			/*padding: 2px;*/
 		}
 
 		.arrow {
@@ -1767,6 +1767,12 @@ div.hopscotch-bubble .hopscotch-actions {
         left: 50px;
         top: 195px;
     }
+   .color_blind {
+    display: grid !important;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+   }
 }
 .fixed-tour-element {
     position: fixed !important;

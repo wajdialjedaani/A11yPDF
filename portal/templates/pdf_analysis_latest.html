@@ -42,7 +42,8 @@
 				</svg></a>
 			</div>
 			<div class="nav-icons">
-				<div id="pdf-upload" class="homeDiv" onclick="location.href='/PDFAnalyzerX/'">
+				<a href="/PDFAnalyzerX/" style="text-decoration: none;">
+				<div id="pdf-upload" class="homeDiv">
 					<span class="homeSpan">
 						Upload Pdf
 						<svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom: -8px;margin-top: 8px;">
@@ -50,6 +51,7 @@
 							</svg>
 						</span>
 				</div>
+				</a>
 				<a href="/PDFAnalyzerX/about"><svg width="25" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" style="cursor: pointer;">
 					<title>About</title>
 					<path fill-rule="evenodd" clip-rule="evenodd"
@@ -639,17 +641,17 @@
 					</div>
 				</div>
 				<div class="box color_box" id="box_color">
-					<div class="row  mt-xl-0 mt-4">
+					<div class="row  mt-xl-0 mt-4 color_blind">
 						<div class="font-div">
 							<h4 class="card-title card-430">Color Blindness</h4>
 						</div>
 						<div>
-							<div style="display:flex;">
-								<div><span class="access-core" style="margin-left: 20px;">Monochromacy</span>
+							<div style="display:flex;margin-bottom: 15px;">
+								<div><span class="access-core" style="margin-left: 15px;">Monochromacy</span>
 								<canvas id="doughnut11" class="doughnut-chart1"></canvas>
-								</div><div><span class="access-core" style="margin-left: 30px;">Protonopia</span>
+								</div><div><span class="access-core" style="margin-left: 18px;">Protonopia</span>
 								<canvas id="doughnut12" class="doughnut-chart1"></canvas>
-								</div><div><span class="access-core" style="margin-left: 30px;">Tritanopia</span>
+								</div><div><span class="access-core" style="margin-left: 18px;">Tritanopia</span>
 								<canvas id="doughnut13" class="doughnut-chart1"></canvas>
 								</div>
 							</div>
@@ -1003,13 +1005,13 @@
 	<script>
 		// Determine background color based on percentage
 		percentage = {{percentage_greater_than_16}};
-		var backgroundColor7 = '';
+		var fontBackColor = '';
 		if (percentage > 60) {
-			backgroundColor7 = 'green'; // Red background
+			fontBackColor = 'green'; // Red background
 		} else if (percentage >= 40 && percentage <= 60) {
-			backgroundColor7 = 'orange'; // Orange background
+			fontBackColor = 'orange'; // Orange background
 		} else {
-			backgroundColor7 = '#E33147'; // Green background
+			fontBackColor = '#E33147'; // Green background
 		}
 
 		var percentage_less_than_16 = {{percentage_less_than_16}};
@@ -1032,7 +1034,7 @@
 				const fontSize = Math.min(width, height) * 0.2; // Adjust 0.2 as needed for font size scaling
 
 				ctx.font = 'bolder 22px Arial';
-				ctx.fillStyle = backgroundColor7;
+				ctx.fillStyle = fontBackColor;
 				ctx.textAlign = 'center';
 				ctx.fillText('{{percentage_greater_than_16}}%', x, y);
 			}
@@ -1046,7 +1048,7 @@
 				datasets: [{
 					data: [{{percentage_greater_than_16}}, percentage_less_than_16], // 84% filled, 16% empty
 					weight: 10,
-					backgroundColor: [backgroundColor7, '#d7d9db'],
+					backgroundColor: [fontBackColor, '#d7d9db'],
 					borderColor: 'white',
 					borderWidth: 0
 				}]
@@ -1066,16 +1068,29 @@
 	</script>
 <!--	links acessibility score chart #doughnut2-->
 	<script>
+
+
+<!--	Assuming you have the counts stored in variables accessible_urls and inaccessible_urls-->
+	accessible_urls = {{no_of_work['Number Of Urls Accessible']}};
+	inaccessible_urls = {{no_of_work['Number Of Not Urls Accessible']}};
+
+<!--	 Calculate total number of URLs-->
+	total_urls = accessible_urls + inaccessible_urls;
+
+<!--	 Calculate average percentage of accessible URLs-->
+	average_percentage = (accessible_urls / total_urls) * 100;
+
+
 		// Determine background color based on percentage
 
-		percentage = {{no_of_work['Number Of Urls Accessible']}};
-		var backgroundColor8 = '';
+		percentage = average_percentage;
+		var linkBackColor = '';
 		if (percentage > 60) {
-			backgroundColor8 = 'green'; // Red background
+			linkBackColor = 'green'; // Red background
 		} else if (percentage >= 40 && percentage <= 60) {
-			backgroundColor8 = 'orange'; // Orange background
+			linkBackColor = 'orange'; // Orange background
 		} else {
-			backgroundColor8 = '#E33147'; // Green background
+			linkBackColor = '#E33147'; // Green background
 		}
 		var Number_Of_Not_Urls_Accessible = {{no_of_work['Number Of Not Urls Accessible']}};
 		//check if both the values are zero
@@ -1097,9 +1112,9 @@
 				const fontSize = Math.min(width, height) * 0.2; // Adjust 0.2 as needed for font size scaling
 
 				ctx.font = 'bolder 22px Arial';
-				ctx.fillStyle = backgroundColor8;
+				ctx.fillStyle = linkBackColor;
 				ctx.textAlign = 'center';
-				ctx.fillText('{{no_of_work['Number Of Urls Accessible']}}%', x, y);
+				ctx.fillText(average_percentage + '%', x, y);
 			}
 		};
 
@@ -1111,7 +1126,7 @@
 				datasets: [{
 					data: [{{no_of_work['Number Of Urls Accessible']}},Number_Of_Not_Urls_Accessible], // 84% filled, 16% empty
 					weight: 10,
-					backgroundColor: [backgroundColor8, '#d7d9db'],
+					backgroundColor: [linkBackColor, '#d7d9db'],
 					borderColor: 'white',
 					borderWidth: 0
 				}]
@@ -1134,13 +1149,13 @@
 		// Determine background color based on percentage
 
 		percentage = {{percentage_with_captions}};
-		var backgroundColor9 = '';
+		var imgBackColor = '';
 		if (percentage > 60) {
-			backgroundColor9 = 'green'; // Red background
+			imgBackColor = 'green'; // Red background
 		} else if (percentage >= 40 && percentage <= 60) {
-			backgroundColor9 = 'orange'; // Orange background
+			imgBackColor = 'orange'; // Orange background
 		} else {
-			backgroundColor9 = '#E33147'; // Green background
+			imgBackColor = '#E33147'; // Green background
 		}
 
 		var percentage_without_captions = {{percentage_without_captions}};
@@ -1162,7 +1177,7 @@
 				const fontSize = Math.min(width, height) * 0.2; // Adjust 0.2 as needed for font size scaling
 
 				ctx.font = 'bolder 22px Arial';
-				ctx.fillStyle = backgroundColor9;
+				ctx.fillStyle = imgBackColor;
 				ctx.textAlign = 'center';
 <!--				ctx.fillText('{{percentage_with_captions}}%', 55, 60);-->
 				ctx.fillText('{{percentage_with_captions}}%', x, y);
@@ -1177,7 +1192,7 @@
 				datasets: [{
 					data: [{{percentage_with_captions}}, percentage_without_captions], // 84% filled, 16% empty
 					weight: 10,
-					backgroundColor: [backgroundColor9, '#d7d9db'],
+					backgroundColor: [imgBackColor, '#d7d9db'],
 					borderColor: 'white',
 					borderWidth: 0
 				}]
@@ -1200,13 +1215,13 @@
 		// Determine background color based on percentage
 
 		percentage = {{ fina_header_count_[0][0] }};
-		var backgroundColor10 = '';
+		var headcountBackColor = '';
 		if (percentage > 60) {
-			backgroundColor10 = 'green'; // Red background
+			headcountBackColor = 'green'; // Red background
 		} else if (percentage >= 40 && percentage <= 60) {
-			backgroundColor10 = 'orange'; // Orange background
+			headcountBackColor = 'orange'; // Orange background
 		} else {
-			backgroundColor10 = '#E33147'; // Green background
+			headcountBackColor = '#E33147'; // Green background
 		}
 
 		var fina_no_header_count = {{fina_header_count_[1][0]}};
@@ -1230,7 +1245,7 @@
 				const fontSize = Math.min(width, height) * 0.2; // Adjust 0.2 as needed for font size scaling
 
 				ctx.font = 'bolder 22px Arial';
-				ctx.fillStyle = backgroundColor10;
+				ctx.fillStyle = headcountBackColor;
 				ctx.textAlign = 'center';
 <!--				ctx.fillText('{{ fina_header_count_[0][0] }}%', 55, 60);-->
 				ctx.fillText('{{ fina_header_count_[0][0] }}%', x, y);
@@ -1245,7 +1260,7 @@
 				datasets: [{
 					data: [{{ fina_header_count_[0][0] }}, fina_no_header_count], // 84% filled, 16% empty
 					weight: 10,
-					backgroundColor: [backgroundColor10, '#d7d9db'],
+					backgroundColor: [headcountBackColor, '#d7d9db'],
 					borderColor: 'white',
 					borderWidth: 0
 				}]
@@ -1268,13 +1283,13 @@
 		// Determine background color based on percentage
 
 		percentage = {{count_of_footers_[0][0]}};
-		var backgroundColor11 = '';
+		var footcountBackColor = '';
 		if (percentage > 60) {
-			backgroundColor11 = 'green'; // Red background
+			footcountBackColor = 'green'; // Red background
 		} else if (percentage >= 40 && percentage <= 60) {
-			backgroundColor11 = 'orange'; // Orange background
+			footcountBackColor = 'orange'; // Orange background
 		} else {
-			backgroundColor11 = '#E33147'; // Green background
+			footcountBackColor = '#E33147'; // Green background
 		}
 
 		var fina_no_footer_count = {{count_of_footers_[1][0]}};
@@ -1299,7 +1314,7 @@
 				const fontSize = Math.min(width, height) * 0.2; // Adjust 0.2 as needed for font size scaling
 
 				ctx.font = 'bolder 22px Arial';
-				ctx.fillStyle = backgroundColor11;
+				ctx.fillStyle = footcountBackColor;
 				ctx.textAlign = 'center';
 <!--				ctx.fillText('{{count_of_footers_[0][0]}}%', 55, 60);-->
 				ctx.fillText('{{count_of_footers_[0][0]}}%', x, y);
@@ -1314,7 +1329,7 @@
 				datasets: [{
 					data: [{{count_of_footers_[0][0]}}, fina_no_footer_count], // 84% filled, 16% empty
 					weight: 10,
-					backgroundColor: [backgroundColor11, '#d7d9db'],
+					backgroundColor: [footcountBackColor, '#d7d9db'],
 					borderColor: 'white',
 					borderWidth: 0
 				}]
@@ -1337,13 +1352,13 @@
 		// Determine background color based on percentage
 
 		percentage = {{percentage_with_page_number}};
-		var backgroundColor12 = '';
+		var pageBackColor = '';
 		if (percentage > 60) {
-			backgroundColor12 = 'green'; // Red background
+			pageBackColor = 'green'; // Red background
 		} else if (percentage >= 40 && percentage <= 60) {
-			backgroundColor12 = 'orange'; // Orange background
+			pageBackColor = 'orange'; // Orange background
 		} else {
-			backgroundColor12 = '#E33147'; // Green background
+			pageBackColor = '#E33147'; // Green background
 		}
 
 		var percentage_without_page_number = {{percentage_without_page_number}};
@@ -1365,7 +1380,7 @@
 				const fontSize = Math.min(width, height) * 0.2; // Adjust 0.2 as needed for font size scaling
 
 				ctx.font = 'bolder 22px Arial';
-				ctx.fillStyle = backgroundColor12;
+				ctx.fillStyle = pageBackColor;
 				ctx.textAlign = 'center';
 <!--				ctx.fillText('{{percentage_with_page_number}}%', 55, 60);-->
 				ctx.fillText('{{percentage_with_page_number}}%', x, y);
@@ -1380,7 +1395,7 @@
 				datasets: [{
 					data: [{{percentage_with_page_number}},percentage_without_page_number], // 84% filled, 16% empty
 					weight: 10,
-					backgroundColor: [backgroundColor12, '#d7d9db'],
+					backgroundColor: [pageBackColor, '#d7d9db'],
 					borderColor: 'white',
 					borderWidth: 0
 				}]
@@ -1403,13 +1418,13 @@
 	// Determine background color based on percentage
 
 		percentage = {{meets_wcag_percentage}};
-		var backgroundColor13 = '';
+		var pageConstBackColor = '';
 		if (percentage > 60) {
-			backgroundColor13 = 'green'; // Red background
+			pageConstBackColor = 'green'; // Red background
 		} else if (percentage >= 40 && percentage <= 60) {
-			backgroundColor13 = 'orange'; // Orange background
+			pageConstBackColor = 'orange'; // Orange background
 		} else {
-			backgroundColor13 = '#E33147'; // Green background
+			pageConstBackColor = '#E33147'; // Green background
 		}
 
 		var does_not_meet_wcag_percentage = {{does_not_meet_wcag_percentage}};
@@ -1431,7 +1446,7 @@
 			const fontSize = Math.min(width, height) * 0.2; // Adjust 0.2 as needed for font size scaling
 
 			ctx.font = 'bolder 22px Arial';
-			ctx.fillStyle = backgroundColor13;
+			ctx.fillStyle = pageConstBackColor;
 			ctx.textAlign = 'center';
 <!--			ctx.fillText('{{meets_wcag_percentage}}%', 55, 60);-->
 			ctx.fillText('{{meets_wcag_percentage}}%', x, y);
@@ -1446,7 +1461,7 @@
 			datasets: [{
 				data: [{{meets_wcag_percentage}},does_not_meet_wcag_percentage], // 84% filled, 16% empty
 				weight: 10,
-				backgroundColor: [backgroundColor13, '#d7d9db'],
+				backgroundColor: [pageConstBackColor, '#d7d9db'],
 				borderColor: 'white',
 				borderWidth: 0
 			}]
@@ -1467,15 +1482,15 @@
 <!--	table caption acessibility score chart #doughnut8-->
 	<script>
 	// Determine background color based on percentage
-
+		console.log({{percentage_with_caption_table}}, 'percentage_with_caption_table');
 		percentage = {{percentage_with_caption_table}};
-		var backgroundColor14 = '';
+		var tableBackColor = '';
 		if (percentage > 60) {
-			backgroundColor14 = 'green'; // Red background
+			tableBackColor = 'green'; // Red background
 		} else if (percentage >= 40 && percentage <= 60) {
-			backgroundColor14 = 'orange'; // Orange background
+			tableBackColor = 'orange'; // Orange background
 		} else {
-			backgroundColor14 = '#E33147'; // Green background
+			tableBackColor = '#E33147'; // Green background
 		}
 
 		var does_not_meet_wcag_percentage = {{percentage_without_caption_table}};
@@ -1497,12 +1512,14 @@
 			const fontSize = Math.min(width, height) * 0.2; // Adjust 0.2 as needed for font size scaling
 
 			ctx.font = 'bolder 22px Arial';
-			ctx.fillStyle = backgroundColor14;
+			ctx.fillStyle = tableBackColor;
 			ctx.textAlign = 'center';
 <!--			ctx.fillText('{{percentage_with_caption_table}}%', 55, 60);-->
 			ctx.fillText('{{percentage_with_caption_table}}%', x, y);
 		}
 	};
+
+	console.log({{percentage_with_caption_table}}, 'percentage_with_caption_table');
 
 	var ctxDough = document.getElementById('doughnut8').getContext('2d');
 	var myChart = new Chart(ctxDough, {
@@ -1512,7 +1529,7 @@
 			datasets: [{
 				data: [{{percentage_with_caption_table}},{{percentage_without_caption_table}}], // 84% filled, 16% empty
 				weight: 10,
-				backgroundColor: [backgroundColor14, '#d7d9db'],
+				backgroundColor: [tableBackColor, '#d7d9db'],
 				borderColor: 'white',
 				borderWidth: 0
 			}]
@@ -1535,13 +1552,13 @@
 	// Determine background color based on percentage
 
 		percentage = {{percentage_analyze_dylexia}};
-		var backgroundColor15 = '';
+		var dysBackColor = '';
 		if (percentage > 60) {
-			backgroundColor15 = 'green'; // Red background
+			dysBackColor = 'green'; // Red background
 		} else if (percentage >= 40 && percentage <= 60) {
-			backgroundColor15 = 'orange'; // Orange background
+			dysBackColor = 'orange'; // Orange background
 		} else {
-			backgroundColor15 = '#E33147'; // Green background
+			dysBackColor = '#E33147'; // Green background
 		}
 
 		var remaining_percentage_dylexia = {{remaining_percentage_dylexia}};
@@ -1563,7 +1580,7 @@
 			const fontSize = Math.min(width, height) * 0.2; // Adjust 0.2 as needed for font size scaling
 
 			ctx.font = 'bolder 22px Arial';
-			ctx.fillStyle = backgroundColor15;
+			ctx.fillStyle = dysBackColor;
 			ctx.textAlign = 'center';
 <!--			ctx.fillText('{{meets_wcag_percentage}}%', 55, 60);-->
 			ctx.fillText('{{percentage_analyze_dylexia}}%', x, y);
@@ -1578,7 +1595,7 @@
 			datasets: [{
 				data: [{{percentage_analyze_dylexia}},remaining_percentage_dylexia], // 84% filled, 16% empty
 				weight: 10,
-				backgroundColor: [backgroundColor15, '#d7d9db'],
+				backgroundColor: [dysBackColor, '#d7d9db'],
 				borderColor: 'white',
 				borderWidth: 0
 			}]
@@ -1600,15 +1617,15 @@
 	<script>
 		// Determine background color based on percentage
     percentage = {{overall_percentages_colorblind['Monochromacy']['Accessible']}};
-    var backgroundColor16 = '';
+    var colorMonoBackColor = '';
     if (percentage >= 70) {
-        backgroundColor16 = 'green'; // Red background
+        colorMonoBackColor = 'green'; // Red background
          content = 'Good';
     } else if (percentage > 40 && percentage < 70) {
-        backgroundColor16 = '#e3700e'; // Orange background
+        colorMonoBackColor = '#e3700e'; // Orange background
          content = 'Average';
     } else {
-        backgroundColor16 = '#E33147'; // Green background
+        colorMonoBackColor = '#E33147'; // Green background
          content = 'Poor';
     }
 
@@ -1631,7 +1648,7 @@
 				const fontSize = Math.min(width, height) * 0.2; // Adjust 0.2 as needed for font size scaling
 
 				ctx.font = 'bolder 25px Arial';
-				ctx.fillStyle = backgroundColor16;
+				ctx.fillStyle = colorMonoBackColor;
 				ctx.textAlign = 'center';
 <!--				ctx.fillText('{{overall_percentages_colorblind['Monochromacy']['Actual']}}%', 100, 115);-->
 				ctx.fillText('{{overall_percentages_colorblind['Monochromacy']['Accessible']}}%', x, y);
@@ -1646,7 +1663,7 @@
 				datasets: [{
 					data: [{{overall_percentages_colorblind['Monochromacy']['Accessible']}}, {{overall_percentages_colorblind['Monochromacy']['Colorblind_Issues']}}], // 84% filled, 16% empty
 					weight: 10,
-					backgroundColor: [backgroundColor16, '#d7d9db'],
+					backgroundColor: [colorMonoBackColor, '#d7d9db'],
 					borderColor: 'white',
 					borderWidth: 0
 				}]
@@ -1672,15 +1689,15 @@
 		// Determine background color based on percentage
 
 	percentage = {{overall_percentages_colorblind['Protonopia/Deuteranopia']['Accessible']}};
-	var backgroundColor17 = '';
+	var colorProtBackColor = '';
 	if (percentage >= 70) {
-		backgroundColor17 = 'green'; // Red background
+		colorProtBackColor = 'green'; // Red background
 		 content = 'Good';
 	} else if (percentage > 40 && percentage < 70) {
-		backgroundColor17 = '#e3700e'; // Orange background
+		colorProtBackColor = '#e3700e'; // Orange background
 		 content = 'Average';
 	} else {
-		backgroundColor17 = '#E33147'; // Green background
+		colorProtBackColor = '#E33147'; // Green background
 		 content = 'Poor';
 	}
 
@@ -1702,7 +1719,7 @@
 				const fontSize = Math.min(width, height) * 0.2; // Adjust 0.2 as needed for font size scaling
 
 				ctx.font = 'bolder 18px Arial';
-				ctx.fillStyle = backgroundColor17;
+				ctx.fillStyle = colorProtBackColor;
 				ctx.textAlign = 'center';
 <!--				ctx.fillText('{{overall_percentages_colorblind['Protonopia/Deuteranopia']['Actual']}}%', 100, 115);-->
 				ctx.fillText('{{overall_percentages_colorblind['Protonopia/Deuteranopia']['Accessible']}}%', x, y);
@@ -1719,7 +1736,7 @@
 				datasets: [{
 					data: [{{overall_percentages_colorblind['Protonopia/Deuteranopia']['Accessible']}}, Protonopia_Remaining], // 84% filled, 16% empty
 					weight: 10,
-					backgroundColor: [backgroundColor17, '#d7d9db'],
+					backgroundColor: [colorProtBackColor, '#d7d9db'],
 					borderColor: 'white',
 					borderWidth: 0
 				}]
@@ -1742,15 +1759,15 @@
 		// Determine background color based on percentage
 
 		percentage = {{overall_percentages_colorblind['Tritanopia']['Accessible']}};
-		var backgroundColor18 = '';
+		var colorTritBackColor = '';
 		if (percentage >= 70) {
-		backgroundColor18 = 'green'; // Red background
+		colorTritBackColor = 'green'; // Red background
 		 content = 'Good';
 	} else if (percentage > 40 && percentage < 70) {
-		backgroundColor18 = '#e3700e'; // Orange background
+		colorTritBackColor = '#e3700e'; // Orange background
 		 content = 'Average';
 	} else {
-		backgroundColor18 = '#E33147'; // Green background
+		colorTritBackColor = '#E33147'; // Green background
 		 content = 'Poor';
 	}
 
@@ -1775,7 +1792,7 @@
 				const fontSize = Math.min(width, height) * 0.2; // Adjust 0.2 as needed for font size scaling
 
 				ctx.font = 'bolder 18px Arial';
-				ctx.fillStyle = backgroundColor18;
+				ctx.fillStyle = colorTritBackColor;
 				ctx.textAlign = 'center';
 <!--				ctx.fillText('{{overall_percentages_colorblind['Tritanopia']['Accessible']}}%', 100, 115);-->
 				ctx.fillText('{{overall_percentages_colorblind['Tritanopia']['Accessible']}}%', x, y);
@@ -1789,7 +1806,7 @@
 				datasets: [{
 					data: [{{overall_percentages_colorblind['Tritanopia']['Accessible']}},Tritanopia_Remaining], // 84% filled, 16% empty
 					weight: 10,
-					backgroundColor: [backgroundColor18, '#d7d9db'],
+					backgroundColor: [colorTritBackColor, '#d7d9db'],
 					borderColor: 'white',
 					borderWidth: 0
 				}]
@@ -1811,21 +1828,21 @@
 	<script>
    // Determine background color based on percentage
     percentage = {{overall_percentages_colorblind['Monochromacy']['Accessible']}};
-    var backgroundColor1 = '';
+    var MonoBackcolor = '';
     if (percentage >= 70) {
-        backgroundColor1 = 'green'; // Red background
+        MonoBackcolor = 'green'; // Red background
          content = 'Good';
     } else if (percentage > 40 && percentage < 70) {
-        backgroundColor1 = '#e3700e'; // Orange background
+        MonoBackcolor = '#e3700e'; // Orange background
          content = 'Average';
     } else {
-        backgroundColor1 = '#E33147'; // Green background
+        MonoBackcolor = '#E33147'; // Green background
          content = 'Poor';
     }
 
 	// Set the background color and content for the h5 element
 	var h5Element = document.getElementById('font_score'); // Replace 'your_h5_element_id' with the actual ID of your h5 element
-	h5Element.style.color = backgroundColor1;
+	h5Element.style.color = MonoBackcolor;
 	h5Element.textContent = content;
 
 
@@ -1849,7 +1866,7 @@
 				const fontSize = Math.min(width, height) * 0.2; // Adjust 0.2 as needed for font size scaling
 
 				ctx.font = 'bolder 45px Arial';
-				ctx.fillStyle = backgroundColor1;
+				ctx.fillStyle = MonoBackcolor;
 				ctx.textAlign = 'center';
 <!--				ctx.fillText('{{overall_percentages_colorblind['Monochromacy']['Actual']}}%', 100, 115);-->
 				ctx.fillText('{{overall_percentages_colorblind['Monochromacy']['Accessible']}}%', x, y);
@@ -1864,7 +1881,7 @@
 				datasets: [{
 					data: [{{overall_percentages_colorblind['Monochromacy']['Accessible']}}, {{overall_percentages_colorblind['Monochromacy']['Colorblind_Issues']}}], // 84% filled, 16% empty
 					weight: 10,
-					backgroundColor: [backgroundColor1, '#d7d9db'],
+					backgroundColor: [MonoBackcolor, '#d7d9db'],
 					borderColor: 'white',
 					borderWidth: 0
 				}]
@@ -1887,21 +1904,21 @@
 	// Determine background color based on percentage
 
 	percentage = {{overall_percentages_colorblind['Protonopia/Deuteranopia']['Accessible']}};
-	var backgroundColor2 = '';
+	var protBackColor = '';
 	if (percentage >= 70) {
-		backgroundColor2 = 'green'; // Red background
+		protBackColor = 'green'; // Red background
 		 content = 'Good';
 	} else if (percentage > 40 && percentage < 70) {
-		backgroundColor2 = '#e3700e'; // Orange background
+		protBackColor = '#e3700e'; // Orange background
 		 content = 'Average';
 	} else {
-		backgroundColor2 = '#E33147'; // Green background
+		protBackColor = '#E33147'; // Green background
 		 content = 'Poor';
 	}
 
 	// Set the background color and content for the h5 element
 	var h5Element = document.getElementById('image_score'); // Replace 'your_h5_element_id' with the actual ID of your h5 element
-	h5Element.style.color = backgroundColor2;
+	h5Element.style.color = protBackColor;
 	h5Element.textContent = content;
 
 	var Protonopia_Remaining = {{overall_percentages_colorblind['Protonopia/Deuteranopia']['Colorblind_Issues']}};
@@ -1924,7 +1941,7 @@
 				const fontSize = Math.min(width, height) * 0.2; // Adjust 0.2 as needed for font size scaling
 
 				ctx.font = 'bolder 45px Arial';
-				ctx.fillStyle = backgroundColor2;
+				ctx.fillStyle = protBackColor;
 				ctx.textAlign = 'center';
 <!--				ctx.fillText('{{overall_percentages_colorblind['Protonopia/Deuteranopia']['Actual']}}%', 100, 115);-->
 				ctx.fillText('{{overall_percentages_colorblind['Protonopia/Deuteranopia']['Accessible']}}%', x, y);
@@ -1941,7 +1958,7 @@
 				datasets: [{
 					data: [{{overall_percentages_colorblind['Protonopia/Deuteranopia']['Accessible']}}, {{overall_percentages_colorblind['Protonopia/Deuteranopia']['Colorblind_Issues']}}], // 84% filled, 16% empty
 					weight: 10,
-					backgroundColor: [backgroundColor2, '#d7d9db'],
+					backgroundColor: [protBackColor, '#d7d9db'],
 					borderColor: 'white',
 					borderWidth: 0
 				}]
@@ -1963,20 +1980,20 @@
 	<script>
 			// Determine background color based on percentage
 		percentage = {{ fina_header_count_[0][0] }};
-		var backgroundColor3 = '';
+		var headBackColor = '';
 		if (percentage >= 70) {
-		backgroundColor3 = 'green'; // Red background
+		headBackColor = 'green'; // Red background
 		 content = 'Good';
 	} else if (percentage > 40 && percentage < 70) {
-		backgroundColor3 = '#e3700e'; // Orange background
+		headBackColor = '#e3700e'; // Orange background
 		 content = 'Average';
 	} else {
-		backgroundColor3 = '#E33147'; // Green background
+		headBackColor = '#E33147'; // Green background
 		 content = 'Poor';
 	}
 	// Set the background color and content for the h5 element
 	var h5Element = document.getElementById('header_score'); // Replace 'your_h5_element_id' with the actual ID of your h5 element
-	h5Element.style.color = backgroundColor3;
+	h5Element.style.color = headBackColor;
 	h5Element.textContent = content;
 	var fina_header_count = {{ fina_header_count_[1][0] }};
 	//check if both the values are zero
@@ -1997,7 +2014,7 @@
 
 
 				ctx.font = 'bolder 45px Arial';
-				ctx.fillStyle = backgroundColor3;
+				ctx.fillStyle = headBackColor;
 				ctx.textAlign = 'center';
 <!--				ctx.fillText('{{ fina_header_count_[0][0] }}%', 100, 115);-->
 				ctx.fillText('{{ fina_header_count_[0][0] }}%', x, y);
@@ -2012,7 +2029,7 @@
 				datasets: [{
 					data: [{{ fina_header_count_[0][0] }}, fina_header_count], // 84% filled, 16% empty
 					weight: 10,
-					backgroundColor: [backgroundColor3, '#d7d9db'],
+					backgroundColor: [headBackColor, '#d7d9db'],
 					borderColor: 'white',
 					borderWidth: 0
 				}]
@@ -2035,21 +2052,21 @@
 		// Determine background color based on percentage
 
 		percentage = {{count_of_footers_[0][0]}};
-		var backgroundColor4 = '';
+		var footBackColor = '';
 		if (percentage >= 70) {
-		backgroundColor4 = 'green'; // Red background
+		footBackColor = 'green'; // Red background
 		 content = 'Good';
 	} else if (percentage > 40 && percentage < 70) {
-		backgroundColor4 = '#e3700e'; // Orange background
+		footBackColor = '#e3700e'; // Orange background
 		 content = 'Average';
 	} else {
-		backgroundColor4 = '#E33147'; // Green background
+		footBackColor = '#E33147'; // Green background
 		 content = 'Poor';
 	}
 
 	// Set the background color and content for the h5 element
 	var h5Element = document.getElementById('footer_score'); // Replace 'your_h5_element_id' with the actual ID of your h5 element
-	h5Element.style.color = backgroundColor4;
+	h5Element.style.color = footBackColor;
 	h5Element.textContent = content;
 
 	var count_of_footers = {{ count_of_footers_[1][0] }};
@@ -2070,7 +2087,7 @@
 				const fontSize = Math.min(width, height) * 0.2; // Adjust 0.2 as needed for font size scaling
 
 				ctx.font = 'bolder 45px Arial';
-				ctx.fillStyle = backgroundColor4;
+				ctx.fillStyle = footBackColor;
 				ctx.textAlign = 'center';
 <!--				ctx.fillText('{{count_of_footers_[0][0]}}%', 100, 115);-->
 				ctx.fillText('{{count_of_footers_[0][0]}}%', x, y);
@@ -2085,7 +2102,7 @@
 				datasets: [{
 					data: [{{count_of_footers_[0][0]}}, count_of_footers], // 84% filled, 16% empty
 					weight: 10,
-					backgroundColor: [backgroundColor4, '#d7d9db'],
+					backgroundColor: [footBackColor, '#d7d9db'],
 					borderColor: 'white',
 					borderWidth: 0
 				}]
@@ -2108,21 +2125,21 @@
 		// Determine background color based on percentage
 
 		percentage = {{meets_wcag_percentage}};
-		var backgroundColor5 = '';
+		var contBackColor = '';
 		if (percentage >= 70) {
-		backgroundColor5 = 'green'; // Red background
+		contBackColor = 'green'; // Red background
 		 content = 'Good';
 	} else if (percentage > 40 && percentage < 70) {
-		backgroundColor5 = '#e3700e'; // Orange background
+		contBackColor = '#e3700e'; // Orange background
 		 content = 'Average';
 	} else {
-		backgroundColor5 = '#E33147'; // Green background
+		contBackColor = '#E33147'; // Green background
 		 content = 'Poor';
 	}
 
 	// Set the background color and content for the h5 element
 	var h5Element = document.getElementById('contrast_score'); // Replace 'your_h5_element_id' with the actual ID of your h5 element
-	h5Element.style.color = backgroundColor5;
+	h5Element.style.color = contBackColor;
 	h5Element.textContent = content;
 	var does_not_meet_wcag_percentage = {{ does_not_meet_wcag_percentage }};
 	//check if both the values are zero
@@ -2143,7 +2160,7 @@
 				const fontSize = Math.min(width, height) * 0.2; // Adjust 0.2 as needed for font size scaling
 
 				ctx.font = 'bolder 45px Arial';
-				ctx.fillStyle = backgroundColor5;
+				ctx.fillStyle = contBackColor;
 				ctx.textAlign = 'center';
 <!--				ctx.fillText('{{meets_wcag_percentage}}%', 100, 115);-->
 				ctx.fillText('{{meets_wcag_percentage}}%', x, y);
@@ -2158,7 +2175,7 @@
 				datasets: [{
 					data: [{{meets_wcag_percentage}},does_not_meet_wcag_percentage], // 84% filled, 16% empty
 					weight: 10,
-					backgroundColor: [backgroundColor5, '#d7d9db'],
+					backgroundColor: [contBackColor, '#d7d9db'],
 					borderColor: 'white',
 					borderWidth: 0
 				}]
@@ -2181,20 +2198,20 @@
 		// Determine background color based on percentage
 
 		percentage = {{overall_percentages_colorblind['Tritanopia']['Accessible']}};
-		var backgroundColor6 = '';
+		var tritaBackColor = '';
 		if (percentage >= 70) {
-		backgroundColor6 = 'green'; // Red background
+		tritaBackColor = 'green'; // Red background
 		 content = 'Good';
 	} else if (percentage > 40 && percentage < 70) {
-		backgroundColor6 = '#e3700e'; // Orange background
+		tritaBackColor = '#e3700e'; // Orange background
 		 content = 'Average';
 	} else {
-		backgroundColor6 = '#E33147'; // Green background
+		tritaBackColor = '#E33147'; // Green background
 		 content = 'Poor';
 	}
 	// Set the background color and content for the h5 element
 	var h5Element = document.getElementById('page_score'); // Replace 'your_h5_element_id' with the actual ID of your h5 element
-	h5Element.style.color = backgroundColor6;
+	h5Element.style.color = tritaBackColor;
 	h5Element.textContent = content;
 
 
@@ -2219,7 +2236,7 @@
 				const fontSize = Math.min(width, height) * 0.2; // Adjust 0.2 as needed for font size scaling
 
 				ctx.font = 'bolder 45px Arial';
-				ctx.fillStyle = backgroundColor6;
+				ctx.fillStyle = tritaBackColor;
 				ctx.textAlign = 'center';
 <!--				ctx.fillText('{{overall_percentages_colorblind['Tritanopia']['Actual']}}%', 100, 115);-->
 				ctx.fillText('{{overall_percentages_colorblind['Tritanopia']['Accessible']}}%', x, y);
@@ -2234,7 +2251,7 @@
 				datasets: [{
 					data: [{{overall_percentages_colorblind['Tritanopia']['Accessible']}},{{overall_percentages_colorblind['Tritanopia']['Colorblind_Issues']}}], // 84% filled, 16% empty
 					weight: 10,
-					backgroundColor: [backgroundColor6, '#d7d9db'],
+					backgroundColor: [tritaBackColor, '#d7d9db'],
 					borderColor: 'white',
 					borderWidth: 0
 				}]
@@ -2256,21 +2273,21 @@
 	<script>
  		// Determine background color based on percentage
 		percentage = {{percentage_greater_than_16}};
-		var backgroundColor19 = '';
+		var fontSizeBackColor = '';
 		if (percentage > 60) {
-			backgroundColor19 = 'green'; // Red background
+			fontSizeBackColor = 'green'; // Red background
 			content = 'Good';
 		} else if (percentage >= 40 && percentage <= 60) {
-			backgroundColor19 = '#e3700e'; // Orange background
+			fontSizeBackColor = '#e3700e'; // Orange background
 			content = 'Average';
 		} else {
-			backgroundColor19 = '#E33147'; // Green background
+			fontSizeBackColor = '#E33147'; // Green background
 			content = 'Poor';
 		}
 
 		// Set the background color and content for the h5 element
 		var h5Element = document.getElementById('font_size_score'); // Replace 'your_h5_element_id' with the actual ID of your h5 element
-		h5Element.style.color = backgroundColor19;
+		h5Element.style.color = fontSizeBackColor;
 		h5Element.textContent = content;
 
 		var percentage_less_than_16 = {{percentage_less_than_16}};
@@ -2286,14 +2303,14 @@
 				ctx.save();
 
 				// Calculate the position relative to the chart area
-				const x = (left + width / 2) + 2; // Center horizontally
-				const y = (top + height / 2) + 10; // Center vertically
+				const x = (left + width / 2) + 5; // Center horizontally
+				const y = (top + height / 2) + 18; // Center vertically
 
 				// Determine the font size dynamically based on the chart size
 				const fontSize = Math.min(width, height) * 0.2; // Adjust 0.2 as needed for font size scaling
 
 				ctx.font = 'bolder 45px Arial';
-				ctx.fillStyle = backgroundColor19;
+				ctx.fillStyle = fontSizeBackColor;
 				ctx.textAlign = 'center';
 				ctx.fillText('{{percentage_greater_than_16}}%', x, y);
 			}
@@ -2307,7 +2324,7 @@
 				datasets: [{
 					data: [{{percentage_greater_than_16}}, percentage_less_than_16], // 84% filled, 16% empty
 					weight: 10,
-					backgroundColor: [backgroundColor19, '#d7d9db'],
+					backgroundColor: [fontSizeBackColor, '#d7d9db'],
 					borderColor: 'white',
 					borderWidth: 0
 				}]
@@ -2327,23 +2344,34 @@
 	</script>
 <!--	links acessibility score chart #card_chart8-->
 	<script>
+
+		<!--	Assuming you have the counts stored in variables accessible_urls and inaccessible_urls-->
+	accessible_urls = {{no_of_work['Number Of Urls Accessible']}};
+	inaccessible_urls = {{no_of_work['Number Of Not Urls Accessible']}};
+
+<!--	 Calculate total number of URLs-->
+	total_urls = accessible_urls + inaccessible_urls;
+
+<!--	 Calculate average percentage of accessible URLs-->
+	average_percentage = (accessible_urls / total_urls) * 100;
+
  		// Determine background color based on percentage
-		percentage = {{no_of_work['Number Of Urls Accessible']}};
-		var backgroundColor20 = '';
+		percentage = average_percentage;
+		var linkaccBackColor = '';
 		if (percentage > 60) {
-			backgroundColor20 = 'green'; // Red background
+			linkaccBackColor = 'green'; // Red background
 			content = 'Good';
 		} else if (percentage >= 40 && percentage <= 60) {
-			backgroundColor20 = '#e3700e'; // Orange background
+			linkaccBackColor = '#e3700e'; // Orange background
 			content = 'Average';
 		} else {
-			backgroundColor20 = '#E33147'; // Green background
+			linkaccBackColor = '#E33147'; // Green background
 			content = 'Poor';
 		}
 
 		// Set the background color and content for the h5 element
 		var h5Element = document.getElementById('links_score'); // Replace 'your_h5_element_id' with the actual ID of your h5 element
-		h5Element.style.color = backgroundColor20;
+		h5Element.style.color = linkaccBackColor;
 		h5Element.textContent = content;
 
 		var Number_Of_Not_Urls_Accessible = {{no_of_work['Number Of Not Urls Accessible']}};
@@ -2359,16 +2387,16 @@
 				ctx.save();
 
 				// Calculate the position relative to the chart area
-				const x = (left + width / 2) + 2; // Center horizontally
-				const y = (top + height / 2) + 10; // Center vertically
+				const x = (left + width / 2) + 5; // Center horizontally
+				const y = (top + height / 2) + 18; // Center vertically
 
 				// Determine the font size dynamically based on the chart size
 				const fontSize = Math.min(width, height) * 0.2; // Adjust 0.2 as needed for font size scaling
 
 				ctx.font = 'bolder 45px Arial';
-				ctx.fillStyle = backgroundColor20;
+				ctx.fillStyle = linkaccBackColor;
 				ctx.textAlign = 'center';
-				ctx.fillText('{{no_of_work['Number Of Urls Accessible']}}%', x, y);
+				ctx.fillText(average_percentage + '%', x, y);
 			}
 		};
 
@@ -2380,7 +2408,7 @@
 				datasets: [{
 					data: [{{no_of_work['Number Of Urls Accessible']}},Number_Of_Not_Urls_Accessible], // 84% filled, 16% empty
 					weight: 10,
-					backgroundColor: [backgroundColor20, '#d7d9db'],
+					backgroundColor: [linkaccBackColor, '#d7d9db'],
 					borderColor: 'white',
 					borderWidth: 0
 				}]
@@ -2402,21 +2430,21 @@
 	<script>
  		// Determine background color based on percentage
 		percentage = {{percentage_with_captions}};
-		var backgroundColor21 = '';
+		var imgCapBackColor = '';
 		if (percentage > 60) {
-			backgroundColor21 = 'green'; // Red background
+			imgCapBackColor = 'green'; // Red background
 			content = 'Good';
 		} else if (percentage >= 40 && percentage <= 60) {
-			backgroundColor21 = '#e3700e'; // Orange background
+			imgCapBackColor = '#e3700e'; // Orange background
 			content = 'Average';
 		} else {
-			backgroundColor21 = '#E33147'; // Green background
+			imgCapBackColor = '#E33147'; // Green background
 			content = 'Poor';
 		}
 
 		// Set the background color and content for the h5 element
 		var h5Element = document.getElementById('img_caption_score'); // Replace 'your_h5_element_id' with the actual ID of your h5 element
-		h5Element.style.color = backgroundColor21;
+		h5Element.style.color = imgCapBackColor;
 		h5Element.textContent = content;
 
 		var percentage_without_captions = {{percentage_without_captions}};
@@ -2432,14 +2460,14 @@
 				ctx.save();
 
 				// Calculate the position relative to the chart area
-				const x = (left + width / 2) + 2; // Center horizontally
-				const y = (top + height / 2) + 10; // Center vertically
+				const x = (left + width / 2) + 5; // Center horizontally
+				const y = (top + height / 2) + 18; // Center vertically
 
 				// Determine the font size dynamically based on the chart size
 				const fontSize = Math.min(width, height) * 0.2; // Adjust 0.2 as needed for font size scaling
 
 				ctx.font = 'bolder 45px Arial';
-				ctx.fillStyle = backgroundColor21;
+				ctx.fillStyle = imgCapBackColor;
 				ctx.textAlign = 'center';
 				ctx.fillText('{{percentage_with_captions}}%', x, y);
 			}
@@ -2453,7 +2481,7 @@
 				datasets: [{
 					data: [{{percentage_with_captions}}, percentage_without_captions], // 84% filled, 16% empty
 					weight: 10,
-					backgroundColor: [backgroundColor21, '#d7d9db'],
+					backgroundColor: [imgCapBackColor, '#d7d9db'],
 					borderColor: 'white',
 					borderWidth: 0
 				}]
@@ -2475,21 +2503,21 @@
 	<script>
  		// Determine background color based on percentage
 		percentage = {{percentage_with_page_number}};
-		var backgroundColor22 = '';
+		var pageNumBackColor = '';
 		if (percentage > 60) {
-			backgroundColor22 = 'green'; // Red background
+			pageNumBackColor = 'green'; // Red background
 			content = 'Good';
 		} else if (percentage >= 40 && percentage <= 60) {
-			backgroundColor22 = '#e3700e'; // Orange background
+			pageNumBackColor = '#e3700e'; // Orange background
 			content = 'Average';
 		} else {
-			backgroundColor22 = '#E33147'; // Green background
+			pageNumBackColor = '#E33147'; // Green background
 			content = 'Poor';
 		}
 
 		// Set the background color and content for the h5 element
 		var h5Element = document.getElementById('page_num_score'); // Replace 'your_h5_element_id' with the actual ID of your h5 element
-		h5Element.style.color = backgroundColor22;
+		h5Element.style.color = pageNumBackColor;
 		h5Element.textContent = content;
 
 		var percentage_without_page_number = {{percentage_without_page_number}};
@@ -2505,14 +2533,14 @@
 				ctx.save();
 
 				// Calculate the position relative to the chart area
-				const x = (left + width / 2) + 2; // Center horizontally
-				const y = (top + height / 2) + 10; // Center vertically
+				const x = (left + width / 2) + 5; // Center horizontally
+				const y = (top + height / 2) + 18; // Center vertically
 
 				// Determine the font size dynamically based on the chart size
 				const fontSize = Math.min(width, height) * 0.2; // Adjust 0.2 as needed for font size scaling
 
 				ctx.font = 'bolder 45px Arial';
-				ctx.fillStyle = backgroundColor22;
+				ctx.fillStyle = pageNumBackColor;
 				ctx.textAlign = 'center';
 				ctx.fillText('{{percentage_with_page_number}}%', x, y);
 			}
@@ -2526,7 +2554,7 @@
 				datasets: [{
 					data: [{{percentage_with_page_number}},percentage_without_page_number], // 84% filled, 16% empty
 					weight: 10,
-					backgroundColor: [backgroundColor22, '#d7d9db'],
+					backgroundColor: [pageNumBackColor, '#d7d9db'],
 					borderColor: 'white',
 					borderWidth: 0
 				}]
@@ -2548,21 +2576,21 @@
 	<script>
  		// Determine background color based on percentage
 		percentage = {{percentage_with_caption_table}};
-		var backgroundColor23 = '';
+		var tableCapBackColor = '';
 		if (percentage > 60) {
-			backgroundColor23 = 'green'; // Red background
+			tableCapBackColor = 'green'; // Red background
 			content = 'Good';
 		} else if (percentage >= 40 && percentage <= 60) {
-			backgroundColor23 = '#e3700e'; // Orange background
+			tableCapBackColor = '#e3700e'; // Orange background
 			content = 'Average';
 		} else {
-			backgroundColor23 = '#E33147'; // Green background
+			tableCapBackColor = '#E33147'; // Green background
 			content = 'Poor';
 		}
 
 		// Set the background color and content for the h5 element
 		var h5Element = document.getElementById('table_cap_score'); // Replace 'your_h5_element_id' with the actual ID of your h5 element
-		h5Element.style.color = backgroundColor23;
+		h5Element.style.color = tableCapBackColor;
 		h5Element.textContent = content;
 
 		var does_not_meet_wcag_percentage = {{percentage_without_caption_table}};
@@ -2578,16 +2606,16 @@
 				ctx.save();
 
 				// Calculate the position relative to the chart area
-				const x = (left + width / 2) + 2; // Center horizontally
-				const y = (top + height / 2) + 10; // Center vertically
+				const x = (left + width / 2) + 5; // Center horizontally
+				const y = (top + height / 2) + 18; // Center vertically
 
 				// Determine the font size dynamically based on the chart size
 				const fontSize = Math.min(width, height) * 0.2; // Adjust 0.2 as needed for font size scaling
 
 				ctx.font = 'bolder 45px Arial';
-				ctx.fillStyle = backgroundColor23;
+				ctx.fillStyle = tableCapBackColor;
 				ctx.textAlign = 'center';
-				ctx.fillText('{{percentage_analyze_dylexia}}%', x, y);
+				ctx.fillText('{{percentage_with_caption_table}}%', x, y);
 			}
 		};
 
@@ -2599,7 +2627,7 @@
 				datasets: [{
 					data: [{{percentage_with_caption_table}},{{percentage_without_caption_table}}], // 84% filled, 16% empty
 					weight: 10,
-					backgroundColor: [backgroundColor23, '#d7d9db'],
+					backgroundColor: [tableCapBackColor, '#d7d9db'],
 					borderColor: 'white',
 					borderWidth: 0
 				}]
@@ -2621,21 +2649,21 @@
 	<script>
  		// Determine background color based on percentage
 		percentage = {{percentage_analyze_dylexia}}
-		var backgroundColor24 = '';
+		var dyslexiaBackColor = '';
 		if (percentage > 60) {
-			backgroundColor24 = 'green'; // Red background
+			dyslexiaBackColor = 'green'; // Red background
 			content = 'Good';
 		} else if (percentage >= 40 && percentage <= 60) {
-			backgroundColor24 = '#e3700e'; // Orange background
+			dyslexiaBackColor = '#e3700e'; // Orange background
 			content = 'Average';
 		} else {
-			backgroundColor24 = '#E33147'; // Green background
+			dyslexiaBackColor = '#E33147'; // Green background
 			content = 'Poor';
 		}
 
 		// Set the background color and content for the h5 element
 		var h5Element = document.getElementById('dyslexia_score'); // Replace 'your_h5_element_id' with the actual ID of your h5 element
-		h5Element.style.color = backgroundColor24;
+		h5Element.style.color = dyslexiaBackColor;
 		h5Element.textContent = content;
 
 		var remaining_percentage_dylexia = {{remaining_percentage_dylexia}};
@@ -2651,14 +2679,14 @@
 				ctx.save();
 
 				// Calculate the position relative to the chart area
-				const x = (left + width / 2) + 2; // Center horizontally
-				const y = (top + height / 2) + 10; // Center vertically
+				const x = (left + width / 2) + 5; // Center horizontally
+				const y = (top + height / 2) + 18; // Center vertically
 
 				// Determine the font size dynamically based on the chart size
 				const fontSize = Math.min(width, height) * 0.2; // Adjust 0.2 as needed for font size scaling
 
 				ctx.font = 'bolder 45px Arial';
-				ctx.fillStyle = backgroundColor24;
+				ctx.fillStyle = dyslexiaBackColor;
 				ctx.textAlign = 'center';
 				ctx.fillText('{{percentage_analyze_dylexia}}%', x, y);
 			}
@@ -2672,7 +2700,7 @@
 				datasets: [{
 					data: [{{percentage_analyze_dylexia}},remaining_percentage_dylexia], // 84% filled, 16% empty
 					weight: 10,
-					backgroundColor: [backgroundColor15, '#d7d9db'],
+					backgroundColor: [dyslexiaBackColor, '#d7d9db'],
 					borderColor: 'white',
 					borderWidth: 0
 				}]
@@ -2763,8 +2791,10 @@
 		var labels_data_for_no_of_work = [];
 
 		for (var key in data_for_no_of_work) {
-			datasets_for_no_of_work.push(data_for_no_of_work[key])
-			labels_data_for_no_of_work.push(key)
+			if (data_for_no_of_work[key] !== 0) { // Check if value is not zero
+				datasets_for_no_of_work.push(data_for_no_of_work[key]);
+				labels_data_for_no_of_work.push(key);
+			}
     	}
 
 		var myChart2 = new Chart(ctx1, {
@@ -3129,7 +3159,11 @@
 						labels: {
 							usePointStyle: true,
 							color: '#000000',
-						}
+						},
+						maxWidth: 250, // Limit the width of the legend
+						minWidth: 150,
+						height: 50
+
 					},
 					datalabels: {
 						color: '#fff',
@@ -3146,6 +3180,7 @@
 			},
 			plugins: [ChartDataLabels],
 		});
+
 
 		function toggleDarkMode7(isDarkMode) {
 			if (isDarkMode) {

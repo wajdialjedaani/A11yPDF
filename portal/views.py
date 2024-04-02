@@ -1274,7 +1274,7 @@ def calculate_colorblind_accessibility(data):
     return results
 
 
-@bp.route('/result/<string:process_id>/', methods=['GET', "POST"])
+@bp.route('/result/<string:process_id>', methods=['GET', "POST"])
 def final_result(process_id):
     if request.method == "POST":
         pdf_docs = APP.config["PDF_DIR"]
@@ -1632,6 +1632,7 @@ def final_result(process_id):
                 resp.status_code = 400
                 return resp
         except Exception as e:
+            print("issue in pdf",e)
             LOG.error(e, exc_info=True)
             resp = jsonify({"success": False,
                             "data": {"pdf name": "None"},

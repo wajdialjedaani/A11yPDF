@@ -78,7 +78,7 @@
                 <hr class="upload-hr"/>
             </div>
 
-            <label for="pdf_file" class="upload-box">
+            <label for="pdf_file" class="upload-box" id="uploadBox">
 
                         <span style="margin: 35px 35px 0px 35px;">
                             <svg width="37" height="37" viewBox="0 0 90 89" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -104,7 +104,7 @@
 
             </label>
             <div class="upload-btn">
-                <a class="btn-cancel">Cancel</a>
+                <a class="btn-cancel" onclick="cancel_file()">Cancel</a>
                 <button class="file-upload" onclick="submitForms_file()">Upload File</button>
 
             </div>
@@ -243,9 +243,16 @@
 		 document.body.classList.toggle('dark-theme-variables', JSON.parse(localStorage.getItem('darkMode')) ?? false);
 </script>
 <script>
+
+    function cancel_file(){
+<!--        document.querySelector('.upload-area-title').textContent = "";-->
+        document.querySelector('.upload-area-title').textContent = "";
+    }
+
+
     function submitForms_file() {
         var fileInput = document.getElementById('pdf_file');
-        if (fileInput.files.length === 0) {
+        if (fileInput.files.length === 0 && uploadArea.textContent === '') {
             // Show error message if no file is uploaded
             alert("Please upload a PDF file before proceeding.");
             return;
@@ -370,5 +377,50 @@ darkModeToggle.addEventListener('click', () => {
     }
 }
 
+</script>
+<script>
+// Get the upload box element
+const uploadBox = document.getElementById('uploadBox');
+
+// Prevent default behavior for drag and drop events
+uploadBox.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    uploadBox.classList.add('dragover');
+});
+
+uploadBox.addEventListener('dragenter', (e) => {
+    e.preventDefault();
+    uploadBox.classList.add('dragover');
+});
+
+uploadBox.addEventListener('dragleave', () => {
+    uploadBox.classList.remove('dragover');
+});
+
+uploadBox.addEventListener('drop', (e) => {
+    e.preventDefault();
+    uploadBox.classList.remove('dragover');
+
+    const file = e.dataTransfer.files[0];
+    if (file.type === 'application/pdf') {
+        handleFile(file);
+    } else {
+        alert('Please drop a PDF file.');
+    }
+});
+
+// Function to handle the dropped file
+function handleFile(file) {
+    // Create a new FileList object containing the dropped file
+    const fileList = new DataTransfer();
+    fileList.items.add(file);
+
+    // Update the file input with the new FileList object
+    const fileInput = document.getElementById('pdf_file');
+    fileInput.files = fileList.files;
+
+    // Display the file name
+    document.querySelector('.upload-area-title').textContent = file.name;
+}
 </script>
 </html>
