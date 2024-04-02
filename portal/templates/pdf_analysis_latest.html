@@ -1515,6 +1515,9 @@
 		if({{percentage_with_caption_table}} == 0 && {{percentage_without_caption_table}} == 0){
 			percentage_without_caption_table = 100;
 		}
+		else{
+			percentage_without_caption_table = {{percentage_without_caption_table}};
+		}
 
 	const ChartDataLabels8 = {
 		id: 'ChartDataLabels',
@@ -2619,6 +2622,9 @@
 		//check if both the values are zero
 		if({{percentage_with_caption_table}} == 0 && {{percentage_without_caption_table}} == 0){
 			percentage_without_caption_table = 100;
+		}
+		else{
+			percentage_without_caption_table = {{percentage_without_caption_table}};
 		}
 
 		const CardDataLabels14 = {
