@@ -9,7 +9,8 @@ import threading
 from . import APP, LOG
 from werkzeug.utils import secure_filename
 from .packages import get_final_result, get_tables_count, \
-    get_image_resolution_aspect_ratio, assess_pdf_quality, get_top_colors, analyze_figure_captions, get_tables_count,count_images_in_pdf
+    get_image_resolution_aspect_ratio, assess_pdf_quality, get_top_colors, analyze_figure_captions, get_tables_count, \
+    count_images_in_pdf
 import pandas as pd
 from .packages.image_caption_analysis import analyze_figure_captions_parallel
 from .packages.contast_ratio_ import analyze_pdf
@@ -559,151 +560,379 @@ def split_filename(filename):
     return parts[0], parts[1]
 
 
+# @bp.route('/generate_report/<string:process_id>', methods=["GET", "POST"])
+# def generate_report(process_id):
+#     pdf_docs_json = APP.config["PDF_RESULT_JSON"]
+#     finl_dd = {}
+#     filepath = os.path.join(pdf_docs_json, process_id, "Report_" + str(process_id) + ".xlsx")
+#     try:
+#         if os.path.exists(os.path.join(pdf_docs_json, process_id)):
+#             if os.path.exists(filepath):
+#                 file_name1 = "Report_" + str(process_id) + ".xlsx"
+#                 try:
+#                     return send_file(filepath, download_name=file_name1, as_attachment=True)
+#                 except:
+#                     return send_file(filepath, attachment_filename=file_name1, as_attachment=True)
+#         excel_file = filepath
+#         if os.path.exists(os.path.join(pdf_docs_json, process_id)):
+#             if os.path.exists(os.path.join(pdf_docs_json, process_id, "result.json")):
+#                 with open(os.path.join(pdf_docs_json, process_id, "result.json"), "r") as file:
+#                     finl_dd = json.load(file)
+#                     file.close()
+#                 print('finl_dd', finl_dd)
+#                 rows = []
+#                 data = finl_dd['dict_final_']
+#                 for page, contents in data.items():
+#                     for section, content in contents.items():
+#                         for _, text_data in content.items():
+#                             if text_data:
+#                                 try:
+#                                     row = {
+#                                         "Page": page,
+#                                         "Section": section,
+#                                         "Font Line": text_data.get("font_line", ""),
+#                                         "Font Type": ", ".join(text_data.get("font_font_type", [])),
+#                                         "Font Sizes": ", ".join(text_data.get("font_sizes", []))
+#                                     }
+#                                 except:
+#                                     row = {}
+#                                     pass
+#                                 rows.append(row)
+#
+#                 # Create DataFrame
+#                 df = pd.DataFrame(rows)
+#
+#                 # Write to Excel file
+#
+#                 df.to_excel(excel_file, sheet_name="Fonts Analysis", index=False)
+#
+#                 image_data = finl_dd['captions_with_images']
+#
+#                 # Create a DataFrame from the new JSON data
+#                 image_rows = []
+#                 for item in image_data:
+#                     try:
+#                         row = {
+#                             "Caption Text": item.get("caption_text", ""),
+#                             "Image Index": item.get("image_info", {}).get("image_index", ""),
+#                             "Page Number": item.get("page_number", "")
+#                         }
+#                     except:
+#                         row = {}
+#                         pass
+#                     image_rows.append(row)
+#
+#                 image_df = pd.DataFrame(image_rows)
+#                 with pd.ExcelWriter(excel_file, engine='openpyxl', mode='a') as writer:
+#                     image_df.to_excel(writer, sheet_name='Caption Analysis', index=False)
+#
+#                 # image_details_data = finl_dd['image_info_dict']
+#                 #
+#                 # # Create a DataFrame from the new JSON data
+#                 # image_details_rows = []
+#                 # for filename, details in image_details_data.items():
+#                 #     page_number, image_number = split_filename(filename)
+#                 #     try:
+#                 #         image_details_rows.append({
+#                 #             'Page Number': page_number,
+#                 #             'Image Number': image_number,
+#                 #             'Image Name': filename,
+#                 #             'Aspect Ratio': details['aspect_ratio'],
+#                 #             'Height': details['height'],
+#                 #             'Width': details['width']
+#                 #         })
+#                 #     except:
+#                 #         pass
+#                 #
+#                 # image_details_df = pd.DataFrame(image_details_rows)
+#                 #
+#                 # # Write to a new sheet in the existing Excel file
+#                 # with pd.ExcelWriter(excel_file, engine='openpyxl', mode='a') as writer:
+#                 #     image_details_df.to_excel(writer, sheet_name='Image Analysis', index=False)
+#                 pdf_titles_data = finl_dd['titles']
+#                 pdf_footer_data = finl_dd['titles_for_footers_']
+#                 additional_data = {
+#                     "Page with Headers Count": finl_dd["yes_headers_pages"],
+#                     "Page without Headers Count": finl_dd["No_headers_Pages"],
+#                     "No of Images in PDF": finl_dd["count_images_"],
+#                     "No of Urls in PDF": finl_dd["count_urls_"],
+#                     "No of Pages in PDF": finl_dd["pdf_document_page_count"],
+#                     "Images With Captions": finl_dd["percentage_with_captions"],
+#                     "Images Without Captions": finl_dd["percentage_without_captions"]
+#                 }
+#                 pdf_titles_rows = []
+#                 for item in pdf_titles_data:
+#                     try:
+#                         row = {
+#                             "Page Number": item,
+#                             "Page Header": pdf_titles_data[item]
+#                         }
+#                     except:
+#                         row = {}
+#                         pass
+#                     pdf_titles_rows.append(row)
+#
+#                 image_df = pd.DataFrame(pdf_titles_rows)
+#                 with pd.ExcelWriter(excel_file, engine='openpyxl', mode='a') as writer:
+#                     image_df.to_excel(writer, sheet_name='Headers In Pdf', index=False)
+#
+#                 pdf_titles_rows = []
+#                 for item in pdf_footer_data:
+#                     row = {
+#                         "Page Number": item,
+#                         "Page Footer": pdf_footer_data[item]
+#                     }
+#                     pdf_titles_rows.append(row)
+#
+#                 image_df = pd.DataFrame(pdf_titles_rows)
+#                 df_additional_data = pd.DataFrame([additional_data])
+#                 with pd.ExcelWriter(excel_file, engine='openpyxl', mode='a') as writer:
+#                     image_df.to_excel(writer, sheet_name='Footers In Pdf', index=False)
+#                     df_additional_data.to_excel(writer, sheet_name='Additional Info', index=False)
+#
+#                 file_name1 = "Report_" + str(process_id) + ".xlsx"
+#
+#                 try:
+#                     return send_file(filepath, download_name=file_name1, as_attachment=True)
+#                 except:
+#                     return send_file(filepath, attachment_filename=file_name1, as_attachment=True)
+#     except Exception as e:
+#         resp = jsonify({"success": False,
+#                         "errors": "Something went wrong",
+#                         "e": str(e)})
+#         resp.status_code = 400
+#         return resp
+#     else:
+#         resp = jsonify({"success": False,
+#                         "errors": "Result Not Found"})
+#         resp.status_code = 400
+#         return resp
+
 @bp.route('/generate_report/<string:process_id>', methods=["GET", "POST"])
 def generate_report(process_id):
     pdf_docs_json = APP.config["PDF_RESULT_JSON"]
     finl_dd = {}
-    filepath = os.path.join(pdf_docs_json, process_id, "Report_" + str(process_id) + ".xlsx")
+    excel_file = os.path.join(pdf_docs_json, process_id, f"Report_{process_id}.xlsx")
+    writer = pd.ExcelWriter(excel_file, engine='xlsxwriter')
+    if os.path.exists(os.path.join(pdf_docs_json, process_id)):
+        if os.path.exists(os.path.join(pdf_docs_json, process_id, "result.json")):
+            with open(os.path.join(pdf_docs_json, process_id, "result.json"), "r") as file:
+                finl_dd = json.load(file)
     try:
-        if os.path.exists(os.path.join(pdf_docs_json, process_id)):
-            if os.path.exists(filepath):
-                file_name1 = "Report_" + str(process_id) + ".xlsx"
-                try:
-                    return send_file(filepath, download_name=file_name1, as_attachment=True)
-                except:
-                    return send_file(filepath, attachment_filename=file_name1, as_attachment=True)
-        excel_file = filepath
-        if os.path.exists(os.path.join(pdf_docs_json, process_id)):
-            if os.path.exists(os.path.join(pdf_docs_json, process_id, "result.json")):
-                with open(os.path.join(pdf_docs_json, process_id, "result.json"), "r") as file:
-                    finl_dd = json.load(file)
-                    file.close()
-                print('finl_dd', finl_dd)
-                rows = []
-                data = finl_dd['dict_final_']
-                for page, contents in data.items():
-                    for section, content in contents.items():
-                        for _, text_data in content.items():
-                            if text_data:
-                                try:
-                                    row = {
-                                        "Page": page,
-                                        "Section": section,
-                                        "Font Line": text_data.get("font_line", ""),
-                                        "Font Type": ", ".join(text_data.get("font_font_type", [])),
-                                        "Font Sizes": ", ".join(text_data.get("font_sizes", []))
-                                    }
-                                except:
-                                    row = {}
-                                    pass
-                                rows.append(row)
-
-                # Create DataFrame
-                df = pd.DataFrame(rows)
-
-                # Write to Excel file
-
-                df.to_excel(excel_file, sheet_name="Fonts Analysis", index=False)
-
-                image_data = finl_dd['captions_with_images']
-
-                # Create a DataFrame from the new JSON data
-                image_rows = []
-                for item in image_data:
-                    try:
-                        row = {
-                            "Caption Text": item.get("caption_text", ""),
-                            "Image Index": item.get("image_info", {}).get("image_index", ""),
-                            "Page Number": item.get("page_number", "")
-                        }
-                    except:
-                        row = {}
-                        pass
-                    image_rows.append(row)
-
-                image_df = pd.DataFrame(image_rows)
-                with pd.ExcelWriter(excel_file, engine='openpyxl', mode='a') as writer:
-                    image_df.to_excel(writer, sheet_name='Caption Analysis', index=False)
-
-                # image_details_data = finl_dd['image_info_dict']
-                #
-                # # Create a DataFrame from the new JSON data
-                # image_details_rows = []
-                # for filename, details in image_details_data.items():
-                #     page_number, image_number = split_filename(filename)
-                #     try:
-                #         image_details_rows.append({
-                #             'Page Number': page_number,
-                #             'Image Number': image_number,
-                #             'Image Name': filename,
-                #             'Aspect Ratio': details['aspect_ratio'],
-                #             'Height': details['height'],
-                #             'Width': details['width']
-                #         })
-                #     except:
-                #         pass
-                #
-                # image_details_df = pd.DataFrame(image_details_rows)
-                #
-                # # Write to a new sheet in the existing Excel file
-                # with pd.ExcelWriter(excel_file, engine='openpyxl', mode='a') as writer:
-                #     image_details_df.to_excel(writer, sheet_name='Image Analysis', index=False)
-                pdf_titles_data = finl_dd['titles']
-                pdf_footer_data = finl_dd['titles_for_footers_']
-                additional_data = {
-                    "Page with Headers Count": finl_dd["yes_headers_pages"],
-                    "Page without Headers Count": finl_dd["No_headers_Pages"],
-                    "No of Images in PDF": finl_dd["count_images_"],
-                    "No of Urls in PDF": finl_dd["count_urls_"],
-                    "No of Pages in PDF": finl_dd["pdf_document_page_count"],
-                    "Images With Captions": finl_dd["percentage_with_captions"],
-                    "Images Without Captions": finl_dd["percentage_without_captions"]
+        rows = []
+        data = finl_dd['dict_final_']
+        for page, contents in data.items():
+            for section, content in contents.items():
+                for _, text_data in content.items():
+                    if text_data:
+                        try:
+                            row = {
+                                "Page": page,
+                                "Font Line": clean_string(text_data.get("font_line", "")),
+                                "Font Type": ", ".join(text_data.get("font_font_type", [])),
+                                "Font Sizes": ", ".join(text_data.get("font_sizes", [])),
+                                "Accessible/Not Accessible": ", ".join(
+                                    text_data.get("font_size_Accessible_status", []))
+                            }
+                        except:
+                            row = {
+                                "Page": page,
+                                "Font Line": "",
+                                "Font Type": "",
+                                "Font Sizes": "",
+                                "Accessible/Not Accessible": "Not Accessible"
+                            }
+                            pass
+                        rows.append(row)
+        df = pd.DataFrame(rows)
+        df.to_excel(writer, sheet_name="FSA Analysis", index=False)
+    except Exception as e:
+        print(e)
+        pass
+    try:
+        image_data = finl_dd['captions_with_images']
+        image_rows = []
+        for item in image_data:
+            try:
+                row = {
+                    "Caption Text": clean_string(item.get("caption_text", "")),
+                    "Page Number": item.get("page_number", ""),
+                    "Image Index In Pdf": item.get("image Index In Pdf", ""),
+                    "Image Index In Page": item.get("image Index In Page", ""),
+                    "Accessibility": item.get("Accessibility", "")
                 }
-                pdf_titles_rows = []
-                for item in pdf_titles_data:
-                    try:
-                        row = {
-                            "Page Number": item,
-                            "Page Header": pdf_titles_data[item]
-                        }
-                    except:
-                        row = {}
-                        pass
-                    pdf_titles_rows.append(row)
-
-                image_df = pd.DataFrame(pdf_titles_rows)
-                with pd.ExcelWriter(excel_file, engine='openpyxl', mode='a') as writer:
-                    image_df.to_excel(writer, sheet_name='Headers In Pdf', index=False)
-
-                pdf_titles_rows = []
-                for item in pdf_footer_data:
+            except:
+                row = {}
+                pass
+            image_rows.append(row)
+        if not image_rows:
+            image_rows.append({
+                "Caption Text": "No Data",
+                "Page Number": "No Data",
+                "Image Index In Pdf": "No Data",
+                "Image Index In Page": "No Data",
+                "Accessibility": "Not Accessible"
+            })
+        image_df = pd.DataFrame(image_rows)
+        image_df.to_excel(writer, sheet_name="CWI Analysis", index=False)
+    except Exception as e:
+        print(e)
+        pass
+    # try:
+    #     image_details_data = finl_dd['image_info_dict']
+    #     image_details_rows = []
+    #     for filename, details in image_details_data.items():
+    #         page_number, image_number = split_filename(filename)
+    #         try:
+    #             image_details_rows.append({
+    #                 'Page Number': page_number,
+    #                 'Image Number': image_number,
+    #                 'Image Name': filename,
+    #                 'Aspect Ratio': details['aspect_ratio'],
+    #                 'Height': details['height'],
+    #                 'Width': details['width']
+    #             })
+    #         except:
+    #             pass
+    #     image_details_df = pd.DataFrame(image_details_rows)
+    #     image_details_df.to_excel(writer, sheet_name='Image Analysis', index=False)
+    # except Exception as e:
+    #     print(e)
+    #     pass
+    try:
+        pdf_titles_data = finl_dd['titles']
+        pdf_titles_rows = []
+        for item in pdf_titles_data:
+            try:
+                if clean_string(pdf_titles_data[item]) == "None":
                     row = {
                         "Page Number": item,
-                        "Page Footer": pdf_footer_data[item]
+                        "Page Header": clean_string(pdf_titles_data[item]),
+                        "Accessible/Not": "Not Accessible"
                     }
-                    pdf_titles_rows.append(row)
-
-                image_df = pd.DataFrame(pdf_titles_rows)
-                df_additional_data = pd.DataFrame([additional_data])
-                with pd.ExcelWriter(excel_file, engine='openpyxl', mode='a') as writer:
-                    image_df.to_excel(writer, sheet_name='Footers In Pdf', index=False)
-                    df_additional_data.to_excel(writer, sheet_name='Additional Info', index=False)
-
-                file_name1 = "Report_" + str(process_id) + ".xlsx"
-
-                try:
-                    return send_file(filepath, download_name=file_name1, as_attachment=True)
-                except:
-                    return send_file(filepath, attachment_filename=file_name1, as_attachment=True)
+                else:
+                    row = {
+                        "Page Number": item,
+                        "Page Header": clean_string(pdf_titles_data[item]),
+                        "Accessible/Not": "Accessible"
+                    }
+            except:
+                row = {}
+                pass
+            pdf_titles_rows.append(row)
+        image_df = pd.DataFrame(pdf_titles_rows)
+        image_df.to_excel(writer, sheet_name="Headers Analysis", index=False)
     except Exception as e:
+        print(e)
+        pass
+    try:
+        pdf_footer_data = finl_dd['titles_for_footers_']
+        pdf_titles_rows = []
+        for item in pdf_footer_data:
+            if clean_string(pdf_footer_data[item]) == "None":
+                row = {
+                    "Page Number": item,
+                    "Page Footer": clean_string(pdf_footer_data[item]),
+                    "Accessible/Not": "Not Accessible"
+                }
+            else:
+                row = {
+                    "Page Number": item,
+                    "Page Footer": clean_string(pdf_footer_data[item]),
+                    "Accessible/Not": "Accessible"
+                }
+            pdf_titles_rows.append(row)
+        image_df = pd.DataFrame(pdf_titles_rows)
+        image_df.to_excel(writer, sheet_name="Footers Analysis", index=False)
+    except Exception as e:
+        print(e)
+        pass
+    try:
+        image_accessibility = finl_dd['image_accessibility']
+        image_ratio_of_accessibility = finl_dd["image_ratio_of_accessibility"]
+        image_rows = []
+        for key, accessibility in image_accessibility.items():
+            recommended = "none"
+            page_number, index = key.split('_')
+            try:
+                if accessibility == "Accessible":
+                    recommended = "none"
+                else:
+                    recommended = "For Normal Text ratio of 4.5:1 and for Large Text ratio of 3:1 is required"
+                row = {
+                    "Page Number": page_number,
+                    "Image Index": index,
+                    "Ratio": image_ratio_of_accessibility[key],
+                    "recommended": recommended,
+                    "Accessible/Not": accessibility
+                }
+            except:
+                row = {
+                    "Page Number": page_number,
+                    "Image Index": index,
+                    "Ratio": "none",
+                    "recommended": recommended,
+                    "Accessible/Not": accessibility
+                }
+            image_rows.append(row)
+        if not image_rows:
+            image_rows.append({
+                "Page Numbe": "No Data",
+                "Image Index": "No Data",
+                "Ratio": "none",
+                "recommended": "none",
+                "Accessible/Not": "No Data"
+            })
+        image_df = pd.DataFrame(image_rows)
+        image_df.to_excel(writer, sheet_name="Page Contrast", index=False)
+    except Exception as e:
+        print(e)
+        pass
+    try:
+        image_page_number_accessibility = finl_dd['image_page_number_accessibility']
+        image_rows = []
+        for key, accessibility in image_page_number_accessibility.items():
+            row = {
+                "Page Number": clean_string(key),
+                "Accessible/Not": accessibility
+            }
+            image_rows.append(row)
+        if not image_rows:
+            image_rows.append({
+                "Page Number": "No Data",
+                "Accessible/Not": "No Data"
+            })
+        image_df = pd.DataFrame(image_rows)
+        image_df.to_excel(writer, sheet_name="Page Numbers", index=False)
+    except Exception as e:
+        print(e)
+        pass
+    try:
+        additional_data = {
+            "Page with Headers Count": finl_dd["yes_headers_pages"],
+            "Page without Headers Count": finl_dd["No_headers_Pages"],
+            "No of Images in PDF": finl_dd["count_images_"],
+            "No of Urls in PDF": finl_dd["count_urls_"],
+            "No of Pages in PDF": finl_dd["pdf_document_page_count"],
+            "Images With Captions": finl_dd["percentage_with_captions"],
+            "Images Without Captions": finl_dd["percentage_without_captions"]
+        }
+        df_additional_data = pd.DataFrame([additional_data])
+        df_additional_data.to_excel(writer, sheet_name="Additional Info", index=False)
+    except:
+        pass
+    try:
+        writer.close()
+        try:
+            return send_file(excel_file, attachment_filename=f"Report_{process_id}.xlsx", as_attachment=True)
+        except:
+            return send_file(excel_file, download_name=f"Report_{process_id}.xlsx", as_attachment=True)
+
+    except Exception as e:
+
         resp = jsonify({"success": False,
                         "errors": "Something went wrong",
                         "e": str(e)})
-        resp.status_code = 400
-        return resp
-    else:
-        resp = jsonify({"success": False,
-                        "errors": "Result Not Found"})
         resp.status_code = 400
         return resp
 
@@ -1232,6 +1461,11 @@ def generate_report_pdf(type_, process_id):
         return resp
 
 
+# import pandas as pd
+# from flask import send_file, jsonify
+# import os
+# import json
+
 @bp.route('/download/<string:filename>/<string:process_id>', methods=["GET", "POST"])
 def generate_download(filename, process_id):
     pdf_docs = APP.config["PDF_DIR"]
@@ -1314,7 +1548,7 @@ def final_result(process_id):
                     count_urls_, count_images_, dict_final_, pdf_document_page_count = get_final_result(
                         os.path.join(pdf_docs, process_id, filename), process_id)
 
-                    count_images_ =count_images_in_pdf(os.path.join(pdf_docs, process_id, filename))
+                    count_images_ = count_images_in_pdf(os.path.join(pdf_docs, process_id, filename))
 
                     percentage_with_caption_table, percentage_without_caption_table, captions_with_tables = analyze_table_caption(
                         os.path.join(pdf_docs, process_id, filename))
@@ -1428,18 +1662,18 @@ def final_result(process_id):
 
                     top_4_font_size_ = dict(sorted(font_size_dict_.items(), key=lambda x: x[1], reverse=True)[:5])
                     total_counts_size = sum(font_size_dict_.values())
-                    print('total_counts_size',total_counts_size)
+                    print('total_counts_size', total_counts_size)
 
-                    if total_counts_size>0:
+                    if total_counts_size > 0:
                         sum_greater_than_16 = sum(value for key, value in font_size_dict_.items() if float(key) >= 14)
                         percentage_greater_than_16 = round((sum_greater_than_16 / total_counts_size) * 100)
                         sum_less_than_16 = sum(value for key, value in font_size_dict_.items() if float(key) < 14)
                         percentage_less_than_16 = round((sum_less_than_16 / total_counts_size) * 100)
                     else:
-                        sum_greater_than_16=0
-                        percentage_greater_than_16=0
-                        sum_less_than_16=0
-                        percentage_less_than_16=0
+                        sum_greater_than_16 = 0
+                        percentage_greater_than_16 = 0
+                        sum_less_than_16 = 0
+                        percentage_less_than_16 = 0
                     print('percentage_greater_than_16', percentage_greater_than_16)
                     print('percentage_less_than_16', percentage_less_than_16)
 
@@ -1500,15 +1734,15 @@ def final_result(process_id):
                     #                        meets_wcag_percentage=meets_wcag_percentage,
                     #                        does_not_meet_wcag_percentage=does_not_meet_wcag_percentage)
 
-                    print('font_type_dict_',font_type_dict_)
+                    print('font_type_dict_', font_type_dict_)
 
                     if font_type_dict_:
                         percentage_analyze_dylexia, matching_fonts_analyze_dylexia, non_matching_fonts_analyze_dylexia = analyze_dylexia(
-                        font_type_dict_)
+                            font_type_dict_)
                     else:
-                        percentage_analyze_dylexia=0
-                        matching_fonts_analyze_dylexia={}
-                        non_matching_fonts_analyze_dylexia={}
+                        percentage_analyze_dylexia = 0
+                        matching_fonts_analyze_dylexia = {}
+                        non_matching_fonts_analyze_dylexia = {}
                     final_json_['matching_fonts_analyze_dylexia'] = matching_fonts_analyze_dylexia
                     final_json_['non_matching_fonts_analyze_dylexia'] = non_matching_fonts_analyze_dylexia
                     remaining_percentage_dylexia = round(100 - percentage_analyze_dylexia)
@@ -1754,9 +1988,7 @@ def final_result(process_id):
                 pdf_docs_json = APP.config["PDF_RESULT_JSON"]
                 if not os.path.exists(os.path.join(pdf_docs_json, process_id)):
                     os.mkdir(os.path.join(pdf_docs_json, process_id))
-                with open(os.path.join(pdf_docs_json, process_id, "result.json"), "w") as file:
-                    json.dump(final_json_, file)
-                    file.close()
+
                 with open(os.path.join(pdf_docs_json, process_id, "result_colorblind.json"), "w") as file:
                     json.dump(final_data_analyze_pdf_colorblind, file)
                     file.close()
@@ -1788,12 +2020,16 @@ def final_result(process_id):
                 top_4_font_size_ = dict(sorted(font_size_dict_.items(), key=lambda x: x[1], reverse=True)[:5])
                 total_counts_size = sum(font_size_dict_.values())
 
-                sum_greater_than_16 = sum(value for key, value in font_size_dict_.items() if float(key) >= 14)
-                percentage_greater_than_16 = round((sum_greater_than_16 / total_counts_size) * 100)
-
-                sum_less_than_16 = sum(value for key, value in font_size_dict_.items() if float(key) < 14)
-                percentage_less_than_16 = round((sum_less_than_16 / total_counts_size) * 100)
-
+                if total_counts_size > 0:
+                    sum_greater_than_16 = sum(value for key, value in font_size_dict_.items() if float(key) >= 14)
+                    percentage_greater_than_16 = round((sum_greater_than_16 / total_counts_size) * 100)
+                    sum_less_than_16 = sum(value for key, value in font_size_dict_.items() if float(key) < 14)
+                    percentage_less_than_16 = round((sum_less_than_16 / total_counts_size) * 100)
+                else:
+                    sum_greater_than_16 = 0
+                    percentage_greater_than_16 = 0
+                    sum_less_than_16 = 0
+                    percentage_less_than_16 = 0
                 percentage_dict_size = {font: round((count / total_counts_size) * 100) for font, count in
                                         top_4_font_size_.items()}
                 length_of_percentage_dict_size = len(percentage_dict_size)
@@ -1853,11 +2089,20 @@ def final_result(process_id):
                 # overall_percentage = round(sum(percentages) / len(percentages))
                 # remaining_percentage = round(100 - overall_percentage)
                 # percentage, matching_fonts, non_matching_fonts = analyze_dylexia(font_type_dict_)
-                percentage_analyze_dylexia, matching_fonts_analyze_dylexia, non_matching_fonts_analyze_dylexia = analyze_dylexia(
-                    font_type_dict_)
+                if font_type_dict_:
+                    percentage_analyze_dylexia, matching_fonts_analyze_dylexia, non_matching_fonts_analyze_dylexia = analyze_dylexia(
+                        font_type_dict_)
+                else:
+                    percentage_analyze_dylexia = 0
+                    matching_fonts_analyze_dylexia = {}
+                    non_matching_fonts_analyze_dylexia = {}
                 # print('percentage_analyze_dylexia, matching_fonts_analyze_dylexia, non_matching_fonts_analyze_dylexia',percentage_analyze_dylexia, matching_fonts_analyze_dylexia)
                 remaining_percentage_dylexia = round(100 - percentage_analyze_dylexia)
-
+                final_json_['matching_fonts_analyze_dylexia'] = matching_fonts_analyze_dylexia
+                final_json_['non_matching_fonts_analyze_dylexia'] = non_matching_fonts_analyze_dylexia
+                with open(os.path.join(pdf_docs_json, process_id, "result.json"), "w") as file:
+                    json.dump(final_json_, file)
+                    file.close()
                 mandatory_percentages_sum = (
                         round(percentage_greater_than_16) +
                         round(fina_header_count_[0][0]) +
