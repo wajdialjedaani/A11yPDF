@@ -55,4 +55,4 @@ RUN pip install --upgrade pip \
     && pip install opencv-python
 
 # Run the web service on container startup using Gunicorn
-CMD ['python','app.py']
+CMD exec gunicorn --bind :$PORT --workers 1 --threads 8 --timeout 0 app:app
