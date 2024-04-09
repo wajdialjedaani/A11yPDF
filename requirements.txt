@@ -26,3 +26,6 @@ scikit-learn
 camelot-py
 charset_normalizer
 pdfminer.six
+XlsxWriter
+opencv-python
+gunicorn
