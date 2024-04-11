@@ -237,14 +237,26 @@
 					<div id="fontsizelbl" class="font-div">
 							<h4 class="card-title">Fonts Size</h4>
 					</div>
+					{% if percentage_dict_size|length != 0 %}
 					<div>
 						<span class="access-core">Accessibility Score</span>
 						<canvas id="doughnut1" class="doughnut-chart"></canvas>
 					</div>
+					{% else %}
+					<div>
+						<p class="no_links">No Data :(</p>
+					</div>
+					{% endif %}
 				</div>
+				{% if percentage_dict_size|length != 0 %}
 				<div class="col-md-12" style="height: 55%;">
 					<canvas id="font_size"></canvas>
 				</div>
+				{% else %}
+				<div class="col-md-12" style="height: 55%;">
+					<p class="no_links" style="ext-align: center;padding-top: 120px;">No font found in pdf :(</p>
+				</div>
+				{% endif %}
 				<div class="button-con">
 					<div id="more_info" class="moreinfo-con"><a class="button arrow" href="#open-modal1" data-target="modal1">More Info </a></div>
 					<div class="btn" id="gen_report" onclick="location.href='/PDFAnalyzerX/generate_report/fsa/{{process_id}}'">
@@ -615,9 +627,15 @@
 					<div>
 					</div>
 				</div>
+				{% if percentage_dict_size|length != 0 %}
 				<div class="col-md-12" style="height: 55%;">
 					<canvas id="color"></canvas>
 				</div>
+				{% else %}
+				<div class="col-md-12" style="height: 55%;">
+					<p class="no_links" style="ext-align: center;padding-top: 120px;">No font found in pdf :(</p>
+				</div>
+				{% endif %}
 				<div class="button-con">
 					<div class="moreinfo-con"><a class="button arrow" href="#open-modal8">More Info </a></div>
 					<div class="btn" onclick="location.href='/PDFAnalyzerX/generate_report/fsa/{{process_id}}'">
@@ -770,14 +788,27 @@
 				<div class="font-div">
 					<h4 class="card-title">Dyslexia</h4>
 				</div>
+				{% if percentage_dict_size|length != 0 %}
 				<div>
 					<span class="access-core">Accessibility Score</span>
 					<canvas id="doughnut9" class="doughnut-chart"></canvas>
 				</div>
+				{% else %}
+					<div>
+						<p class="no_links">No Data :(</p>
+					</div>
+					{% endif %}
 			</div>
-			<div class="col-md-12">
-				<canvas id="dylexia"></canvas>
-			</div>
+			{% if percentage_dict_size|length != 0 %}
+				<div class="col-md-12">
+					<canvas id="dylexia"></canvas>
+				</div>
+				{% else %}
+				<div class="col-md-12" style="height: 55%;">
+					<p class="no_links" style="ext-align: center;padding-top: 120px;">No font found in pdf :(</p>
+				</div>
+				{% endif %}
+
 			<div class="button-con">
 				<div class="moreinfo-con"><a class="button arrow" href="#open-modal11">More Info </a></div>
 				<div class="btn" onclick="location.href='/PDFAnalyzerX/generate_report/fsa/{{process_id}}'">
@@ -1094,7 +1125,7 @@
 		average_percentage = 0;
 	}
 	else{
-		average_percentage = (accessible_urls / total_urls) * 100;
+		average_percentage = Math.floor((accessible_urls / total_urls) * 100);
 	}
 
 
@@ -2376,14 +2407,14 @@
 
 	<!--Calculate average percentage of accessible URLs-->
 	if(total_urls == 0){
-		average_percentage = 0;
+		average_percentage_links = 0;
 	}
 	else{
-		average_percentage = (accessible_urls / total_urls) * 100;
+		average_percentage_links = Math.floor((accessible_urls / total_urls) * 100);
 	}
 
  		// Determine background color based on percentage
-		percentage = average_percentage;
+		percentage = average_percentage_links;
 		var linkaccBackColor = '';
 		if (percentage > 60) {
 			linkaccBackColor = 'green'; // Red background
@@ -2423,7 +2454,7 @@
 				ctx.font = 'bolder 45px Arial';
 				ctx.fillStyle = linkaccBackColor;
 				ctx.textAlign = 'center';
-				ctx.fillText(average_percentage + '%', x, y);
+				ctx.fillText(average_percentage_links + '%', x, y);
 			}
 		};
 
@@ -2754,15 +2785,34 @@
 		var datasets_top_4_font_size_ = [];
 		var labels_data_top_4_font_size_ = [];
 
+
+		// Sum up values less than 3
+		var sum = 0;
+		for (var key in data_top_4_font_size_) {
+			if (data_top_4_font_size_.hasOwnProperty(key)) {
+				var value = data_top_4_font_size_[key];
+				if (value < 3) {
+					sum += value;
+					delete data_top_4_font_size_[key];
+				}
+			}
+		}
+
+		// Add combined value if sum is greater than 0
+		if (sum > 0) {
+			data_top_4_font_size_["Other"] = sum;
+		}
+
+		console.log(data_top_4_font_size_);
+
+
 		for (var key in data_top_4_font_size_) {
 		datasets_top_4_font_size_.push(data_top_4_font_size_[key])
 		labels_data_top_4_font_size_.push(key + ' px')
 		}
+		console.log(labels_data_top_4_font_size_);
 
 		const ctx = document.getElementById('font_size').getContext('2d');
-
-<!--		const labels_data_for_myChartBarSection = ['Category A', 'Category B', 'Category C', 'Category D', 'Category E'];-->
-<!--		const datasets_for_myChartBarSection = [300, 200, 400, 150, 250];-->
 
 		var myChart1 = new Chart(ctx, {
 			type: 'pie',
@@ -3799,7 +3849,7 @@
 		toggleDarkMode(isDark1);
 	});
 
-
+var data_top_4_font_size_ = {{ percentage_dict_size| tojson | safe}};
     // Function to toggle dark mode
     function toggleDarkMode(isDark) {
         const isDark2 = darkModeToggle.checked;
@@ -3809,13 +3859,15 @@
             darkModeEmojis[0].style.display = 'none'; // Hide sun emoji
             darkModeEmojis[1].style.display = 'inline'; // Display moon emoji
             darkModeToggle.checked = isDark;
-            toggleDarkMode1(true);
+            if (data_top_4_font_size_.length !== 0) {
+            	toggleDarkMode1(true);
+				toggleDarkMode9(true);
+				toggleDarkMode11(true);
+            }
 			toggleDarkMode4(true);
 			toggleDarkMode5(true);
 			toggleDarkMode7(true);
-			toggleDarkMode9(true);
 			toggleDarkMode10(true);
-			toggleDarkMode11(true);
 			if ({{ count_images_ }} > 0) {
 				toggleDarkMode3(true);
 			}
@@ -3831,13 +3883,15 @@
         } else {
             darkModeEmojis[1].style.display = 'none'; // Hide moon emoji
             darkModeEmojis[0].style.display = 'inline'; // Display sun emoji
-            toggleDarkMode1(false);
+             if (data_top_4_font_size_.length !== 0) {
+            	toggleDarkMode1(true);
+				toggleDarkMode9(true);
+				toggleDarkMode11(true);
+            }
 			toggleDarkMode4(false);
 			toggleDarkMode5(false);
 			toggleDarkMode7(false);
-			toggleDarkMode9(false);
 			toggleDarkMode10(false);
-			toggleDarkMode11(false);
 			if ({{ count_images_ }} > 0) {
 				toggleDarkMode3(false);
 			}

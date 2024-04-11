@@ -1569,7 +1569,6 @@ def final_result(process_id):
 
                     titles_for_footers_, count_of_footers_ = extract_foter(os.path.join(pdf_docs, process_id, filename))
                     table_count_ = get_tables_count(os.path.join(pdf_docs, process_id, filename))
-
                     image_info_dict, final_list_of_rsa = {}, []
                     # image_info_dict, final_list_of_rsa = get_image_resolution_aspect_ratio(
                     #     os.path.join(images_path_of_pdf, process_id))
@@ -1825,7 +1824,6 @@ def final_result(process_id):
                     print(f"analyze_pdf_colorblind took {elapsed_time:.2f} seconds.")
                 # print('font_type_dict_', font_type_dict_)
                 # exit()
-
                 return render_template("pdf_analysis_latest.html", top_4_font_size_=top_4_font_size_,
                                        top_4_fonts_types=top_4_fonts_types, total_counts_size=total_counts_size,
                                        total_counts_types=total_counts_types, count_urls_=count_urls_final_,
@@ -2120,6 +2118,7 @@ def final_result(process_id):
                         round(overall_percentages_colorblind['Tritanopia']['Accessible'])
                 )
                 num_fields = 8
+                print(table_count_,"table_count_")
                 if count_images_ > 0:
                     mandatory_percentages_sum += round(percentage_with_captions)
                     mandatory_percentages_sum += round(meets_wcag_percentage)
