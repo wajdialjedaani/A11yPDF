@@ -1509,6 +1509,7 @@
       line-height: 19px;
       margin: -1px 15px 0 0;
       padding: 0;
+      text-align: left;
     }
 
     div.hopscotch-bubble .hopscotch-bubble-container {
@@ -1524,10 +1525,12 @@
       line-height: 17px;
       margin: -5px 0 11px;
       padding-top: 8px;
+      text-align: left;
+      line-height: 20px !important;
     }
 
     div.hopscotch-bubble .hopscotch-bubble-content {
-      margin: 0 0 0 40px;
+      margin: 0 0 0 45px !important;
     }
 
     div.hopscotch-bubble.no-number .hopscotch-bubble-content {
