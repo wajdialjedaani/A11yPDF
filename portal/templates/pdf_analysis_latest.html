@@ -288,7 +288,7 @@
 							</div>
 							<ul class="tabs" role="tablist">
 								<li>
-									<input type="radio" name="tabs" id="tab1" checked />
+									<input type="radio" name="tabs_font" id="tab1" checked />
 									<label for="tab1" role="tab" aria-selected="true" aria-controls="panel1" tabindex="0">Description</label>
 									<div id="tab-content1" class="tab-content" role="tabpanel" aria-labelledby="description" aria-hidden="false">
 									  <p style="color: black;text-align: justify;">Our pie chart visually displays font size distribution within uploaded PDFs, each slice representing a font size category. It provides a clear overview of font size prevalence, aiding users in understanding typographic diversity. The doughnut chart depicts accessibility scores, indicating how effectively users with varied visual abilities can read the text based on font size.</p>
@@ -296,7 +296,7 @@
 								</li>
 
 								<li>
-									<input type="radio" name="tabs" id="tab2" />
+									<input type="radio" name="tabs_font" id="tab2" />
 									<label for="tab2" role="tab" aria-selected="false" aria-controls="panel2" tabindex="0">How to make more accessible</label>
 									<div id="tab-content2" class="tab-content" role="tabpanel" aria-labelledby="specification" aria-hidden="true">
 									  <p style="color: black;text-align: justify;">According to WCAG guidelines, it's recommended to use font sizes greater than 14 pixels to enhance accessibility for users, especially those with visual impairments. This ensures that text remains legible and easily readable across different devices and screen sizes, promoting inclusivity and usability for all individuals interacting with your content.</p>
@@ -365,13 +365,30 @@
 								<a href="#x" title="Close" class="modal-close"><img style="width: 35px;" alt="close" src="/PDFAnalyzerX/static/images/ion/output-close_red.png"/></a>
 							</div>
 						</div>
-						<div class="col-md-12" style="height: 55%;">
-							<P class="modal_data">Our doughnut chart visually illustrates the accessibility of links within uploaded PDF documents. Each segment of the doughnut represents a link accessibility category, distinguishing between accessible and inaccessible links. By offering a clear depiction of the distribution of accessible and inaccessible links, this chart empowers users to assess the overall accessibility of their document's hyperlinks. Understanding the accessibility of links ensures that documents are navigable for all users, regardless of their abilities, enhancing inclusivity and user experience.</P>
-							<br/>
-							<p class="modal_data">Additionally, our pie chart provides users with valuable insights into the distribution of link types within the PDF document. Each slice of the pie corresponds to a specific link type, such as external URLs, internal document references, or anchor links. The size of each slice indicates the proportion of links belonging to that category, enabling users to grasp the diversity of link types present in their document. This chart assists users in comprehending the document's linking structure and facilitates informed decision-making when optimizing link accessibility and functionality.</p>
-							<br/><h2>How to make more Accessible</h2><br/>
-							<p class="modal_data">To enhance the accessibility of your PDF documents, it's important to ensure that the links included within them function correctly. This means ensuring that each link accurately leads to its intended destination when clicked or activated. Additionally, providing descriptive link text that clearly indicates the destination can greatly improve accessibility for users who rely on screen readers or other assistive technologies. By verifying link functionality and using descriptive text, you can ensure that all users, including those with disabilities, can easily navigate your PDF content.</p>
-						</div>
+						<ul class="tabs" role="tablist">
+								<li>
+									<input type="radio" name="tabs_links" id="tab3" checked />
+									<label for="tab3" role="tab" aria-selected="true" aria-controls="panel1" tabindex="0">Description</label>
+									<div id="tab-content3" class="tab-content" role="tabpanel" aria-labelledby="description" aria-hidden="false">
+									  <p style="color: black;text-align: justify;">Our doughnut chart visualizes the accessibility of links in uploaded PDF documents, categorizing them as accessible or inaccessible, and showing the proportion of each. Additionally, our pie chart breaks down the types of links—such as external URLs, internal references, or anchor links—highlighting their relative frequency within the document. These charts help users improve document navigability and inclusivity, enhancing the user experience.</p>
+									</div>
+								</li>
+
+								<li>
+									<input type="radio" name="tabs_links" id="tab4" />
+									<label for="tab4" role="tab" aria-selected="false" aria-controls="panel2" tabindex="0">How to make more accessible</label>
+									<div id="tab-content4" class="tab-content" role="tabpanel" aria-labelledby="specification" aria-hidden="true">
+									  <p style="color: black;text-align: justify;">To enhance the accessibility of your PDF documents, ensure that all links function correctly and lead to their intended destinations. Providing descriptive link text also improves accessibility, especially for users using screen readers or other assistive technologies. By checking link functionality and using clear descriptions, you help make your content navigable and inclusive for all users, including those with disabilities.</p>
+									</div>
+								</li>
+							</ul>
+<!--						<div class="col-md-12" style="height: 55%;">-->
+<!--							<P class="modal_data">Our doughnut chart visually illustrates the accessibility of links within uploaded PDF documents. Each segment of the doughnut represents a link accessibility category, distinguishing between accessible and inaccessible links. By offering a clear depiction of the distribution of accessible and inaccessible links, this chart empowers users to assess the overall accessibility of their document's hyperlinks. Understanding the accessibility of links ensures that documents are navigable for all users, regardless of their abilities, enhancing inclusivity and user experience.</P>-->
+<!--							<br/>-->
+<!--							<p class="modal_data">Additionally, our pie chart provides users with valuable insights into the distribution of link types within the PDF document. Each slice of the pie corresponds to a specific link type, such as external URLs, internal document references, or anchor links. The size of each slice indicates the proportion of links belonging to that category, enabling users to grasp the diversity of link types present in their document. This chart assists users in comprehending the document's linking structure and facilitates informed decision-making when optimizing link accessibility and functionality.</p>-->
+<!--							<br/><h2>How to make more Accessible</h2><br/>-->
+<!--							<p class="modal_data">To enhance the accessibility of your PDF documents, it's important to ensure that the links included within them function correctly. This means ensuring that each link accurately leads to its intended destination when clicked or activated. Additionally, providing descriptive link text that clearly indicates the destination can greatly improve accessibility for users who rely on screen readers or other assistive technologies. By verifying link functionality and using descriptive text, you can ensure that all users, including those with disabilities, can easily navigate your PDF content.</p>-->
+<!--						</div>-->
 						<div class="button-con">
 						</div>
 					</div>
@@ -426,13 +443,30 @@
 								<a href="#x" title="Close" class="modal-close"><img style="width: 35px;" alt="close" src="/PDFAnalyzerX/static/images/ion/output-close_red.png"/></a>
 							</div>
 						</div>
-						<div class="col-md-12" style="height: 55%;">
-							<P class="modal_data">Our tool meticulously examines the presence and accessibility of image captions within uploaded PDF documents. For documents containing images, our analysis includes checking whether corresponding image captions are provided. This critical feature allows users to understand the context and meaning of images, enhancing accessibility for all readers, including those with visual impairments. Our bar chart visually represents the distribution of images with captions versus those without, providing users with a clear overview of their document's image captioning practices and potential areas for improvement.</P>
-							<br/>
-							<p class="modal_data">Moreover, our doughnut chart presents the overall accessibility percentage of images with captions, adhering to WCAG guidelines. By calculating the accessibility score based on the presence of image captions, users gain insight into how effectively their document accommodates diverse visual abilities. This chart serves as a valuable tool for users to assess the inclusivity of their document's image content and prioritize accessibility enhancements. With these visual aids, users can make informed decisions to optimize image captioning practices and ensure their documents are accessible to all readers.</p>
-							<br/>
-							<p class="modal_data">To enhance the accessibility of images in your PDF documents, it's important to ensure that image captions are placed in immediate proximity to the corresponding image. This allows users, including those who rely on screen readers, to easily associate the caption with the image. When captions are positioned nearby, users can quickly understand the context and purpose of the image, improving overall accessibility. Conversely, if captions are not placed adjacent to their respective images, accessibility may be compromised, as users may struggle to connect the caption with the correct image. Therefore, for optimal accessibility, always ensure that image captions appear in immediate line with their associated images in your PDF documents.</p>
-						</div>
+						<ul class="tabs" role="tablist">
+							<li>
+								<input type="radio" name="tabs_img_capt" id="tab5" checked />
+								<label for="tab5" role="tab" aria-selected="true" aria-controls="panel1" tabindex="0">Description</label>
+								<div id="tab-content5" class="tab-content" role="tabpanel" aria-labelledby="description" aria-hidden="false">
+								  <p style="color: black;text-align: justify;">Our tool analyzes PDFs to ensure image captions are present and accessible, aiding readers with visual impairments. Through bar and doughnut charts, we illustrate the distribution of images with captions and overall accessibility percentages, helping users understand and improve their document's inclusivity. These visual aids empower users to prioritize accessibility enhancements and optimize image captioning practices for broader accessibility.</p>
+								</div>
+							</li>
+
+							<li>
+								<input type="radio" name="tabs_img_capt" id="tab6" />
+								<label for="tab6" role="tab" aria-selected="false" aria-controls="panel2" tabindex="0">How to make more accessible</label>
+								<div id="tab-content6" class="tab-content" role="tabpanel" aria-labelledby="specification" aria-hidden="true">
+								  <p style="color: black;text-align: justify;">To boost image accessibility in PDFs, place captions directly next to the corresponding images. This proximity aids users, especially those relying on screen readers, in understanding the image context swiftly. Failing to align captions with their images can hinder accessibility by creating confusion. Always prioritize placing image captions adjacent to their respective images for optimal accessibility.</p>
+								</div>
+							</li>
+						</ul>
+<!--						<div class="col-md-12" style="height: 55%;">-->
+<!--							<P class="modal_data">Our tool meticulously examines the presence and accessibility of image captions within uploaded PDF documents. For documents containing images, our analysis includes checking whether corresponding image captions are provided. This critical feature allows users to understand the context and meaning of images, enhancing accessibility for all readers, including those with visual impairments. Our bar chart visually represents the distribution of images with captions versus those without, providing users with a clear overview of their document's image captioning practices and potential areas for improvement.`</P>-->
+<!--							<br/>-->
+<!--							<p class="modal_data">Moreover, our doughnut chart presents the overall accessibility percentage of images with captions, adhering to WCAG guidelines. By calculating the accessibility score based on the presence of image captions, users gain insight into how effectively their document accommodates diverse visual abilities. This chart serves as a valuable tool for users to assess the inclusivity of their document's image content and prioritize accessibility enhancements. With these visual aids, users can make informed decisions to optimize image captioning practices and ensure their documents are accessible to all readers.</p>-->
+<!--							<br/>-->
+<!--							<p class="modal_data">To enhance the accessibility of images in your PDF documents, it's important to ensure that image captions are placed in immediate proximity to the corresponding image. This allows users, including those who rely on screen readers, to easily associate the caption with the image. When captions are positioned nearby, users can quickly understand the context and purpose of the image, improving overall accessibility. Conversely, if captions are not placed adjacent to their respective images, accessibility may be compromised, as users may struggle to connect the caption with the correct image. Therefore, for optimal accessibility, always ensure that image captions appear in immediate line with their associated images in your PDF documents.</p>-->
+<!--						</div>-->
 						<div class="button-con">
 						</div>
 					</div>
@@ -475,13 +509,30 @@
 								<a href="#x" title="Close" class="modal-close"><img style="width: 35px;" alt="close" src="/PDFAnalyzerX/static/images/ion/output-close_red.png"/></a>
 							</div>
 						</div>
-						<div class="col-md-12" style="height: 55%;">
-							<P class="modal_data">Our tool conducts a thorough analysis of headers within uploaded PDF documents to enhance accessibility. Firstly, it identifies the presence of headers on each page, distinguishing between pages with headers and those without. This crucial assessment is then visualized in a doughnut chart, providing users with a clear breakdown of the distribution: pages with headers versus pages without headers. This visual representation enables users to understand the extent to which headers are utilized throughout their document and identify areas for improvement.</P>
-							<br/>
-							<p class="modal_data">Additionally, our tool calculates the overall accessibility percentage of headers present in the PDF document, adhering to WCAG guidelines. This accessibility score reflects how effectively headers are utilized to structure and organize the content, facilitating navigation and comprehension for all readers. The accompanying doughnut chart offers users valuable insights into the accessibility of headers, empowering them to prioritize enhancements and ensure their documents are optimally accessible. With these visual aids, users can make informed decisions to improve the accessibility and usability of their PDF documents.</p>
-							<br/>
-							<p class="modal_data">Ensuring that each page of your document contains clear headers significantly enhances its accessibility. Headers serve as navigational landmarks for users, aiding in orientation and comprehension, especially for those utilizing screen readers or navigating through the document sequentially. By providing consistent headers on every page, users can easily identify where they are within the document and quickly locate relevant sections. This promotes a smoother reading experience and improves overall accessibility.</p>
-						</div>
+						<ul class="tabs" role="tablist">
+							<li>
+								<input type="radio" name="tabs_head" id="tab7" checked />
+								<label for="tab7" role="tab" aria-selected="true" aria-controls="panel1" tabindex="0">Description</label>
+								<div id="tab-content7" class="tab-content" role="tabpanel" aria-labelledby="description" aria-hidden="false">
+								  <p style="color: black;text-align: justify;">Our tool analyzes PDFs to identify and visualize the presence of headers on each page, aiding users in understanding header distribution and potential improvements. Through a doughnut chart, users can gauge the accessibility percentage of headers, ensuring compliance with WCAG guidelines and enhancing document navigation. These visual insights empower users to prioritize accessibility enhancements, optimizing document usability for all readers.</p>
+								</div>
+							</li>
+
+							<li>
+								<input type="radio" name="tabs_head" id="tab8" />
+								<label for="tab8" role="tab" aria-selected="false" aria-controls="panel2" tabindex="0">How to make more accessible</label>
+								<div id="tab-content8" class="tab-content" role="tabpanel" aria-labelledby="specification" aria-hidden="true">
+								  <p style="color: black;text-align: justify;">Clear headers on every page aid in document navigation, particularly for users relying on screen readers or navigating sequentially. Consistent headers offer navigational landmarks, enhancing orientation and comprehension throughout the document. By ensuring each page has clear headers, users can easily locate relevant sections, promoting a smoother reading experience and boosting overall accessibility.</p>
+								</div>
+							</li>
+						</ul>
+<!--						<div class="col-md-12" style="height: 55%;">-->
+<!--							<P class="modal_data">Our tool conducts a thorough analysis of headers within uploaded PDF documents to enhance accessibility. Firstly, it identifies the presence of headers on each page, distinguishing between pages with headers and those without. This crucial assessment is then visualized in a doughnut chart, providing users with a clear breakdown of the distribution: pages with headers versus pages without headers. This visual representation enables users to understand the extent to which headers are utilized throughout their document and identify areas for improvement.</P>-->
+<!--							<br/>-->
+<!--							<p class="modal_data">Additionally, our tool calculates the overall accessibility percentage of headers present in the PDF document, adhering to WCAG guidelines. This accessibility score reflects how effectively headers are utilized to structure and organize the content, facilitating navigation and comprehension for all readers. The accompanying doughnut chart offers users valuable insights into the accessibility of headers, empowering them to prioritize enhancements and ensure their documents are optimally accessible. With these visual aids, users can make informed decisions to improve the accessibility and usability of their PDF documents.</p>-->
+<!--							<br/>-->
+<!--							<p class="modal_data">Ensuring that each page of your document contains clear headers significantly enhances its accessibility. Headers serve as navigational landmarks for users, aiding in orientation and comprehension, especially for those utilizing screen readers or navigating through the document sequentially. By providing consistent headers on every page, users can easily identify where they are within the document and quickly locate relevant sections. This promotes a smoother reading experience and improves overall accessibility.</p>-->
+<!--						</div>-->
 						<div class="button-con">
 						</div>
 					</div>
@@ -525,13 +576,30 @@
 								<a href="#x" title="Close" class="modal-close"><img style="width: 35px;" alt="close" src="/PDFAnalyzerX/static/images/ion/output-close_red.png"/></a>
 							</div>
 						</div>
-						<div class="col-md-12" style="height: 55%;">
-							<P class="modal_data">Our tool provides a comprehensive analysis of footers within uploaded PDF documents, aiming to enhance accessibility and usability. It systematically identifies the presence or absence of footers on each page and visually represents this information in a doughnut chart. This chart offers users a clear overview of the distribution: pages with footers and those without. By understanding the prevalence of footers throughout their document, users can gain insights into its structural organization and identify potential areas for improvement.</P>
-							<br/>
-							<p class="modal_data">Furthermore, our tool calculates the overall accessibility percentage of footers present in the PDF document, aligning with WCAG standards. This accessibility score evaluates how effectively footers contribute to document navigation and comprehension for all readers. The accompanying doughnut chart serves as a valuable tool for users to assess the accessibility of their document's footers and prioritize enhancements accordingly. With these visual aids, users can make informed decisions to optimize the accessibility and usability of their PDF documents.</p>
-							<br/>
-							<p class="modal_data">Similarly, incorporating clear footers on each page of your document contributes to its accessibility. Footers provide valuable contextual information such as page numbers, dates, or document titles, aiding users in understanding and navigating the content. By consistently including footers on every page, users, especially those using assistive technologies, can easily track their progress, refer back to specific sections, or identify the document's relevance. This enhances overall accessibility by ensuring that users have access to essential information regardless of their navigation method</p>
-						</div>
+						<ul class="tabs" role="tablist">
+							<li>
+								<input type="radio" name="tabs_footer" id="tab9" checked />
+								<label for="tab9" role="tab" aria-selected="true" aria-controls="panel1" tabindex="0">Description</label>
+								<div id="tab-content9" class="tab-content" role="tabpanel" aria-labelledby="description" aria-hidden="false">
+								  <p style="color: black;text-align: justify;">Our tool analyzes PDFs to identify footers on each page and presents this data visually in a doughnut chart for users to assess distribution and accessibility. By calculating the overall accessibility percentage of footers, users can align with WCAG standards and enhance document navigation. These visual insights empower users to prioritize footer enhancements, improving the overall accessibility and usability of their PDF documents.</p>
+								</div>
+							</li>
+
+							<li>
+								<input type="radio" name="tabs_footer" id="tab10" />
+								<label for="tab10" role="tab" aria-selected="false" aria-controls="panel2" tabindex="0">How to make more accessible</label>
+								<div id="tab-content10" class="tab-content" role="tabpanel" aria-labelledby="specification" aria-hidden="true">
+								  <p style="color: black;text-align: justify;">Clear footers on every page enrich document accessibility by offering contextual details like page numbers and dates, aiding users in navigation and comprehension. Consistent footer inclusion enables users, especially those using assistive technologies, to track progress, refer to sections, and grasp the document's relevance easily. This ensures access to vital information regardless of the user's navigation method, fostering enhanced accessibility overall.</p>
+								</div>
+							</li>
+						</ul>
+<!--						<div class="col-md-12" style="height: 55%;">-->
+<!--							<P class="modal_data">Our tool provides a comprehensive analysis of footers within uploaded PDF documents, aiming to enhance accessibility and usability. It systematically identifies the presence or absence of footers on each page and visually represents this information in a doughnut chart. This chart offers users a clear overview of the distribution: pages with footers and those without. By understanding the prevalence of footers throughout their document, users can gain insights into its structural organization and identify potential areas for improvement.</P>-->
+<!--							<br/>-->
+<!--							<p class="modal_data">Furthermore, our tool calculates the overall accessibility percentage of footers present in the PDF document, aligning with WCAG standards. This accessibility score evaluates how effectively footers contribute to document navigation and comprehension for all readers. The accompanying doughnut chart serves as a valuable tool for users to assess the accessibility of their document's footers and prioritize enhancements accordingly. With these visual aids, users can make informed decisions to optimize the accessibility and usability of their PDF documents.</p>-->
+<!--							<br/>-->
+<!--							<p class="modal_data">Similarly, incorporating clear footers on each page of your document contributes to its accessibility. Footers provide valuable contextual information such as page numbers, dates, or document titles, aiding users in understanding and navigating the content. By consistently including footers on every page, users, especially those using assistive technologies, can easily track their progress, refer back to specific sections, or identify the document's relevance. This enhances overall accessibility by ensuring that users have access to essential information regardless of their navigation method</p>-->
+<!--						</div>-->
 						<div class="button-con">
 						</div>
 					</div>
@@ -586,13 +654,30 @@
 								<a href="#x" title="Close" class="modal-close"><img style="width: 35px;" alt="close" src="/PDFAnalyzerX/static/images/ion/output-close_red.png"/></a>
 							</div>
 						</div>
-						<div class="col-md-12" style="height: 55%;">
-							<P class="modal_data">Our tool rigorously evaluates the contrast of images within uploaded PDF documents, adhering to WCAG standards which recommend a minimum contrast ratio of at least 4.5:1 for text and images. Each image is analyzed against this criterion, and the tool categorizes pages based on whether the images meet or fail to meet this standard. This analysis is then visually presented using a bar chart, illustrating the distribution of pages that satisfy the WCAG contrast ratio requirement versus those that do not. This breakdown empowers users to readily identify pages in their document that may require adjustments to improve accessibility.</P>
-							<br/>
-							<p class="modal_data">Furthermore, our tool computes the overall accessibility percentage of image contrast within the PDF document, focusing on adherence to the 4.5:1 contrast ratio guideline. This percentage, showcased in a doughnut chart, offers users a holistic view of the document's accessibility concerning image contrast. By providing this comprehensive insight, users can effectively assess the inclusivity of their document's visual content and prioritize enhancements to ensure accessibility for all readers. With these visual representations, users can confidently make informed decisions to optimize the accessibility and usability of their PDF documents.</p>
-							<br/>
-							<p class="modal_data">To enhance the accessibility of images, it's crucial to ensure adequate contrast between elements within the image. Following the Web Content Accessibility Guidelines (WCAG), aim for a contrast ratio of at least 4.5:1 between the foreground (such as text or important details) and the background. This ensures that users with visual impairments can perceive and understand the content more easily.</p>
-						</div>
+						<ul class="tabs" role="tablist">
+							<li>
+								<input type="radio" name="tabs_contrast" id="tab11" checked />
+								<label for="tab11" role="tab" aria-selected="true" aria-controls="panel1" tabindex="0">Description</label>
+								<div id="tab-content11" class="tab-content" role="tabpanel" aria-labelledby="description" aria-hidden="false">
+								  <p style="color: black;text-align: justify;">Our tool evaluates image contrast in PDFs, categorizing pages based on WCAG standards and visually representing the distribution in a bar chart. It computes the overall accessibility percentage regarding image contrast, showcased in a doughnut chart, aiding users in assessing inclusivity and prioritizing enhancements. These visual representations empower users to optimize accessibility and usability by making informed decisions about their PDF documents.</p>
+								</div>
+							</li>
+
+							<li>
+								<input type="radio" name="tabs_contrast" id="tab12" />
+								<label for="tab12" role="tab" aria-selected="false" aria-controls="panel2" tabindex="0">How to make more accessible</label>
+								<div id="tab-content12" class="tab-content" role="tabpanel" aria-labelledby="specification" aria-hidden="true">
+								  <p style="color: black;text-align: justify;">To enhance the accessibility of images, it's crucial to ensure adequate contrast between elements within the image. Following the Web Content Accessibility Guidelines (WCAG), aim for a contrast ratio of at least 4.5:1 between the foreground (such as text or important details) and the background. This ensures that users with visual impairments can perceive and understand the content more easily.</p>
+								</div>
+							</li>
+						</ul>
+<!--						<div class="col-md-12" style="height: 55%;">-->
+<!--							<P class="modal_data">Our tool rigorously evaluates the contrast of images within uploaded PDF documents, adhering to WCAG standards which recommend a minimum contrast ratio of at least 4.5:1 for text and images. Each image is analyzed against this criterion, and the tool categorizes pages based on whether the images meet or fail to meet this standard. This analysis is then visually presented using a bar chart, illustrating the distribution of pages that satisfy the WCAG contrast ratio requirement versus those that do not. This breakdown empowers users to readily identify pages in their document that may require adjustments to improve accessibility.</P>-->
+<!--							<br/>-->
+<!--							<p class="modal_data">Furthermore, our tool computes the overall accessibility percentage of image contrast within the PDF document, focusing on adherence to the 4.5:1 contrast ratio guideline. This percentage, showcased in a doughnut chart, offers users a holistic view of the document's accessibility concerning image contrast. By providing this comprehensive insight, users can effectively assess the inclusivity of their document's visual content and prioritize enhancements to ensure accessibility for all readers. With these visual representations, users can confidently make informed decisions to optimize the accessibility and usability of their PDF documents.</p>-->
+<!--							<br/>-->
+<!--							<p class="modal_data">To enhance the accessibility of images, it's crucial to ensure adequate contrast between elements within the image. Following the Web Content Accessibility Guidelines (WCAG), aim for a contrast ratio of at least 4.5:1 between the foreground (such as text or important details) and the background. This ensures that users with visual impairments can perceive and understand the content more easily.</p>-->
+<!--						</div>-->
 						<div class="button-con">
 						</div>
 					</div>
@@ -635,13 +720,30 @@
 								<a href="#x" title="Close" class="modal-close"><img style="width: 35px;" alt="close" src="/PDFAnalyzerX/static/images/ion/output-close_red.png"/></a>
 							</div>
 						</div>
-						<div class="col-md-12" style="height: 55%;">
-							<P class="modal_data">Our tool meticulously examines the presence of page numbers within uploaded PDF documents to enhance accessibility and usability. It systematically identifies pages with page numbers and those without, presenting this information in a clear and concise bar chart. This chart offers users a visual breakdown of the distribution: pages with page numbers versus those without. By providing this insight, users can easily assess the extent to which page numbers are utilized throughout their document and identify areas for improvement</P>
-							<br/>
-							<p class="modal_data">Moreover, our tool calculates the overall accessibility percentage of page numbers within the PDF document, emphasizing adherence to accessibility standards. This accessibility score is represented in a doughnut chart, offering users a comprehensive view of the document's accessibility concerning page numbers. By evaluating the presence of page numbers and their impact on document navigation, users can make informed decisions to optimize accessibility and ensure an enhanced user experience. With these visual aids, users can confidently prioritize enhancements to ensure that page numbers are accessible to all readers.</p>
-							<br/><h2>How to make more Accessible</h2><br/>
-							<p class="modal_data">Including page numbers on each page of your document greatly enhances its accessibility. Page numbers provide important contextual cues to users, enabling them to navigate through the document more effectively, especially when using assistive technologies like screen readers. With page numbers, users can easily track their location, refer back to specific sections, or communicate about the document with others. This consistency in page numbering ensures a smoother reading experience and promotes better comprehension of the document's structure and content</p>
-						</div>
+						<ul class="tabs" role="tablist">
+							<li>
+								<input type="radio" name="tabs_number" id="tab13" checked />
+								<label for="tab13" role="tab" aria-selected="true" aria-controls="panel1" tabindex="0">Description</label>
+								<div id="tab-content13" class="tab-content" role="tabpanel" aria-labelledby="description" aria-hidden="false">
+								  <p style="color: black;text-align: justify;">Our tool analyzes PDFs to identify pages with and without page numbers, presenting the data in a concise bar chart for users to understand distribution. It calculates the overall accessibility percentage of page numbers, displayed in a doughnut chart, emphasizing adherence to accessibility standards. These visual representations enable users to prioritize enhancements, ensuring page numbers are accessible to all readers for an enhanced user experience.</p>
+								</div>
+							</li>
+
+							<li>
+								<input type="radio" name="tabs_number" id="tab14" />
+								<label for="tab14" role="tab" aria-selected="false" aria-controls="panel2" tabindex="0">How to make more accessible</label>
+								<div id="tab-content14" class="tab-content" role="tabpanel" aria-labelledby="specification" aria-hidden="true">
+								  <p style="color: black;text-align: justify;">Including page numbers on every page improves document accessibility by aiding navigation, particularly for users employing assistive technologies like screen readers. Page numbers allow users to track their location, reference sections, and discuss the document with others efficiently. Consistent page numbering fosters a smoother reading experience and enhances comprehension of the document's structure and content. </p>
+								</div>
+							</li>
+						</ul>
+<!--						<div class="col-md-12" style="height: 55%;">-->
+<!--							<P class="modal_data">Our tool meticulously examines the presence of page numbers within uploaded PDF documents to enhance accessibility and usability. It systematically identifies pages with page numbers and those without, presenting this information in a clear and concise bar chart. This chart offers users a visual breakdown of the distribution: pages with page numbers versus those without. By providing this insight, users can easily assess the extent to which page numbers are utilized throughout their document and identify areas for improvement</P>-->
+<!--							<br/>-->
+<!--							<p class="modal_data">Moreover, our tool calculates the overall accessibility percentage of page numbers within the PDF document, emphasizing adherence to accessibility standards. This accessibility score is represented in a doughnut chart, offering users a comprehensive view of the document's accessibility concerning page numbers. By evaluating the presence of page numbers and their impact on document navigation, users can make informed decisions to optimize accessibility and ensure an enhanced user experience. With these visual aids, users can confidently prioritize enhancements to ensure that page numbers are accessible to all readers.</p>-->
+<!--							<br/><h2>How to make more Accessible</h2><br/>-->
+<!--							<p class="modal_data">Including page numbers on each page of your document greatly enhances its accessibility. Page numbers provide important contextual cues to users, enabling them to navigate through the document more effectively, especially when using assistive technologies like screen readers. With page numbers, users can easily track their location, refer back to specific sections, or communicate about the document with others. This consistency in page numbering ensures a smoother reading experience and promotes better comprehension of the document's structure and content</p>-->
+<!--						</div>-->
 						<div class="button-con">
 						</div>
 					</div>
@@ -688,11 +790,28 @@
 								<a href="#x" title="Close" class="modal-close"><img style="width: 35px;" alt="close" src="/PDFAnalyzerX/static/images/ion/output-close_red.png"/></a>
 							</div>
 						</div>
-						<div class="col-md-12" style="height: 55%;">
-							<P class="modal_data">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</P>
-							<br/>
-							<p class="modal_data">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
-						</div>
+						<ul class="tabs" role="tablist">
+							<li>
+								<input type="radio" name="tabs_family" id="tab15" checked />
+								<label for="tab15" role="tab" aria-selected="true" aria-controls="panel1" tabindex="0">Description</label>
+								<div id="tab-content15" class="tab-content" role="tabpanel" aria-labelledby="description" aria-hidden="false">
+								  <p style="color: black;text-align: justify;">Font family consistency greatly contributes to document accessibility. By employing a uniform font throughout the document, users experience enhanced readability and comprehension. With a consistent font family, users, including those with visual impairments, can more easily process the text content. This promotes a smoother reading experience and ensures that all readers can access the information without unnecessary distractions.</p>
+								</div>
+							</li>
+
+							<li>
+								<input type="radio" name="tabs_family" id="tab16" />
+								<label for="tab16" role="tab" aria-selected="false" aria-controls="panel2" tabindex="0">How to make more accessible</label>
+								<div id="tab-content16" class="tab-content" role="tabpanel" aria-labelledby="specification" aria-hidden="true">
+								  <p style="color: black;text-align: justify;">To increase accessibility for font family in PDFs, prioritize clear and readable fonts like Arial or Helvetica. Maintain consistency by using the same font family throughout the document, avoiding unnecessary switches. Ensure adequate font size, with a minimum of 14 points for body text, and provide options for users to adjust size preferences. Embed fonts and utilize accessible PDF tools to ensure proper tagging and compatibility with screen readers, enhancing overall accessibility.</p>
+								</div>
+							</li>
+						</ul>
+<!--						<div class="col-md-12" style="height: 55%;">-->
+<!--							<P class="modal_data">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</P>-->
+<!--							<br/>-->
+<!--							<p class="modal_data">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>-->
+<!--						</div>-->
 						<div class="button-con">
 						</div>
 					</div>
@@ -742,11 +861,28 @@
 								<a href="#x" title="Close" class="modal-close"><img style="width: 35px;" alt="close" src="/PDFAnalyzerX/static/images/ion/output-close_red.png"/></a>
 							</div>
 						</div>
-						<div class="col-md-12" style="height: 55%;">
-							<P class="modal_data">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</P>
-							<br/>
-							<p class="modal_data">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
-						</div>
+						<ul class="tabs" role="tablist">
+							<li>
+								<input type="radio" name="tabs_color" id="tab17" checked />
+								<label for="tab17" role="tab" aria-selected="true" aria-controls="panel1" tabindex="0">Description</label>
+								<div id="tab-content17" class="tab-content" role="tabpanel" aria-labelledby="description" aria-hidden="false">
+								  <p style="color: black;text-align: justify;">The doughnut charts show accessibility scores for Monochromacy, Protonopia, and Tritanopia per WCAG guidelines, while the multi-bar chart depicts score distribution across these types of color blindness. They help identify areas for improvement, ensuring optimal accessibility for color blind readers.</p>
+								</div>
+							</li>
+
+							<li>
+								<input type="radio" name="tabs_color" id="tab18" />
+								<label for="tab18" role="tab" aria-selected="false" aria-controls="panel2" tabindex="0">How to make more accessible</label>
+								<div id="tab-content18" class="tab-content" role="tabpanel" aria-labelledby="specification" aria-hidden="true">
+								  <p style="color: black;text-align: justify;">To boost accessibility, add descriptive alternative text for screen readers and ensure high contrast colors for better visibility. Incorporate interactive features like tooltips for additional context, and use clear titles and labels. Providing textual descriptions alongside the charts aids users unable to access the visual content. Testing with accessibility tools helps address any issues and ensures compliance with standards.</p>
+								</div>
+							</li>
+						</ul>
+<!--						<div class="col-md-12" style="height: 55%;">-->
+<!--							<P class="modal_data">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</P>-->
+<!--							<br/>-->
+<!--							<p class="modal_data">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>-->
+<!--						</div>-->
 						<div class="button-con">
 						</div>
 					</div>
@@ -801,11 +937,28 @@
 								<a href="#x" title="Close" class="modal-close"><img style="width: 35px;" alt="close" src="/PDFAnalyzerX/static/images/ion/output-close_red.png"/></a>
 							</div>
 						</div>
-						<div class="col-md-12" style="height: 55%;">
-							<P class="modal_data">Our tool conducts a meticulous analysis of table captions within uploaded PDF documents, prioritizing accessibility and usability. It systematically identifies tables with captions and those without, presenting this information through a clear and intuitive bar chart. This chart provides users with a visual breakdown of the distribution: pages with table captions versus those without. By offering this insight, users can readily assess the prevalence of table captions throughout their document and identify areas for improvement.</P>
-							<br/>
-							<p class="modal_data">Furthermore, our tool calculates the overall accessibility percentage of table captions within the PDF document, emphasizing compliance with accessibility guidelines. This accessibility score is visualized in a doughnut chart, offering users a comprehensive overview of the document's accessibility concerning table captions. By evaluating the presence of table captions and their impact on document comprehension, users can make informed decisions to enhance accessibility and ensure a more inclusive reading experience. With these visual representations, users can confidently prioritize enhancements to ensure that table captions are accessible to all readers.</p>
-						</div>
+						<ul class="tabs" role="tablist">
+							<li>
+								<input type="radio" name="tabs_table_caption" id="tab19" checked />
+								<label for="tab19" role="tab" aria-selected="true" aria-controls="panel1" tabindex="0">Description</label>
+								<div id="tab-content19" class="tab-content" role="tabpanel" aria-labelledby="description" aria-hidden="false">
+								  <p style="color: black;text-align: justify;">Our tool analyzes PDFs to identify tables with and without captions, presenting the data in a clear bar chart for users to understand distribution. It calculates the overall accessibility percentage of table captions, displayed in a doughnut chart, emphasizing compliance with accessibility guidelines. These visual representations empower users to prioritize enhancements, ensuring table captions are accessible to all readers for a more inclusive reading experience.</p>
+								</div>
+							</li>
+
+							<li>
+								<input type="radio" name="tabs_table_caption" id="tab20" />
+								<label for="tab20" role="tab" aria-selected="false" aria-controls="panel2" tabindex="0">How to make more accessible</label>
+								<div id="tab-content20" class="tab-content" role="tabpanel" aria-labelledby="specification" aria-hidden="true">
+								  <p style="color: black;text-align: justify;">To boost table accessibility in PDFs, place captions directly next to the corresponding tables. This proximity aids users, especially those relying on screen readers, in understanding the table context swiftly. Failing to align captions with their tables can hinder accessibility by creating confusion. Always prioritize placing table captions adjacent to their respective table for optimal accessibility.</p>
+								</div>
+							</li>
+						</ul>
+<!--						<div class="col-md-12" style="height: 55%;">-->
+<!--							<P class="modal_data">Our tool conducts a meticulous analysis of table captions within uploaded PDF documents, prioritizing accessibility and usability. It systematically identifies tables with captions and those without, presenting this information through a clear and intuitive bar chart. This chart provides users with a visual breakdown of the distribution: pages with table captions versus those without. By offering this insight, users can readily assess the prevalence of table captions throughout their document and identify areas for improvement.</P>-->
+<!--							<br/>-->
+<!--							<p class="modal_data">Furthermore, our tool calculates the overall accessibility percentage of table captions within the PDF document, emphasizing compliance with accessibility guidelines. This accessibility score is visualized in a doughnut chart, offering users a comprehensive overview of the document's accessibility concerning table captions. By evaluating the presence of table captions and their impact on document comprehension, users can make informed decisions to enhance accessibility and ensure a more inclusive reading experience. With these visual representations, users can confidently prioritize enhancements to ensure that table captions are accessible to all readers.</p>-->
+<!--						</div>-->
 						<div class="button-con">
 						</div>
 					</div>
@@ -861,11 +1014,28 @@
 								<a href="#x" title="Close" class="modal-close"><img style="width: 35px;" alt="close" src="/PDFAnalyzerX/static/images/ion/output-close_red.png"/></a>
 							</div>
 						</div>
-						<div class="col-md-12" style="height: 55%;">
-							<P class="modal_data">Our tool provides a comprehensive analysis of font families within uploaded PDF documents, offering insights into the diversity of fonts and their prevalence. It systematically identifies the various font families present in the document and calculates the percentage of each font family's usage. This information is then presented in a user-friendly manner, allowing users to visualize the distribution of font families through a bar chart.</P>
-							<br/>
+						<ul class="tabs" role="tablist">
+							<li>
+								<input type="radio" name="tabs_dyslexia" id="tab21" checked />
+								<label for="tab21" role="tab" aria-selected="true" aria-controls="panel1" tabindex="0">Description</label>
+								<div id="tab-content21" class="tab-content" role="tabpanel" aria-labelledby="description" aria-hidden="false">
+								  <p style="color: black;text-align: justify;">Our tool provides a comprehensive analysis of font families within uploaded PDF documents, offering insights into the diversity of fonts and their prevalence. It systematically identifies the various font families present in the document and calculates the percentage of each font family's usage. This information is then presented in a user-friendly manner, allowing users to visualize the distribution of font families through a bar chart.</p>
+								</div>
+							</li>
+
+							<li>
+								<input type="radio" name="tabs_dyslexia" id="tab22" />
+								<label for="tab22" role="tab" aria-selected="false" aria-controls="panel2" tabindex="0">How to make more accessible</label>
+								<div id="tab-content22" class="tab-content" role="tabpanel" aria-labelledby="specification" aria-hidden="true">
+								  <p style="color: black;text-align: justify;">Enhancing accessibility for dyslexic readers involves using dyslexia-friendly fonts like Arial or Dyslexie, providing ample spacing between lines, and avoiding justified text. Additionally, using plain backgrounds and including visual cues such as bullet points and headings can improve readability and comprehension. Offering audio versions of documents and testing for accessibility using dyslexia simulation tools ensures inclusivity for dyslexic individuals.</p>
+								</div>
+							</li>
+						</ul>
+<!--						<div class="col-md-12" style="height: 55%;">-->
+<!--							<P class="modal_data">Our tool provides a comprehensive analysis of font families within uploaded PDF documents, offering insights into the diversity of fonts and their prevalence. It systematically identifies the various font families present in the document and calculates the percentage of each font family's usage. This information is then presented in a user-friendly manner, allowing users to visualize the distribution of font families through a bar chart.</P>-->
+<!--							<br/>-->
 <!--							<p class="modal_data">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>-->
-						</div>
+<!--						</div>-->
 						<div class="button-con">
 						</div>
 					</div>
