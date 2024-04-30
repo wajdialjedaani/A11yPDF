@@ -184,6 +184,7 @@
         scroll-behavior: smooth;
         scrollbar-width: none;
         margin: 0;
+        /*width: calc((12) * firstCardWidth + (number of cards - 1) * gap);  /* Adjust gap value if needed */
     }
     .carousel::-webkit-scrollbar {
       display: none;
@@ -619,7 +620,7 @@
         width: 80%;
         padding: 5% 10%;
         color: #fff;
-        display: flex;
+        /*display: flex;*/
         flex-direction: row;
         align-items: flex-start;
         justify-content: space-between;
@@ -642,6 +643,7 @@
 
     .social-media ul {
         display: flex;
+        margin: 0px 40%;
     }
 
     .social-media ul li {
@@ -2161,10 +2163,10 @@ li::after {
     display: block;
     clear: both;
 }
-ul::after {
+/*ul::after {
     content: "";
     display: block;
     clear: both;
-}
+}*/
 
 
