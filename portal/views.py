@@ -4,7 +4,7 @@ import os
 from concurrent.futures import ThreadPoolExecutor
 from fitz import fitz
 from flask import Blueprint, render_template, request, redirect, url_for, session, flash, send_file, make_response, \
-    Response, jsonify
+    Response, jsonify, render_template_string
 import threading
 from . import APP, LOG
 from werkzeug.utils import secure_filename
@@ -19,7 +19,7 @@ from .packages.colorblind import *
 import time
 import random
 import string
-from datetime import datetime, date
+from datetime import datetime, date, timedelta
 import shutil
 import PyPDF2
 import re
@@ -1466,17 +1466,130 @@ def generate_report_pdf(type_, process_id):
 # import os
 # import json
 
+
+def delete_old_folders(folder_path):
+    # Get the current time
+    current_time = datetime.now()
+    # Get the folder's creation time
+    creation_time = datetime.fromtimestamp(os.path.getctime(folder_path))
+    # Check if the folder is older than 1 hour
+    if current_time - creation_time > timedelta(hours=1):
+        # Delete the folder and its contents
+        shutil.rmtree(folder_path)
+        return True
+    else:
+        return False
+
+
+def clean_old_folders(base_path):
+    # Iterate through the folders in the base path
+    print(os.listdir(base_path))
+    for folder_name in os.listdir(base_path):
+        folder_path = os.path.join(base_path, folder_name)
+
+        # Check if it's a directory
+        if os.path.isdir(folder_path):
+            # Call the delete_old_folders function
+            if delete_old_folders(folder_path):
+                print(f"Deleted folder: {folder_path}")
+            else:
+                print(f"Folder kept: {folder_path}")
+
+
 @bp.route('/download/<string:filename>/<string:process_id>', methods=["GET", "POST"])
 def generate_download(filename, process_id):
     pdf_docs = APP.config["PDF_DIR"]
     filepath = os.path.join(pdf_docs, process_id, filename)
     if os.path.exists(os.path.join(pdf_docs, process_id, filename)):
-        if os.path.exists(filepath):
+        if delete_old_folders(os.path.join(pdf_docs, process_id)):
+            return render_template_string(f'''
+                    <html>
+                    <head>
+                        <title>File Deleted</title>
+                        <style>
+                            body {{
+                                display: flex;
+                                justify-content: center;
+                                align-items: center;
+                                height: 100vh;
+                                margin: 0;
+                            }}
+                            .container {{
+                                text-align: center;
+                            }}
+                            .button {{
+                                display: inline-block;
+                                padding: 10px 20px;
+                                font-size: 16px;
+                                color: white;
+                                background-color: #007BFF;
+                                border: none;
+                                border-radius: 5px;
+                                cursor: pointer;
+                                text-decoration: none;
+                            }}
+                            .button:hover {{
+                                background-color: #0056b3;
+                            }}
+                        </style>
+                    </head>
+                    <body>
+                        <div class="container">
+                            <p>The file has been successfully deleted (if it was older than 1 hour). To view the results, please navigate back to the result page.</p>
+                            <a href="/PDFAnalyzerX/result/{process_id}" class="button">Go to Result Page</a>
+                        </div>
+                    </body>
+                    </html>
+                ''')
+        else:
             try:
                 return send_file(filepath, download_name=filename, as_attachment=True)
             except:
                 return send_file(filepath, attachment_filename=filename, as_attachment=True)
-
+    else:
+        return render_template_string(f'''
+                <html>
+                <head>
+                    <title>File Deleted</title>
+                    <style>
+                        body {{
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            height: 100vh;
+                            margin: 0;
+                        }}
+                        .container {{
+                            text-align: center;
+                        }}
+                        .button {{
+                            display: inline-block;
+                            padding: 10px 20px;
+                            font-size: 16px;
+                            color: white;
+                            background-color: #007BFF;
+                            border: none;
+                            border-radius: 5px;
+                            cursor: pointer;
+                            text-decoration: none;
+                        }}
+                        .button:hover {{
+                            background-color: #0056b3;
+                        }}
+                        .message {{
+                    font-size: 24px;  /* Increased font size */
+                    margin-bottom: 20px;
+                }}
+                    </style>
+                </head>
+                <body>
+                    <div class="container">
+                        <p class="message">The file has been successfully deleted (if it was older than 1 hour). To view the results, please navigate back to the result page.</p>
+                        <a href="/PDFAnalyzerX/result/{process_id}" class="button">Go to Result Page</a>
+                    </div>
+                </body>
+                </html>
+            ''')
 
 def calculate_colorblind_accessibility(data):
     results = {}
@@ -1519,15 +1632,14 @@ def is_text_based_pdf(pdf_path):
     doc.close()
     return False
 
+
 @bp.route('/result/<string:process_id>', methods=['GET', "POST"])
 def final_result(process_id):
+    clean_old_folders(APP.config["PDF_DIR"])
     if request.method == "POST":
         pdf_docs = APP.config["PDF_DIR"]
-        print('PDF_DIR', pdf_docs)
         pdf_docs_json = APP.config["PDF_RESULT_JSON"]
         images_path_of_pdf = APP.config["PDF_IMAGES_PDF"]
-        print('pdf_docs_json', pdf_docs_json)
-
         if not os.path.exists(os.path.join(pdf_docs, process_id)):
             os.mkdir(os.path.join(pdf_docs, process_id))
         try:
@@ -1870,7 +1982,7 @@ def final_result(process_id):
                 resp.status_code = 400
                 return resp
         except Exception as e:
-            print("issue in pdf",e)
+            print("issue in pdf", e)
             LOG.error(e, exc_info=True)
             resp = jsonify({"success": False,
                             "data": {"pdf name": "None"},
@@ -2118,7 +2230,7 @@ def final_result(process_id):
                         round(overall_percentages_colorblind['Tritanopia']['Accessible'])
                 )
                 num_fields = 8
-                print(table_count_,"table_count_")
+                print(table_count_, "table_count_")
                 if count_images_ > 0:
                     mandatory_percentages_sum += round(percentage_with_captions)
                     mandatory_percentages_sum += round(meets_wcag_percentage)
