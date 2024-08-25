@@ -7,16 +7,14 @@ import os
 import requests
 from datetime import datetime, date
 import os
-from PIL import Image
 import json
 import io
-from skimage import io, filters
-import cv2
-import numpy as np
+# import numpy as np
 import fitz
 from collections import Counter
 import threading
 from concurrent import futures
+import pdfplumber
 from ..packages.urlaccessbility import count_custom_urls_in_pdf
 
 ALLOWED_IMAGE_EXTENSIONS = ['.jpg', '.jpeg', '.png', '.gif']
@@ -296,7 +294,6 @@ def get_final_result(pdf_file, process_id=''):
 
 def get_tables_count(pdf_path):
     table_count = 0
-    import pdfplumber
     with pdfplumber.open(pdf_path) as pdf:
         for page in pdf.pages:
             tables_list = page.extract_tables()
@@ -305,253 +302,253 @@ def get_tables_count(pdf_path):
     return table_count
 
 
-def get_image_info(image_path):
-    try:
-        with Image.open(image_path) as img:
-            width, height = img.size
-            aspect_ratio = width / height
-            return width, height, aspect_ratio
-    except IOError as e:
-        print(f"Error opening {image_path}: {e}")
-        return None, None, None
+# def get_image_info(image_path):
+#     try:
+#         with Image.open(image_path) as img:
+#             width, height = img.size
+#             aspect_ratio = width / height
+#             return width, height, aspect_ratio
+#     except IOError as e:
+#         print(f"Error opening {image_path}: {e}")
+#         return None, None, None
 
 
-def get_image_contract(image_path):
-    sharpness, file_size_mb = 0, 0
-    try:
-        if os.path.exists(image_path):
-            file_size_bytes = os.path.getsize(image_path)
-            file_size_mb = file_size_bytes / (1024 * 1024)  # Convert bytes to megabytes
-        else:
-            print(f"File {image_path} does not exist.")
-    except Exception as e:
-        print(f"Error getting file size for {image_path}: {e}")
-
-    try:
-        image = io.imread(image_path, as_gray=True)
-        sharpness = filters.laplace(image).var()
-        return sharpness, file_size_mb
-    except FileNotFoundError as e:
-        print(f"Error reading image {image_path}: {e}")
-    except Exception as e:
-        print(f"Error processing image {image_path}: {e}")
-
-    return sharpness, file_size_mb
-
-
-def get_image_resolution_aspect_ratio(folder_path):
-    image_info_dict = {}
-    list_of_filename = []
-    list_of_width = []
-    list_of_height = []
-    list_of_sharpness = []
-    list_of_file_size_mb = []
-    list_of_aspect_ratio = []
-
-    for filename in os.listdir(folder_path):
-        tmp_file_name = str(filename)
-        if filename.endswith(tuple(ALLOWED_IMAGE_EXTENSIONS)):
-            image_path = os.path.join(folder_path, filename)
-            width, height, aspect_ratio = get_image_info(image_path)
-            sharpness, file_size_mb = get_image_contract(image_path)
-
-            if width is not None:
-                image_info_dict[filename] = {
-                    "width": width,
-                    "height": height,
-                    "aspect_ratio": round(aspect_ratio, 3)
-                }
-
-                list_of_filename.append(str(tmp_file_name).replace('.png', ''))
-                list_of_width.append(width)
-                list_of_height.append(height)
-                list_of_aspect_ratio.append(round(aspect_ratio, 2))
-                list_of_sharpness.append(round(sharpness, 2))
-                list_of_file_size_mb.append(round(file_size_mb, 3))
-
-    final_list_of_rsa = [list_of_filename, list_of_width, list_of_height, list_of_aspect_ratio, list_of_sharpness,
-                         list_of_file_size_mb]
-
-    return image_info_dict, json.dumps(final_list_of_rsa)
+# def get_image_contract(image_path):
+#     sharpness, file_size_mb = 0, 0
+#     try:
+#         if os.path.exists(image_path):
+#             file_size_bytes = os.path.getsize(image_path)
+#             file_size_mb = file_size_bytes / (1024 * 1024)  # Convert bytes to megabytes
+#         else:
+#             print(f"File {image_path} does not exist.")
+#     except Exception as e:
+#         print(f"Error getting file size for {image_path}: {e}")
+#
+#     try:
+#         image = io.imread(image_path, as_gray=True)
+#         sharpness = filters.laplace(image).var()
+#         return sharpness, file_size_mb
+#     except FileNotFoundError as e:
+#         print(f"Error reading image {image_path}: {e}")
+#     except Exception as e:
+#         print(f"Error processing image {image_path}: {e}")
+#
+#     return sharpness, file_size_mb
 
 
-def get_image_contarct(image_path):
-    sharpness, file_size_mb = 0, 0
-    try:
-        if os.path.exists(image_path):
-            file_size_bytes = os.path.getsize(image_path)
-            file_size_mb = file_size_bytes / (1024 * 1024)  # Convert bytes to megabytes
-        else:
-            print(f"File {image_path} does not exist.")
-    except:
-        pass
-    try:
-        image = io.imread(image_path, as_gray=True)
-        # Compute image sharpness using Laplacian operator
-        sharpness = filters.laplace(image).var()
-        # print(f"Sharpness of the image: {sharpness}")
-        return sharpness, file_size_mb
-    except FileNotFoundError:
-        print(f"File {image_path} not found.")
-    return sharpness, file_size_mb
+# def get_image_resolution_aspect_ratio(folder_path):
+#     image_info_dict = {}
+#     list_of_filename = []
+#     list_of_width = []
+#     list_of_height = []
+#     list_of_sharpness = []
+#     list_of_file_size_mb = []
+#     list_of_aspect_ratio = []
+#
+#     for filename in os.listdir(folder_path):
+#         tmp_file_name = str(filename)
+#         if filename.endswith(tuple(ALLOWED_IMAGE_EXTENSIONS)):
+#             image_path = os.path.join(folder_path, filename)
+#             width, height, aspect_ratio = get_image_info(image_path)
+#             sharpness, file_size_mb = get_image_contract(image_path)
+#
+#             if width is not None:
+#                 image_info_dict[filename] = {
+#                     "width": width,
+#                     "height": height,
+#                     "aspect_ratio": round(aspect_ratio, 3)
+#                 }
+#
+#                 list_of_filename.append(str(tmp_file_name).replace('.png', ''))
+#                 list_of_width.append(width)
+#                 list_of_height.append(height)
+#                 list_of_aspect_ratio.append(round(aspect_ratio, 2))
+#                 list_of_sharpness.append(round(sharpness, 2))
+#                 list_of_file_size_mb.append(round(file_size_mb, 3))
+#
+#     final_list_of_rsa = [list_of_filename, list_of_width, list_of_height, list_of_aspect_ratio, list_of_sharpness,
+#                          list_of_file_size_mb]
+#
+#     return image_info_dict, json.dumps(final_list_of_rsa)
 
 
-def assess_dimensions(image):
-    """
-    Assess image quality based on dimensions.
-
-    Args:
-        image: Image in the form of a NumPy array.
-
-    Returns:
-        Quality percentage based on dimensions.
-    """
-    height, width, _ = image.shape
-    quality_percentage = ((min(height, width) + max(height, width)) / 2) / DIMENSION_THRESHOLD * NORMALIZATION_CONSTANT
-    return min(quality_percentage, NORMALIZATION_CONSTANT)
-
-
-def assess_sharpness(image):
-    """
-    Assess image quality based on sharpness.
-
-    Args:
-        image: Image in the form of a NumPy array.
-
-    Returns:
-        Sharpness percentage.
-    """
-    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-    sharpness = cv2.Laplacian(gray, cv2.CV_64F).var()
-    sharpness_percentage = min(sharpness, NORMALIZATION_CONSTANT) / NORMALIZATION_CONSTANT * NORMALIZATION_CONSTANT
-    return sharpness_percentage
+# def get_image_contarct(image_path):
+#     sharpness, file_size_mb = 0, 0
+#     try:
+#         if os.path.exists(image_path):
+#             file_size_bytes = os.path.getsize(image_path)
+#             file_size_mb = file_size_bytes / (1024 * 1024)  # Convert bytes to megabytes
+#         else:
+#             print(f"File {image_path} does not exist.")
+#     except:
+#         pass
+#     try:
+#         image = io.imread(image_path, as_gray=True)
+#         # Compute image sharpness using Laplacian operator
+#         sharpness = filters.laplace(image).var()
+#         # print(f"Sharpness of the image: {sharpness}")
+#         return sharpness, file_size_mb
+#     except FileNotFoundError:
+#         print(f"File {image_path} not found.")
+#     return sharpness, file_size_mb
 
 
-def assess_contrast(image):
-    """
-    Assess image quality based on contrast.
-
-    Args:
-        image: Image in the form of a NumPy array.
-
-    Returns:
-        Contrast percentage.
-    """
-    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-    hist = cv2.calcHist([gray], [0], None, [256], [0, 256])
-    contrast = cv2.compareHist(hist, hist, cv2.HISTCMP_BHATTACHARYYA)
-    contrast_percentage = (1 - min(contrast, 1)) * NORMALIZATION_CONSTANT
-    return contrast_percentage
-
-
-def assess_image_quality(image_path):
-    """
-    Assess overall image quality based on different factors.
-
-    Args:
-        image_path: Path to the image file.
-
-    Returns:
-        None (prints the overall image quality score).
-    """
-    try:
-        img = cv2.imread(image_path)
-
-        dimensions_score = assess_dimensions(img)
-        sharpness_score = assess_sharpness(img)
-        contrast_score = assess_contrast(img)
-        visibility_score = assess_visibility(img)
-
-        overall_score = (dimensions_score + sharpness_score + contrast_score + visibility_score) / 4
-
-        print(f"The overall image quality score is approximately {overall_score:.2f}%")
-
-    except cv2.error as e:
-        print(f"Error reading image: {e}")
-    except Exception as e:
-        print(f"Error: {e}")
+# def assess_dimensions(image):
+#     """
+#     Assess image quality based on dimensions.
+#
+#     Args:
+#         image: Image in the form of a NumPy array.
+#
+#     Returns:
+#         Quality percentage based on dimensions.
+#     """
+#     height, width, _ = image.shape
+#     quality_percentage = ((min(height, width) + max(height, width)) / 2) / DIMENSION_THRESHOLD * NORMALIZATION_CONSTANT
+#     return min(quality_percentage, NORMALIZATION_CONSTANT)
+#
+#
+# def assess_sharpness(image):
+#     """
+#     Assess image quality based on sharpness.
+#
+#     Args:
+#         image: Image in the form of a NumPy array.
+#
+#     Returns:
+#         Sharpness percentage.
+#     """
+#     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+#     sharpness = cv2.Laplacian(gray, cv2.CV_64F).var()
+#     sharpness_percentage = min(sharpness, NORMALIZATION_CONSTANT) / NORMALIZATION_CONSTANT * NORMALIZATION_CONSTANT
+#     return sharpness_percentage
 
 
-def assess_visibility(image):
-    """
-    Assess image quality based on visibility.
+# def assess_contrast(image):
+#     """
+#     Assess image quality based on contrast.
+#
+#     Args:
+#         image: Image in the form of a NumPy array.
+#
+#     Returns:
+#         Contrast percentage.
+#     """
+#     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+#     hist = cv2.calcHist([gray], [0], None, [256], [0, 256])
+#     contrast = cv2.compareHist(hist, hist, cv2.HISTCMP_BHATTACHARYYA)
+#     contrast_percentage = (1 - min(contrast, 1)) * NORMALIZATION_CONSTANT
+#     return contrast_percentage
+#
+#
+# def assess_image_quality(image_path):
+#     """
+#     Assess overall image quality based on different factors.
+#
+#     Args:
+#         image_path: Path to the image file.
+#
+#     Returns:
+#         None (prints the overall image quality score).
+#     """
+#     try:
+#         img = cv2.imread(image_path)
+#
+#         dimensions_score = assess_dimensions(img)
+#         sharpness_score = assess_sharpness(img)
+#         contrast_score = assess_contrast(img)
+#         visibility_score = assess_visibility(img)
+#
+#         overall_score = (dimensions_score + sharpness_score + contrast_score + visibility_score) / 4
+#
+#         print(f"The overall image quality score is approximately {overall_score:.2f}%")
+#
+#     except cv2.error as e:
+#         print(f"Error reading image: {e}")
+#     except Exception as e:
+#         print(f"Error: {e}")
+#
+#
+# def assess_visibility(image):
+#     """
+#     Assess image quality based on visibility.
+#
+#     Args:
+#         image: Image in the form of a NumPy array.
+#
+#     Returns:
+#         Visibility percentage.
+#     """
+#     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+#     visibility_score = cv2.mean(gray)[0]
+#     visibility_percentage = (visibility_score / 255) * NORMALIZATION_CONSTANT
+#     return visibility_percentage
+#
+#
+# def assess_pdf_quality(pdf_path):
+#     overall_sharpness = 0
+#     overall_contrast = 0
+#     overall_visibility = 0
+#     try:
+#         pdf_document = fitz.open(pdf_path)
+#
+#         sharpness_scores = []
+#         contrast_scores = []
+#         visibility_scores = []
+#         total_pages = pdf_document.page_count
+#
+#         for page_num in range(total_pages):
+#             # Extract each page as an image
+#             page = pdf_document.load_page(page_num)
+#             pix = page.get_pixmap()
+#             img = np.frombuffer(pix.samples, dtype=np.uint8).reshape(pix.height, pix.width, 3)
+#
+#             # Assess image quality for each page
+#             sharpness_scores.append(assess_sharpness(img))
+#             contrast_scores.append(assess_contrast(img))
+#             visibility_scores.append(assess_visibility(img))
+#
+#         # Calculate overall scores as averages across all pages
+#         overall_sharpness = sum(sharpness_scores) / total_pages
+#         overall_contrast = sum(contrast_scores) / total_pages
+#         overall_visibility = sum(visibility_scores) / total_pages
+#
+#         print(f"Overall Sharpness Score: {overall_sharpness:.2f}")
+#         print(f"Overall Contrast Score: {overall_contrast:.2f}")
+#         print(f"Overall Visibility Score: {overall_visibility:.2f}")
+#         return overall_sharpness, overall_contrast, overall_visibility
+#     except Exception as e:
+#         print(f"Error: {e}")
+#         return overall_sharpness, overall_contrast, overall_visibility
 
-    Args:
-        image: Image in the form of a NumPy array.
 
-    Returns:
-        Visibility percentage.
-    """
-    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-    visibility_score = cv2.mean(gray)[0]
-    visibility_percentage = (visibility_score / 255) * NORMALIZATION_CONSTANT
-    return visibility_percentage
-
-
-def assess_pdf_quality(pdf_path):
-    overall_sharpness = 0
-    overall_contrast = 0
-    overall_visibility = 0
-    try:
-        pdf_document = fitz.open(pdf_path)
-
-        sharpness_scores = []
-        contrast_scores = []
-        visibility_scores = []
-        total_pages = pdf_document.page_count
-
-        for page_num in range(total_pages):
-            # Extract each page as an image
-            page = pdf_document.load_page(page_num)
-            pix = page.get_pixmap()
-            img = np.frombuffer(pix.samples, dtype=np.uint8).reshape(pix.height, pix.width, 3)
-
-            # Assess image quality for each page
-            sharpness_scores.append(assess_sharpness(img))
-            contrast_scores.append(assess_contrast(img))
-            visibility_scores.append(assess_visibility(img))
-
-        # Calculate overall scores as averages across all pages
-        overall_sharpness = sum(sharpness_scores) / total_pages
-        overall_contrast = sum(contrast_scores) / total_pages
-        overall_visibility = sum(visibility_scores) / total_pages
-
-        print(f"Overall Sharpness Score: {overall_sharpness:.2f}")
-        print(f"Overall Contrast Score: {overall_contrast:.2f}")
-        print(f"Overall Visibility Score: {overall_visibility:.2f}")
-        return overall_sharpness, overall_contrast, overall_visibility
-    except Exception as e:
-        print(f"Error: {e}")
-        return overall_sharpness, overall_contrast, overall_visibility
-
-
-def get_data_for_colors_(image_path, num_colors):
-    image = cv2.imread(image_path)
-    # Convert the image from BGR to RGB (OpenCV reads in BGR format)
-    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-
-    # Flatten the image to a 2D array of pixels
-    pixels = image.reshape((-1, 3))
-
-    # Convert to float32 for k-means clustering
-    pixels = np.float32(pixels)
-
-    # Define criteria for k-means
-    criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 200, 0.2)
-
-    # Perform k-means clustering
-    _, labels, centers = cv2.kmeans(pixels, num_colors, None, criteria, 10, cv2.KMEANS_RANDOM_CENTERS)
-
-    # Convert centers to uint8
-    centers = np.uint8(centers)
-
-    # Get the counts of labels to find the most common colors
-    label_counts = Counter(labels.flatten())
-
-    # Sort the colors by frequency and get the top colors
-    top_colors = [centers[i] for i, _ in label_counts.most_common(num_colors)]
-
-    return top_colors
+# def get_data_for_colors_(image_path, num_colors):
+#     image = cv2.imread(image_path)
+#     # Convert the image from BGR to RGB (OpenCV reads in BGR format)
+#     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+#
+#     # Flatten the image to a 2D array of pixels
+#     pixels = image.reshape((-1, 3))
+#
+#     # Convert to float32 for k-means clustering
+#     pixels = np.float32(pixels)
+#
+#     # Define criteria for k-means
+#     criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 200, 0.2)
+#
+#     # Perform k-means clustering
+#     _, labels, centers = cv2.kmeans(pixels, num_colors, None, criteria, 10, cv2.KMEANS_RANDOM_CENTERS)
+#
+#     # Convert centers to uint8
+#     centers = np.uint8(centers)
+#
+#     # Get the counts of labels to find the most common colors
+#     label_counts = Counter(labels.flatten())
+#
+#     # Sort the colors by frequency and get the top colors
+#     top_colors = [centers[i] for i, _ in label_counts.most_common(num_colors)]
+#
+#     return top_colors
 
 
 # def get_top_colors_call_(image_paths, num_colors=5):
@@ -576,48 +573,48 @@ def get_data_for_colors_(image_path, num_colors):
 #     return top_colors_list
 
 
-def get_top_colors_call_(file_path):
-    image_paths = [os.path.join(file_path, filename) for filename in os.listdir(file_path)
-                   if filename.endswith(('.jpg', '.jpeg', '.png', '.gif'))][:MAX_IMAGES_TO_PROCESS]
+# def get_top_colors_call_(file_path):
+#     image_paths = [os.path.join(file_path, filename) for filename in os.listdir(file_path)
+#                    if filename.endswith(('.jpg', '.jpeg', '.png', '.gif'))][:MAX_IMAGES_TO_PROCESS]
+#
+#     top_colors_list = []
+#
+#     def run_function(image_path):
+#         try:
+#             top_colors = get_data_for_colors_(image_path, NUM_COLORS)
+#             top_colors_list.append(top_colors)
+#         except Exception as e:
+#             print(f"Error processing image {image_path}: {e}")
+#
+#     with futures.ThreadPoolExecutor() as executor:
+#         future_to_path = {executor.submit(run_function, path): path for path in image_paths}
+#
+#         for future in futures.as_completed(future_to_path):
+#             try:
+#                 future.result(timeout=TIMEOUT_SECONDS)
+#             except futures.TimeoutError:
+#                 print(f"Function for an image took too long, skipping...")
+#
+#     return [[color.tolist() for color in colors] for colors in top_colors_list]
 
-    top_colors_list = []
 
-    def run_function(image_path):
-        try:
-            top_colors = get_data_for_colors_(image_path, NUM_COLORS)
-            top_colors_list.append(top_colors)
-        except Exception as e:
-            print(f"Error processing image {image_path}: {e}")
-
-    with futures.ThreadPoolExecutor() as executor:
-        future_to_path = {executor.submit(run_function, path): path for path in image_paths}
-
-        for future in futures.as_completed(future_to_path):
-            try:
-                future.result(timeout=TIMEOUT_SECONDS)
-            except futures.TimeoutError:
-                print(f"Function for an image took too long, skipping...")
-
-    return [[color.tolist() for color in colors] for colors in top_colors_list]
-
-
-def get_top_colors(file_path_):
-    import os
-    image_paths = []
-    len_to_process_ = 1
-    for filename in os.listdir(file_path_):
-        if filename.endswith(('.jpg', '.jpeg', '.png', '.gif')):
-            if len_to_process_ == 6:
-                break
-            image_path = os.path.join(file_path_, filename)
-            image_paths.append(image_path)
-            len_to_process_ += 1
-    if image_paths:
-        top_colors_list = get_top_colors_call_(image_paths, 5)
-        top_colors_list = [[color.tolist() for color in colors] for colors in top_colors_list]
-    else:
-        top_colors_list = []
-    return top_colors_list
+# def get_top_colors(file_path_):
+#     import os
+#     image_paths = []
+#     len_to_process_ = 1
+#     for filename in os.listdir(file_path_):
+#         if filename.endswith(('.jpg', '.jpeg', '.png', '.gif')):
+#             if len_to_process_ == 6:
+#                 break
+#             image_path = os.path.join(file_path_, filename)
+#             image_paths.append(image_path)
+#             len_to_process_ += 1
+#     if image_paths:
+#         top_colors_list = get_top_colors_call_(image_paths, 5)
+#         top_colors_list = [[color.tolist() for color in colors] for colors in top_colors_list]
+#     else:
+#         top_colors_list = []
+#     return top_colors_list
 
 
 # # Provide the path to your image
