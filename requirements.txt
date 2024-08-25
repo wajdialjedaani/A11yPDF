@@ -10,13 +10,16 @@ PyPDF2==2.11.1
 webcolors==1.13
 requests==2.31.0
 pdfplumber==0.10.3
+scikit-learn
 pandas
 Pillow
 openpyxl
 colorspacious
 XlsxWriter
+nltk
 sumy
-scikit-learn
 camelot-py
 pdfminer.six
 PyMuPDF==1.23.21
+opencv-python
+gunicorn

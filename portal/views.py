@@ -8,8 +8,7 @@ from flask import Blueprint, render_template, request, redirect, url_for, sessio
 import threading
 from . import APP, LOG
 from werkzeug.utils import secure_filename
-from .packages import get_final_result, get_tables_count, \
-    get_image_resolution_aspect_ratio, assess_pdf_quality, get_top_colors, analyze_figure_captions, get_tables_count, \
+from .packages import get_final_result, get_tables_count,analyze_figure_captions, get_tables_count, \
     count_images_in_pdf
 import pandas as pd
 from .packages.image_caption_analysis import analyze_figure_captions_parallel

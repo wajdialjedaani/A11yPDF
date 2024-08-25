@@ -8,6 +8,7 @@ def extract_and_summarize_text(pdf_file, summary_sentences=3):
     summarized_text=""
     import nltk
     nltk.download('punkt')
+    nltk.download('punkt_tab')
     """
     Extracts text from a PDF and generates a summarized version.
 
