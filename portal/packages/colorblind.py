@@ -1,10 +1,7 @@
-from array import array
-from tkinter import Tk
 import cv2
 import pandas as pd
 import numpy as np
 import colorsys
-import tkinter as tk
 # import matplotlib.pyplot as plt
 # from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import fitz
